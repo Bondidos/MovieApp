@@ -21,3 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "MovieApp"
 include(":app")
+include(":core-utils")
+include(":core-network-api")
+include(":core-network-impl")
+include(":feature-auth")
+include(":feature-movies")
+include(":core-navigation-api")
+include(":core-navigation-impl")
