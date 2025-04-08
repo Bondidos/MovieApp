@@ -20,6 +20,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "MovieApp"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
 include(":core-utils")
 include(":core-network-api")
@@ -28,3 +30,4 @@ include(":feature-auth")
 include(":feature-movies")
 include(":core-navigation-api")
 include(":core-navigation-impl")
+include(":core-ui")

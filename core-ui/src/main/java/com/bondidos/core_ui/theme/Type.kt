@@ -1,4 +1,4 @@
-package com.bondidos.movieapp.ui.theme
+package com.bondidos.core_ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
