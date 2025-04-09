@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core-navigation-impl" />
             <option value="$PROJECT_DIR$/core-network-api" />
             <option value="$PROJECT_DIR$/core-network-impl" />
+            <option value="$PROJECT_DIR$/core-ui" />
             <option value="$PROJECT_DIR$/core-utils" />
             <option value="$PROJECT_DIR$/feature-auth" />
             <option value="$PROJECT_DIR$/feature-movies" />
