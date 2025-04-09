@@ -3,13 +3,13 @@ package com.bondidos.core_navigation_impl
 import kotlinx.serialization.Serializable
 
 interface AppNavigator {
-    fun navigateToAuth()
-
-    fun navigateToMovies()
+    fun navigate(screen:AppScreen)
 }
 
-@Serializable
-object AuthFeature
+interface AppScreen
 
 @Serializable
-object MoviesFeature
+object AuthScreen: AppScreen
+
+@Serializable
+object MoviesScreen: AppScreen
