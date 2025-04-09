@@ -40,7 +40,7 @@ android {
 
 dependencies {
     // Modules
-//    implementation(projects.coreUi)
+    implementation(projects.coreNavigationApi)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
@@ -55,5 +55,6 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 }
