@@ -13,6 +13,7 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
+import com.bondidos.core_ui.theme.colors.AppColors
 
 val LocalMyAppColors: ProvidableCompositionLocal<AppColors> = staticCompositionLocalOf {
     error("No AppColors provided! Make sure to wrap your app in MovieAppTheme")
@@ -39,7 +40,7 @@ fun MovieAppTheme(
     }
 
     val appColors = remember(darkTheme) {
-        if (darkTheme) AppColorsDark() else AppColorsLight()
+        AppColors.get(darkTheme)
     }
 
     CompositionLocalProvider(
