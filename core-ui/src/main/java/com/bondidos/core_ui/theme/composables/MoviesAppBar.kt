@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bondidos.core_ui.R
@@ -32,6 +34,7 @@ import com.bondidos.core_ui.theme.colors.AppThemeColor
 fun MoviesAppbar(
     modifier: Modifier = Modifier,
     titleRes: Int,
+    titleTextStyle: TextStyle,
     afterLeadingTitle: Int? = null,
     onAfterLeadingClick: () -> Unit = {},
 ) {
@@ -49,6 +52,7 @@ fun MoviesAppbar(
             Text(
                 text = stringResource(titleRes),
                 color = AppThemeColor.MAIN_TEXT.color(),
+                style = titleTextStyle
             )
             if (afterLeadingTitle != null) {
                 Spacer(modifier = Modifier.weight(
@@ -59,6 +63,7 @@ fun MoviesAppbar(
                     modifier = Modifier.clickable { onAfterLeadingClick() },
                     text = stringResource(afterLeadingTitle),
                     color = AppThemeColor.ATTENTION_TEXT.color(),
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
         }
@@ -71,6 +76,7 @@ fun MoviesAppbarPreview() {
     MovieAppTheme {
         MoviesAppbar(
             titleRes = R.string.title_profile,
+            titleTextStyle = MaterialTheme.typography.titleLarge,
             afterLeadingTitle = R.string.title_sign_up,
             onAfterLeadingClick = { print("clicked") },
         )

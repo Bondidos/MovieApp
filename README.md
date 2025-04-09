@@ -19,3 +19,5 @@ Features:
       DI: 
         - Hilt 
 - [WORK in Progress]
+- TODO move resources to :core-ui
+- TODO add SFProFont as in figma
