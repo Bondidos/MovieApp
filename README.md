@@ -14,6 +14,7 @@ Features:
   - 
       UI:
         - Compose,
+        - DarkMode
         - MVI [WIP]
       DI: 
         - Hilt 
