@@ -10,6 +10,9 @@ interface AppColors {
     val mainText: Color
     val additionalText: Color
     val attentionText: Color
+    val textInputBorder: Color
+    val activeButtonColor: Color
+    val onButtonText: Color
 
     companion object {
         private val dark = AppColorsDark()
@@ -28,6 +31,9 @@ private data class AppColorsLight(
     override val mainText: Color = Color(0xFF0F1B2B),
     override val additionalText: Color = Color(0xFF6C737E),
     override val attentionText: Color = Color(0xFFE51937),
+    override val textInputBorder: Color = Color(0x330F1B2B),
+    override val activeButtonColor: Color = Color(0xFFE51937),
+    override val onButtonText: Color = Color(0xFFFFFFFF),
 ) : AppColors
 
 private data class AppColorsDark(
@@ -37,5 +43,8 @@ private data class AppColorsDark(
     override val starActive: Color = Color(0xFFF8C42F),
     override val mainText: Color = Color(0xFFFFFFFF),
     override val additionalText: Color = Color(0xFFBFC2C7),
-    override val attentionText: Color = Color(0xFFE51937)
+    override val attentionText: Color = Color(0xFFE51937),
+    override val textInputBorder: Color = Color(0xFF2B3543),
+    override val activeButtonColor: Color = Color(0xFFE51937),
+    override val onButtonText: Color = Color(0xFFFFFFFF),
 ) : AppColors
