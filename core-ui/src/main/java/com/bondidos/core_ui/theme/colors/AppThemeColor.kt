@@ -15,8 +15,10 @@ enum class AppThemeColor {
     ADDITIONAL_TEXT,
     ATTENTION_TEXT,
     TEXT_INPUT_BORDER,
-    ACTIVE_BUTTON_COLOR,
-    ON_BUTTON_TEXT;
+    ACTIVE_BUTTON,
+    ON_BUTTON_TEXT,
+    NAVIGATION_BAR_ICON,
+    NAVIGATION_ITEM_SELECTED;
 
     @Composable
     fun color(): Color {
@@ -30,8 +32,10 @@ enum class AppThemeColor {
             ADDITIONAL_TEXT -> colors.additionalText
             ATTENTION_TEXT -> colors.attentionText
             TEXT_INPUT_BORDER -> colors.textInputBorder
-            ACTIVE_BUTTON_COLOR -> colors.activeButtonColor
+            ACTIVE_BUTTON -> colors.activeButtonColor
             ON_BUTTON_TEXT -> colors.onButtonText
+            NAVIGATION_BAR_ICON -> colors.navigationBarIcon
+            NAVIGATION_ITEM_SELECTED -> colors.navigationItemSelected
         }
     }
 }
