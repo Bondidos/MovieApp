@@ -18,7 +18,8 @@ enum class AppThemeColor {
     ACTIVE_BUTTON,
     ON_BUTTON_TEXT,
     NAVIGATION_BAR_ICON,
-    NAVIGATION_ITEM_SELECTED;
+    NAVIGATION_ITEM_SELECTED,
+    TEXT_FIELD_BACKGROUND;
 
     @Composable
     fun color(): Color {
@@ -36,6 +37,7 @@ enum class AppThemeColor {
             ON_BUTTON_TEXT -> colors.onButtonText
             NAVIGATION_BAR_ICON -> colors.navigationBarIcon
             NAVIGATION_ITEM_SELECTED -> colors.navigationItemSelected
+            TEXT_FIELD_BACKGROUND -> colors.textFieldBackGround
         }
     }
 }

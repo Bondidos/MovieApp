@@ -61,6 +61,8 @@ fun AppInputTextField(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
+                unfocusedContainerColor = AppThemeColor.TEXT_FIELD_BACKGROUND.color(),
+                focusedContainerColor = AppThemeColor.TEXT_FIELD_BACKGROUND.color(),
                 errorTextColor = AppThemeColor.ATTENTION_TEXT.color()
             ),
             modifier = modifier

@@ -15,6 +15,7 @@ interface AppColors {
     val onButtonText: Color
     val navigationBarIcon: Color
     val navigationItemSelected: Color
+    val textFieldBackGround: Color
 
     companion object {
         private val dark = AppColorsDark()
@@ -37,7 +38,8 @@ private data class AppColorsLight(
     override val activeButtonColor: Color = Color(0xFFE51937),
     override val onButtonText: Color = Color(0xFFFFFFFF),
     override val navigationBarIcon: Color = Color(0xFF0F1B2B),
-    override val navigationItemSelected: Color = Color(0xFF47CFFFB),
+    override val navigationItemSelected: Color = Color(0xFF47CFFF),
+    override val textFieldBackGround: Color = Color(0xFFFFFFFF),
 ) : AppColors
 
 private data class AppColorsDark(
@@ -52,5 +54,6 @@ private data class AppColorsDark(
     override val activeButtonColor: Color = Color(0xFFE51937),
     override val onButtonText: Color = Color(0xFFFFFFFF),
     override val navigationBarIcon: Color = Color(0xFFFFFFFF),
-    override val navigationItemSelected: Color = Color(0xFF47CFFFB),
+    override val navigationItemSelected: Color = Color(0xFF47CFFF),
+    override val textFieldBackGround: Color = Color(0xFF2B3543),
 ) : AppColors
