@@ -1,4 +1,4 @@
-package com.bondidos.feature_auth
+package com.bondidos.feature_auth.auth_screen
 
 import androidx.lifecycle.ViewModel
 import com.bondidos.core_navigation_impl.AppNavigator
@@ -11,5 +11,4 @@ class AuthViewModel @Inject constructor(
     private val appNavigator: AppNavigator
 ) : ViewModel() {
     //todo refactor to MVI
-    fun navigateToMovies() = appNavigator.navigate(MoviesScreen)
 }
