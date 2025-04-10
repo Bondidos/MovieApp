@@ -32,6 +32,7 @@ import com.bondidos.core_ui.theme.composables.clickable.SignWithGoogleButton
 fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    // TODo MainViewModel for navigation?
     val screenScrollState = rememberScrollState()
 
     Scaffold(
