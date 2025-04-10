@@ -1,4 +1,4 @@
-package com.bondidos.core_ui.theme.composables
+package com.bondidos.core_ui.theme.composables.clickable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import com.bondidos.core_ui.theme.colors.AppThemeColor
 fun AppColoredButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    color: Color = AppThemeColor.ACTIVE_BUTTON_COLOR.color(),
+    color: Color = AppThemeColor.ACTIVE_BUTTON.color(),
     titleResId: Int,
 ) {
     Surface(
@@ -31,7 +31,6 @@ fun AppColoredButton(
             .fillMaxWidth()
             .height(48.dp)
             .shadow(elevation = 10.dp)
-
             .clickable { onClick() },
         color = color,
         shape = RoundedCornerShape(4.dp)
