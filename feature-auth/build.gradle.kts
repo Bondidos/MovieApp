@@ -41,7 +41,7 @@ android {
 dependencies {
     // Modules
     implementation(projects.coreNavigationApi)
-    implementation(projects.coreUi)
+    implementation(projects.core.ui)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)

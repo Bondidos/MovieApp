@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bondidos.core_navigation_impl.AppNavigator
 import com.bondidos.core_navigation_impl.AppScreen
-import com.bondidos.core_ui.R
 import com.bondidos.core_ui.theme.MovieAppTheme
 import com.bondidos.core_ui.theme.colors.AppThemeColor
 import com.bondidos.core_ui.theme.composables.AppBottomNavBar
@@ -27,6 +26,7 @@ import com.bondidos.core_ui.theme.composables.AppInputTextField
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.core_ui.theme.composables.clickable.AppColoredButton
 import com.bondidos.core_ui.theme.composables.clickable.SignWithGoogleButton
+import com.bondidos.ui.R
 
 @Composable
 fun AuthScreen(
