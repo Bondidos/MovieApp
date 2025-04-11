@@ -43,7 +43,7 @@ android {
 
 dependencies {
     // Modules
-    implementation(projects.coreNavigationImpl)
+    implementation(projects.core.navigationImpl)
     implementation(projects.core.ui)
     implementation(projects.featureAuth)
     implementation(projects.featureMovies)
