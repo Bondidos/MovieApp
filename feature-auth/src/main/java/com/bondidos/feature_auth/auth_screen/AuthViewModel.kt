@@ -1,8 +1,7 @@
 package com.bondidos.feature_auth.auth_screen
 
 import androidx.lifecycle.ViewModel
-import com.bondidos.core_navigation_impl.AppNavigator
-import com.bondidos.core_navigation_impl.MoviesScreen
+import com.bondidos.navigation_api.AppNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

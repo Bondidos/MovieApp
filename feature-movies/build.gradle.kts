@@ -40,7 +40,7 @@ android {
 
 dependencies {
     // Modules
-    implementation(projects.coreNavigationApi)
+    implementation(projects.core.navigationApi)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)

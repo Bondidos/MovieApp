@@ -1,4 +1,4 @@
-package com.bondidos.core_navigation_impl
+package com.bondidos.navigation_api
 
 import kotlinx.serialization.Serializable
 

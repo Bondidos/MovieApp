@@ -5,6 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bondidos.core_navigation_impl.di.NavControllerHolder
+import com.bondidos.navigation_api.AuthScreen
+import com.bondidos.navigation_api.MoviesScreen
 
 @Composable
 fun AppNavigationGraph(

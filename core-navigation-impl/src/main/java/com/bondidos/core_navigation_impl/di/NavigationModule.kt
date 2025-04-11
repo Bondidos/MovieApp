@@ -1,8 +1,8 @@
 package com.bondidos.core_navigation_impl.di
 
 import androidx.navigation.NavHostController
-import com.bondidos.core_navigation_impl.AppNavigator
 import com.bondidos.core_navigation_impl.AppNavigatorImpl
+import com.bondidos.navigation_api.AppNavigator
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

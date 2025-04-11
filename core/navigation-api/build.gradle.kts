@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bondidos.core_navigation_impl"
+    namespace = "com.bondidos.navigation_api"
     compileSdk = 35
 
     compileOptions {

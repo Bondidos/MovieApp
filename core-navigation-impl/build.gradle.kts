@@ -25,7 +25,7 @@ android {
 
 dependencies {
     // Module
-    implementation(projects.coreNavigationApi)
+    implementation(projects.core.navigationApi)
 
     // Hilt
     implementation(libs.hilt.android)

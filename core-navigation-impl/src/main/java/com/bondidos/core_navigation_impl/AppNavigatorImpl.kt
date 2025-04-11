@@ -1,6 +1,8 @@
 package com.bondidos.core_navigation_impl
 
 import com.bondidos.core_navigation_impl.di.NavControllerHolder
+import com.bondidos.navigation_api.AppNavigator
+import com.bondidos.navigation_api.AppScreen
 import javax.inject.Inject
 
 class AppNavigatorImpl @Inject constructor(
