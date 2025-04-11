@@ -1,4 +1,4 @@
-package com.bondidos.feature_auth.auth_screen
+package com.bondidos.auth.auth_screen
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable

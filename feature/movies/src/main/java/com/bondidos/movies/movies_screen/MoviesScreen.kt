@@ -1,4 +1,4 @@
-package com.bondidos.feature_movies.presentation.movies_screen
+package com.bondidos.movies.movies_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

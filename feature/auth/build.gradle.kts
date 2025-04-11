@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bondidos.feature_movies"
+    namespace = "com.bondidos.auth"
     compileSdk = 35
 
     defaultConfig {
@@ -41,6 +41,7 @@ android {
 dependencies {
     // Modules
     implementation(projects.core.navigationApi)
+    implementation(projects.core.ui)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)

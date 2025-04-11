@@ -7,8 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import com.bondidos.navigation_impl.AppNavigationGraph
 import com.bondidos.navigation_impl.di.NavControllerHolder
 import com.bondidos.core_ui.theme.MovieAppTheme
-import com.bondidos.feature_auth.auth_screen.AuthScreen
-import com.bondidos.feature_movies.presentation.movies_screen.MoviesScreen
+import com.bondidos.auth.auth_screen.AuthScreen
+import com.bondidos.movies.movies_screen.MoviesScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

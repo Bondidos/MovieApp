@@ -45,8 +45,8 @@ dependencies {
     // Modules
     implementation(projects.core.navigationImpl)
     implementation(projects.core.ui)
-    implementation(projects.featureAuth)
-    implementation(projects.featureMovies)
+    implementation(projects.feature.auth)
+    implementation(projects.feature.movies)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
