@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)
@@ -7,17 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "com.bondidos.movieapp"
+    namespace = "com.bondidos.auth"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.bondidos.movieapp"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -43,10 +40,8 @@ android {
 
 dependencies {
     // Modules
-    implementation(projects.core.navigationImpl)
+    implementation(projects.core.navigationApi)
     implementation(projects.core.ui)
-    implementation(projects.feature.auth)
-    implementation(projects.feature.movies)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
@@ -61,5 +56,6 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 }
