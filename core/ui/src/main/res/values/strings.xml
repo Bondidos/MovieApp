@@ -1,0 +1,11 @@
+<resources>
+    <string name="title_profile">Profile</string>
+    <string name="title_sign_up">Sign Up</string>
+    <string name="title_password">PASSWORD</string>
+    <string name="title_user_name">USER NAME</string>
+
+    <string name="text_filed_icon_description">Trailing icon</string>
+
+    <string name="button_title_login">Login</string>
+
+</resources>
