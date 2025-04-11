@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bondidos.core_utils"
+    namespace = "com.bondidos.utils"
     compileSdk = 35
 
     defaultConfig {
@@ -33,6 +33,4 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
 }

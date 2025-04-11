@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.bondidos.core_network_impl"
+    namespace = "com.bondidos.network"
     compileSdk = 35
 
     defaultConfig {
@@ -34,7 +34,4 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
 }
