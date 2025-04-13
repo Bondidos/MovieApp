@@ -1,4 +1,4 @@
-package com.bondidos.core_ui.theme.composables
+package com.bondidos.ui.composables
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bondidos.core_ui.theme.colors.AppThemeColor
@@ -32,9 +33,9 @@ fun AppInputTextField(
     labelTextRes: Int,
     leadingIconResId: Int,
     isError: Boolean = false,
+    keyBoardOptions: KeyboardOptions,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-//    val state = rememberTextFieldState("Initial text", TextRange(0, 12))
-
     Column {
         Text(
             stringResource(labelTextRes),
@@ -45,10 +46,11 @@ fun AppInputTextField(
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
             value = value,
+            visualTransformation = visualTransformation,
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodyMedium.copy(color = AppThemeColor.MAIN_TEXT.color()),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = keyBoardOptions,
             leadingIcon = {
                 Icon(
                     painter = painterResource(leadingIconResId),
@@ -81,7 +83,8 @@ fun AppInputTextFieldPreview() {
     AppInputTextField(
         value = "String",
         onValueChange = {},
-        labelTextRes = R.string.title_user_name,
+        labelTextRes = R.string.title_email,
         leadingIconResId = R.drawable.user_icon,
+        keyBoardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
     )
 }

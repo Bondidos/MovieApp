@@ -1,4 +1,4 @@
-package com.bondidos.core_ui.theme.composables.clickable
+package com.bondidos.ui.composables.clickable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
