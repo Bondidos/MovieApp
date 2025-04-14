@@ -7,8 +7,6 @@ import com.bondidos.utils.ValidationResult
 @Immutable
 sealed class AuthEvent : Reducer.ViewEvent {
     data object Loading : AuthEvent()
-    data class ValidationError(val emailMessageRes: Int?, val passwordMessageRes: Int?) :
-        AuthEvent()
     data class EmailChanged(val value: String) : AuthEvent()
     data class EmailValidationError(val validationResult: ValidationResult) : AuthEvent()
     data class PasswordChanged(val value: String) : AuthEvent()

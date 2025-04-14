@@ -25,14 +25,16 @@ class AuthViewModel @Inject constructor(
     override fun emitIntent(intent: Intention) {
         when (intent) {
             is AuthIntent.Login -> {
-                //todo LOGIN
+                TODO()
             }
 
             is AuthIntent.SignIn -> {
-                //todo Navigate
+                TODO()
             }
 
-            is AuthIntent.LoginWithGoogle -> {}
+            is AuthIntent.LoginWithGoogle -> {
+                TODO()
+            }
 
             is AuthIntent.PasswordChanged -> {
                 val validationResult = validate(intent.value, appValidator::validatePassword)
