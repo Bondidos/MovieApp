@@ -9,6 +9,7 @@ data class AuthState(
     val isEmailError: Boolean,
     val passwordValue: String,
     val isPasswordValueError: Boolean,
+    val isLoading: Boolean,
     ) : Reducer.ViewState {
 
     companion object {
@@ -17,6 +18,7 @@ data class AuthState(
             isEmailError = false,
             passwordValue = "",
             isPasswordValueError = false,
+            isLoading = false,
         )
     }
 }

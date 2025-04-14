@@ -5,6 +5,5 @@ import com.bondidos.ui.base_mvi.Reducer
 
 @Immutable
 sealed class AuthEffect: Reducer.ViewEffect {
-    //todo Snackbars etc (NAVIGATION???? - no. in user events and VM)
-    data class SomeError(val message: String): AuthEffect()
+    data class ValidationError(val email: Int?, val password: Int?): AuthEffect()
 }

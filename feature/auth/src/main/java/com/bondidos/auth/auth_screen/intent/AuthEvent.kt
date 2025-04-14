@@ -5,9 +5,9 @@ import com.bondidos.ui.base_mvi.Reducer
 
 @Immutable
 sealed class AuthEvent : Reducer.ViewEvent {
-    data object Login : AuthEvent()
-    data object LoginWithGoogle : AuthEvent()
-    data object SingUp : AuthEvent()
-    data class EmailValueChanged(val value: String) : AuthEvent()
-    data class PasswordValueChanged(val value: String) : AuthEvent()
+    data object Loading : AuthEvent()
+    data class ValidationError(val emailMessageRes: Int?, val passwordMessageRes: Int?) :
+        AuthEvent()
+    data class EmailChanged(val value: String) : AuthEvent()
+    data class PasswordChanged(val value: String) : AuthEvent()
 }
