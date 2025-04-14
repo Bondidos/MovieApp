@@ -14,7 +14,7 @@ class NavControllerHolder {
     lateinit var navController: NavHostController
 }
 
-@Module(includes = [NavigationModuleBinds::class])
+@Module
 @InstallIn(SingletonComponent::class)
 object NavigationModule {
 
