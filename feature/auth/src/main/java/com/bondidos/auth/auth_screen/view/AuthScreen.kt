@@ -48,7 +48,7 @@ fun AuthScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel.effect) {
+    LaunchedEffect(viewModel, snackBarHostState) {
         viewModel.effect.collect { action ->
             when (action) {
                 is AuthEffect.ValidationError -> {
@@ -142,14 +142,14 @@ fun createValidationMessage(context: Context, validationResult: List<ValidationR
 
 fun ValidationResult.toStringResId(): Int {
     return when (this) {
-        ValidationResult.EmailIsBlank -> R.string.validation_email_empty
-        ValidationResult.EmailTooLong -> R.string.validation_email_too_long
-        ValidationResult.EmailWrongFormat -> R.string.validation_email_format
-        ValidationResult.EmailWrongDomain -> R.string.validation_email_domain
-        ValidationResult.PasswordIsBlank -> R.string.validation_password_empty
-        ValidationResult.PasswordTooLong -> R.string.validation_password_max
-        ValidationResult.PasswordTooShort -> R.string.validation_password_min
-        ValidationResult.PasswordWrongRequirements -> R.string.validation_password_requirements
+        ValidationResult.EmailValidationResult.EmailIsBlank -> R.string.validation_email_empty
+        ValidationResult.EmailValidationResult.EmailTooLong -> R.string.validation_email_too_long
+        ValidationResult.EmailValidationResult.EmailWrongFormat -> R.string.validation_email_format
+        ValidationResult.EmailValidationResult.EmailWrongDomain -> R.string.validation_email_domain
+        ValidationResult.PasswordValidationResult.PasswordIsBlank -> R.string.validation_password_empty
+        ValidationResult.PasswordValidationResult.PasswordTooLong -> R.string.validation_password_max
+        ValidationResult.PasswordValidationResult.PasswordTooShort -> R.string.validation_password_min
+        ValidationResult.PasswordValidationResult.PasswordWrongRequirements -> R.string.validation_password_requirements
         else -> throw IllegalArgumentException()
     }
 }
