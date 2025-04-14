@@ -7,14 +7,15 @@ import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
-import com.bondidos.ui.validators.EmailValidator
-import com.bondidos.ui.validators.PasswordValidator
+import com.bondidos.utils.AppValidator
+import com.bondidos.utils.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
+    private val appValidator: AppValidator,
     reducer: AuthReducer,
 ) : BaseViewModel<AuthState, AuthEvent, AuthEffect>(
     AuthState.init(),
@@ -34,25 +35,21 @@ class AuthViewModel @Inject constructor(
             is AuthIntent.LoginWithGoogle -> {}
 
             is AuthIntent.PasswordChanged -> {
-                //todo validate
-                reduce(AuthEvent.PasswordChanged(intent.value))
+                val validationResult = validate(intent.value, appValidator::validatePassword)
+                if (validationResult.isPasswordValid())
+                    reduce(AuthEvent.PasswordChanged(intent.value))
+                else reduce(AuthEvent.PasswordValidationError(validationResult))
             }
+
             is AuthIntent.EmailChanged -> {
-                //todo validate
-                reduce(AuthEvent.EmailChanged(intent.value))
+                val validationResult = validate(intent.value, appValidator::validateEmail)
+                if (validationResult.isEmailValid())
+                    reduce(AuthEvent.EmailChanged(intent.value))
+                else reduce(AuthEvent.EmailValidationError(validationResult))
             }
         }
     }
 
-    private fun validateForm(): AuthEvent? {
-        val emailError = EmailValidator.validateEmail(currentState.emailValue)
-        val passwordError =
-            PasswordValidator.validatePassword(currentState.passwordValue)
-        return if (emailError != null || passwordError != null) AuthEvent.ValidationError(
-            emailMessageRes = emailError,
-            passwordMessageRes = passwordError
-        ) else null
-
-    }
-
+    private fun validate(value: String, validation: (String) -> ValidationResult) =
+        validation(value)
 }
