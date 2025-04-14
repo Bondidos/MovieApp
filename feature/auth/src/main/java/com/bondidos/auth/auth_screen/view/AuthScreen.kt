@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.auth.auth_screen.intent.AuthEffect
 import com.bondidos.auth.auth_screen.intent.AuthIntent
+import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.auth.auth_screen.model.AuthViewModel
 import com.bondidos.core_ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppInputTextField
@@ -35,6 +37,7 @@ import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.core_ui.theme.composables.clickable.SignWithGoogleButton
 import com.bondidos.ui.R
+import com.bondidos.ui.composables.AppScreen
 import com.bondidos.utils.ValidationResult
 
 @Composable
@@ -42,7 +45,6 @@ fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-    val screenScrollState = rememberScrollState()
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
@@ -57,6 +59,23 @@ fun AuthScreen(
             }
         }
     }
+
+    AppScreen(isLoading = state.value.isLoading) {
+        AuthScreenContent(
+            viewModel = viewModel,
+            state = state,
+            snackBarHostState = snackBarHostState
+        )
+    }
+}
+
+@Composable
+fun AuthScreenContent(
+    viewModel: AuthViewModel,
+    state: State<AuthState>,
+    snackBarHostState: SnackbarHostState
+) {
+    val screenScrollState = rememberScrollState()
 
     Scaffold(
         containerColor = AppThemeColor.APP_BACKGROUND.color(),
@@ -114,12 +133,11 @@ fun AuthScreen(
 }
 
 fun createValidationMessage(context: Context, validationResult: List<ValidationResult?>): String =
-    validationResult.map {
+    validationResult.mapNotNull {
         it?.let {
             context.getString(it.toStringResId())
         }
     }
-        .filterNotNull()
         .joinToString(separator = "\n")
 
 fun ValidationResult.toStringResId(): Int {
