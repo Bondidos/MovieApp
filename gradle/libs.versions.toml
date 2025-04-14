@@ -34,7 +34,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom"}
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics"}
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx"}
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics"}
 
 [plugins]

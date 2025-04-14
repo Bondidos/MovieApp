@@ -9,8 +9,8 @@ sealed class AuthEvent : Reducer.ViewEvent {
     data object Loading : AuthEvent()
     data class EmailChanged(val value: String) : AuthEvent()
     data class EmailValidationError(val validationResult: ValidationResult) : AuthEvent()
-    data class PasswordChanged(val value: String) : AuthEvent()
     data class PasswordValidationError(val validationResult: ValidationResult) : AuthEvent()
+    data class PasswordChanged(val value: String) : AuthEvent()
     data class ShowValidationErrorSnackBar(
         val email: ValidationResult?,
         val password: ValidationResult?

@@ -21,3 +21,4 @@ Features:
 - [WORK in Progress]
 - TODO move resources to :core-ui
 - TODO add SFProFont as in figma
+- TODO setUserId for firebase services (generate on splashScreen?)
