@@ -23,12 +23,14 @@ class AuthReducer @Inject constructor() : Reducer<AuthState, AuthEvent, AuthEffe
             }
 
             AuthEvent.Loading -> previousState.copy(isLoading = true) to null
-            is AuthEvent.EmailValidationError -> previousState.copy(isEmailError = true) to AuthEffect.ValidationError(
-                event.validationResult
-            )
+            is AuthEvent.EmailValidationError -> previousState.copy(isEmailError = true) to null
 
-            is AuthEvent.PasswordValidationError -> previousState.copy(isPasswordValueError = true) to AuthEffect.ValidationError(
-                event.validationResult
+            is AuthEvent.PasswordValidationError -> previousState.copy(isPasswordValueError = true) to null
+            is AuthEvent.ShowValidationErrorSnackBar -> previousState to AuthEffect.ValidationError(
+                listOf(
+                    event.email,
+                    event.password
+                )
             )
         }
     }

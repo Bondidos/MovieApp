@@ -6,5 +6,5 @@ import com.bondidos.utils.ValidationResult
 
 @Immutable
 sealed class AuthEffect: Reducer.ViewEffect {
-    data class ValidationError(val validationResult: ValidationResult): AuthEffect()
+    data class ValidationError(val validationResult: List<ValidationResult?>): AuthEffect()
 }

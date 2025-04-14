@@ -25,7 +25,10 @@ class AuthViewModel @Inject constructor(
     override fun emitIntent(intent: Intention) {
         when (intent) {
             is AuthIntent.Login -> {
-                TODO()
+                validateAndUpdate()
+                if (currentState.isFormValid()) {
+                    TODO("loginLogic")
+                }
             }
 
             is AuthIntent.SignIn -> {
@@ -37,19 +40,35 @@ class AuthViewModel @Inject constructor(
             }
 
             is AuthIntent.PasswordChanged -> {
-                val validationResult = validate(intent.value, appValidator::validatePassword)
-                if (validationResult.isPasswordValid())
-                    reduce(AuthEvent.PasswordChanged(intent.value))
-                else reduce(AuthEvent.PasswordValidationError(validationResult))
+                reduce(AuthEvent.PasswordChanged(intent.value))
             }
 
             is AuthIntent.EmailChanged -> {
-                val validationResult = validate(intent.value, appValidator::validateEmail)
-                if (validationResult.isEmailValid())
-                    reduce(AuthEvent.EmailChanged(intent.value))
-                else reduce(AuthEvent.EmailValidationError(validationResult))
+                reduce(AuthEvent.EmailChanged(intent.value))
             }
         }
+    }
+
+    private fun validateAndUpdate() {
+        val passwordValue = validate(
+            currentState.passwordValue,
+            appValidator::validatePassword
+        ).also { result ->
+            if (!result.isPasswordValid()) reduce(AuthEvent.PasswordValidationError(result))
+        }
+        val emailValue = validate(
+            currentState.emailValue,
+            appValidator::validateEmail
+        ).also { result ->
+            if (!result.isEmailValid()) reduce(AuthEvent.EmailValidationError(result))
+        }
+        if (!currentState.isFormValid())
+            reduce(
+                AuthEvent.ShowValidationErrorSnackBar(
+                    email = if (currentState.isEmailError) emailValue else null,
+                    password = if (currentState.isPasswordValueError) passwordValue else null,
+                )
+            )
     }
 
     private fun validate(value: String, validation: (String) -> ValidationResult) =

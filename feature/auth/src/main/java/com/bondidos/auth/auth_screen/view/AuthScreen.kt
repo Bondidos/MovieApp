@@ -1,7 +1,6 @@
 package com.bondidos.auth.auth_screen.view
 
-import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,10 +13,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -32,21 +35,24 @@ import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.core_ui.theme.composables.clickable.SignWithGoogleButton
 import com.bondidos.ui.R
+import com.bondidos.utils.ValidationResult
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-
     val screenScrollState = rememberScrollState()
+    val snackBarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { action ->
             when (action) {
                 is AuthEffect.ValidationError -> {
-                    Log.d("AuthScreen", "AuthEffect.SomeError ")
+                    snackBarHostState.showSnackbar(
+                        createValidationMessage(context, action.validationResult)
+                    )
                 }
             }
         }
@@ -62,6 +68,7 @@ fun AuthScreen(
                 onAfterLeadingClick = { viewModel.emitIntent(AuthIntent.SignIn) },
             )
         },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         content = { padding ->
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -104,4 +111,27 @@ fun AuthScreen(
             }
         },
     )
+}
+
+fun createValidationMessage(context: Context, validationResult: List<ValidationResult?>): String =
+    validationResult.map {
+        it?.let {
+            context.getString(it.toStringResId())
+        }
+    }
+        .filterNotNull()
+        .joinToString(separator = "\n")
+
+fun ValidationResult.toStringResId(): Int {
+    return when (this) {
+        ValidationResult.EmailIsBlank -> R.string.validation_email_empty
+        ValidationResult.EmailTooLong -> R.string.validation_email_too_long
+        ValidationResult.EmailWrongFormat -> R.string.validation_email_format
+        ValidationResult.EmailWrongDomain -> R.string.validation_email_domain
+        ValidationResult.PasswordIsBlank -> R.string.validation_password_empty
+        ValidationResult.PasswordTooLong -> R.string.validation_password_max
+        ValidationResult.PasswordTooShort -> R.string.validation_password_min
+        ValidationResult.PasswordWrongRequirements -> R.string.validation_password_requirements
+        else -> throw IllegalArgumentException()
+    }
 }

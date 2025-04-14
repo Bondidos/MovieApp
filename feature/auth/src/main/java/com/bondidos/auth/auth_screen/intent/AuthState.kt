@@ -10,7 +10,9 @@ data class AuthState(
     val passwordValue: String,
     val isPasswordValueError: Boolean,
     val isLoading: Boolean,
-    ) : Reducer.ViewState {
+) : Reducer.ViewState {
+
+    fun isFormValid() = !isEmailError && !isPasswordValueError
 
     companion object {
         fun init() = AuthState(
@@ -20,5 +22,6 @@ data class AuthState(
             isPasswordValueError = false,
             isLoading = false,
         )
+
     }
 }
