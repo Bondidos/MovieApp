@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313151166516",
+    "project_id": "movieapp-f3021",
+    "storage_bucket": "movieapp-f3021.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313151166516:android:307108c3ee5cea4dbe5261",
+        "android_client_info": {
+          "package_name": "com.bondidos.movieapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuar84gbTUEE9cp8gjE2EWy5A9XPLrrRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
