@@ -75,7 +75,7 @@ class SingUpViewModel @Inject constructor(
                             analytics.setUserId(useCaseResult.data.id)
 
                             launch(Dispatchers.Main) {
-                                appNavigator.popAndPush(
+                                appNavigator.popAllAndPush(
                                     MoviesScreen
                                 )
                             }

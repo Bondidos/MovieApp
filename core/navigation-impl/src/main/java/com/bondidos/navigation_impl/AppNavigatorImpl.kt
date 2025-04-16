@@ -1,5 +1,6 @@
 package com.bondidos.navigation_impl
 
+import android.annotation.SuppressLint
 import androidx.annotation.MainThread
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.bondidos.navigation_impl.di.NavControllerHolder
@@ -20,6 +21,17 @@ class AppNavigatorImpl @Inject constructor(
     override fun popAndPush(screen: AppScreen) {
         navControllerHolder.navController.apply {
             popBackStack()
+            navigate(screen)
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    @MainThread
+    override fun popAllAndPush(screen: AppScreen) {
+        navControllerHolder.navController.apply {
+            currentBackStack.value.forEach { _ ->
+                popBackStack()
+            }
             navigate(screen)
         }
     }
