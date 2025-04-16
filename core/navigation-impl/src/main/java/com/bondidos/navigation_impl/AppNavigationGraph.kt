@@ -7,11 +7,13 @@ import androidx.navigation.compose.rememberNavController
 import com.bondidos.navigation_impl.di.NavControllerHolder
 import com.bondidos.navigation_api.AuthScreen
 import com.bondidos.navigation_api.MoviesScreen
+import com.bondidos.navigation_api.SingUpScreen
 
 @Composable
 fun AppNavigationGraph(
-    authFeature: @Composable () -> Unit,
-    moviesFeature: @Composable () -> Unit,
+    authScreen: @Composable () -> Unit,
+    singUpScreen: @Composable () -> Unit,
+    moviesScreen: @Composable () -> Unit,
     navControllerHolder: NavControllerHolder,
 ) {
 
@@ -23,7 +25,8 @@ fun AppNavigationGraph(
         navController = navController,
         startDestination = AuthScreen
     ) {
-        composable<AuthScreen> { authFeature() }
-        composable<MoviesScreen> { moviesFeature() }
+        composable<AuthScreen> { authScreen() }
+        composable<MoviesScreen> { moviesScreen() }
+        composable<SingUpScreen> { singUpScreen() }
     }
 }

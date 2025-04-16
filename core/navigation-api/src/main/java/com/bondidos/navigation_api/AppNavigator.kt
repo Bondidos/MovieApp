@@ -14,3 +14,6 @@ object AuthScreen: AppScreen
 
 @Serializable
 object MoviesScreen: AppScreen
+
+@Serializable
+object  SingUpScreen: AppScreen
