@@ -1,19 +1,27 @@
-package com.bondidos.auth.auth_screen.model
+package com.bondidos.auth.presentation.auth_screen.model
 
+import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
-import com.bondidos.auth.auth_screen.intent.AuthEffect
-import com.bondidos.auth.auth_screen.intent.AuthEvent
+import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
+import com.bondidos.auth.presentation.auth_screen.intent.AuthEvent
 import com.bondidos.auth.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
+import com.bondidos.auth.domain.usecase.LoginUseCase
+import com.bondidos.base.UseCaseResult
 import com.bondidos.navigation_api.AppNavigator
+import com.bondidos.navigation_api.MoviesScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.utils.AppValidator
 import com.bondidos.utils.FormValidationResult
 import com.bondidos.utils.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +29,7 @@ class AuthViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
     private val appValidator: AppValidator,
     private val analytics: AppAnalytics,
+    private val loginUseCase: LoginUseCase,
     reducer: AuthReducer,
 ) : BaseViewModel<AuthState, AuthEvent, AuthEffect>(
     AuthState.init(),
@@ -38,9 +47,7 @@ class AuthViewModel @Inject constructor(
                 analytics.logButton(ButtonNames.Login)
 
                 validateAndReduce()
-                if (currentState.isFormValid()) {
-                    TODO("loginLogic")
-                }
+                login()
             }
 
             is AuthIntent.SignIn -> {
@@ -59,6 +66,37 @@ class AuthViewModel @Inject constructor(
 
             is AuthIntent.EmailChanged -> {
                 reduce(AuthEvent.EmailChanged(intent.value))
+            }
+
+        }
+    }
+
+    //todo double click prevention
+    private fun login() {
+        if (currentState.isFormValid()) {
+            val loginParams = currentState.emailValue to currentState.passwordValue
+            viewModelScope.launch(Dispatchers.IO) {
+                loginUseCase.invoke(loginParams)
+                    .onStart { reduce(AuthEvent.Loading) }
+                    .collect { useCaseResult ->
+                        when (useCaseResult) {
+                            is UseCaseResult.Success -> {
+                                launch(Dispatchers.Main) {
+                                    appNavigator.popAndPush(MoviesScreen)
+                                }
+                            }
+
+                            is UseCaseResult.Error -> {
+                                reduce(
+                                    AuthEvent.AuthError(
+                                        useCaseResult.error.message
+                                    )
+                                )
+                            }
+                        }
+
+                    }
+
             }
         }
     }

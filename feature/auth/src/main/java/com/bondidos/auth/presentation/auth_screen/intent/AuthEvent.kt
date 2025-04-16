@@ -1,4 +1,4 @@
-package com.bondidos.auth.auth_screen.intent
+package com.bondidos.auth.presentation.auth_screen.intent
 
 import androidx.compose.runtime.Immutable
 import com.bondidos.ui.base_mvi.Reducer
@@ -15,4 +15,5 @@ sealed class AuthEvent : Reducer.ViewEvent {
         val email: ValidationResult?,
         val password: ValidationResult?
     ) : AuthEvent()
+    data class AuthError(val value: String?) : AuthEvent()
 }

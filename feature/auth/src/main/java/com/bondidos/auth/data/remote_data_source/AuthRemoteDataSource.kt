@@ -8,14 +8,14 @@ import javax.inject.Inject
 
 class AuthRemoteDataSource @Inject constructor(
     private val firebaseAuth: FirebaseAuth
-){
+) {
     fun login(email: String, password: String) = flow {
-        val result = firebaseAuth.signInWithEmailAndPassword(email,password).await()
+        val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
         emit(result.user?.toAuthUser())
     }
 
     fun singIn(email: String, password: String) = flow {
-        val result = firebaseAuth.createUserWithEmailAndPassword(email,password).await()
+        val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
         emit(result.user?.toAuthUser())
     }
 
