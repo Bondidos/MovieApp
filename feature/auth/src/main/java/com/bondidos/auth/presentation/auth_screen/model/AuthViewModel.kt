@@ -70,7 +70,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    //todo double click prevention
     private fun login() {
         if (currentState.isFormValid()) {
             val loginParams = currentState.emailValue to currentState.passwordValue
