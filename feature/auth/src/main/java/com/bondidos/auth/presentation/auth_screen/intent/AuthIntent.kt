@@ -1,4 +1,4 @@
-package com.bondidos.auth.auth_screen.intent
+package com.bondidos.auth.presentation.auth_screen.intent
 
 import com.bondidos.ui.base_mvi.Intention
 

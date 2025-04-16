@@ -1,4 +1,4 @@
-package com.bondidos.auth.auth_screen.view
+package com.bondidos.auth.presentation.auth_screen.view
 
 import android.content.Context
 import androidx.compose.foundation.gestures.Orientation
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
-import com.bondidos.auth.auth_screen.intent.AuthIntent
+import com.bondidos.auth.presentation.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.auth.presentation.auth_screen.model.AuthViewModel
 import com.bondidos.core_ui.theme.colors.AppThemeColor

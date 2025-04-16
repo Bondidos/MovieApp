@@ -3,6 +3,8 @@
     <string name="title_sign_up">Sign Up</string>
     <string name="title_password">PASSWORD</string>
     <string name="title_email">Email</string>
+    <string name="title_retyped_password">RE-TYPED PASSWORD</string>
+    <string name="title_create_account">Create Account</string>
 
     <string name="text_filed_icon_description">Trailing icon</string>
 
@@ -17,4 +19,5 @@
     <string name="validation_password_min">Minimum 8 characters required</string>
     <string name="validation_password_max">Maximum 10 characters allowed</string>
     <string name="validation_password_requirements">Requirements: max 10 chars, A..Z, a..z, 1 capital</string>
+    <string name="validation_password_is_not_identical">Passwords is not identical</string>
 </resources>

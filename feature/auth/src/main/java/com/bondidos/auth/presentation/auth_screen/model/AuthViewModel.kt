@@ -6,12 +6,13 @@ import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
 import com.bondidos.auth.presentation.auth_screen.intent.AuthEvent
-import com.bondidos.auth.auth_screen.intent.AuthIntent
+import com.bondidos.auth.presentation.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.auth.domain.usecase.LoginUseCase
 import com.bondidos.base.UseCaseResult
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.MoviesScreen
+import com.bondidos.navigation_api.SingUpScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.utils.AppValidator
@@ -51,7 +52,8 @@ class AuthViewModel @Inject constructor(
 
             is AuthIntent.SignIn -> {
                 analytics.logButton(ButtonNames.SingUp)
-                TODO()
+
+                appNavigator.push(SingUpScreen)
             }
 
             is AuthIntent.LoginWithGoogle -> {
