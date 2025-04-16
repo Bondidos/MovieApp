@@ -12,7 +12,20 @@
           "package_name": "com.bondidos.movieapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "313151166516-suvu6np603hfud7uadu301no520bonvk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bondidos.movieapp",
+            "certificate_hash": "fc60e46a172566039c0d6e9109bad7253fef9b6a"
+          }
+        },
+        {
+          "client_id": "313151166516-njkm8epi9nhrbve5fihdmv5cmvtc3bvl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAuar84gbTUEE9cp8gjE2EWy5A9XPLrrRo"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313151166516-njkm8epi9nhrbve5fihdmv5cmvtc3bvl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
