@@ -19,7 +19,6 @@ import com.bondidos.utils.FormValidationResult
 import com.bondidos.utils.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -81,6 +80,9 @@ class AuthViewModel @Inject constructor(
                     .collect { useCaseResult ->
                         when (useCaseResult) {
                             is UseCaseResult.Success -> {
+                                /// Set UserId for analytics
+                                analytics.setUserId(useCaseResult.data.id)
+
                                 launch(Dispatchers.Main) {
                                     appNavigator.popAndPush(MoviesScreen)
                                 }
