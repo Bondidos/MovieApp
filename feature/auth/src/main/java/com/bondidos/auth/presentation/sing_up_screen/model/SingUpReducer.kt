@@ -43,6 +43,10 @@ class SingUpReducer @Inject constructor() : Reducer<SingUpState, SingUpEvent, Si
                     event.passwordRetyped,
                 )
             )
+
+            is SingUpEvent.SingUpError -> previousState.copy(
+                isLoading = false,
+            ) to SingUpEffect.SignInError(event.value ?: "Unknown Error")
         }
     }
 }

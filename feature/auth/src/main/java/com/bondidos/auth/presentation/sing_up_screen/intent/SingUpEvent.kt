@@ -39,4 +39,5 @@ sealed class SingUpEvent : Reducer.ViewEvent {
             fun builder() = Builder()
         }
     }
+    data class SingUpError(val value: String?) : SingUpEvent()
 }

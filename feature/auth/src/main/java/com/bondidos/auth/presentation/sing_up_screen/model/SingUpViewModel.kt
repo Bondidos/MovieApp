@@ -1,19 +1,28 @@
 package com.bondidos.auth.presentation.sing_up_screen.model
 
+import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
+import com.bondidos.auth.domain.usecase.RegisterWithEmailAndPassword
+import com.bondidos.auth.presentation.auth_screen.intent.AuthEvent
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpEffect
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpEvent
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpIntent
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpState
+import com.bondidos.base.UseCaseResult
 import com.bondidos.navigation_api.AppNavigator
+import com.bondidos.navigation_api.MoviesScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.utils.AppValidator
 import com.bondidos.utils.SingInFormValidationResult
 import com.bondidos.utils.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +30,7 @@ class SingUpViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
     private val appValidator: AppValidator,
     private val analytics: AppAnalytics,
+    private val registerWithEmailAndPassword: RegisterWithEmailAndPassword,
     reducer: SingUpReducer,
 ) : BaseViewModel<SingUpState, SingUpEvent, SingUpEffect>(
     SingUpState.init(),
@@ -37,8 +47,8 @@ class SingUpViewModel @Inject constructor(
             SingUpIntent.CreateAccount -> {
                 analytics.logButton(ButtonNames.CreateAccount)
 
-                if(validateForm()){
-
+                if (validateForm()) {
+                    signIn()
                 }
             }
 
@@ -49,6 +59,35 @@ class SingUpViewModel @Inject constructor(
                     intent.value
                 )
             )
+        }
+    }
+
+    private fun signIn() {
+        viewModelScope.launch(Dispatchers.IO) {
+            registerWithEmailAndPassword.invoke(
+                currentState.emailValue to currentState.passwordValue
+            )
+                .onStart { reduce(SingUpEvent.Loading) }
+                .collect { useCaseResult ->
+                    when (useCaseResult) {
+                        is UseCaseResult.Success -> {
+                            /// Set UserId for analytics
+                            analytics.setUserId(useCaseResult.data.id)
+
+                            launch(Dispatchers.Main) {
+                                appNavigator.popAndPush(
+                                    MoviesScreen
+                                )
+                            }
+                        }
+
+                        is UseCaseResult.Error -> reduce(
+                            SingUpEvent.SingUpError(
+                                useCaseResult.error.message
+                            )
+                        )
+                    }
+                }
         }
     }
 

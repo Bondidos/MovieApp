@@ -55,6 +55,10 @@ fun SingUpScreen(
                         createValidationMessage(context, action.validationResult)
                     )
                 }
+
+                is SingUpEffect.SignInError -> snackBarHostState.showSnackbar(
+                    action.message
+                )
             }
         }
     }

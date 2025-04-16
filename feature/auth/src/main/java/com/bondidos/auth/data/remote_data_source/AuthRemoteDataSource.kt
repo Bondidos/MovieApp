@@ -1,6 +1,6 @@
 package com.bondidos.auth.data.remote_data_source
 
-import com.bondidos.auth.domain.extensions.toAuthUser
+import com.bondidos.auth.domain.utils.toAuthUser
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await

@@ -7,4 +7,5 @@ import com.bondidos.utils.ValidationResult
 @Immutable
 sealed class SingUpEffect: Reducer.ViewEffect {
     data class ValidationError(val validationResult: List<ValidationResult?>): SingUpEffect()
+    data class SignInError(val message: String): SingUpEffect()
 }
