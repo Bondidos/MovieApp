@@ -11,5 +11,5 @@ class MoviesScreenViewModel @Inject constructor(
     private val appNavigator: AppNavigator
 ) : ViewModel() {
     //todo refactor to MVI
-    fun navigateToMovies() = appNavigator.navigate(AuthScreen)
+    fun navigateToMovies() = appNavigator.push(AuthScreen)
 }
