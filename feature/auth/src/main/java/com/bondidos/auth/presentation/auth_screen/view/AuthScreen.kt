@@ -79,7 +79,7 @@ fun AuthScreenContent(
     state: State<AuthState>,
     snackBarHostState: SnackbarHostState
 ) {
-    val screenScrollState = rememberScrollState()
+    val screenScrollState = rememberScrollState()//todo do not working, fix
 
     Scaffold(
         containerColor = AppThemeColor.APP_BACKGROUND.color(),

@@ -61,9 +61,10 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
+
+    // todo to separate module. To be able to check if user logged and redirect to movies instead of auth
     // Firebase Auth
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.googleid)
-    implementation(libs.play.services)
 }
