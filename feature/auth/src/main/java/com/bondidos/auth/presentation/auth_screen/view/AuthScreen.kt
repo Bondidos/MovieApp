@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -79,7 +81,7 @@ fun AuthScreenContent(
     state: State<AuthState>,
     snackBarHostState: SnackbarHostState
 ) {
-    val screenScrollState = rememberScrollState()//todo do not working, fix
+    val screenScrollState = rememberScrollState()
 
     Scaffold(
         containerColor = AppThemeColor.APP_BACKGROUND.color(),
@@ -98,9 +100,9 @@ fun AuthScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(screenScrollState)
                     .padding(padding)
                     .padding(all = 25.dp)
-                    .scrollable(screenScrollState, orientation = Orientation.Vertical)
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 AppInputTextField(
@@ -126,7 +128,8 @@ fun AuthScreenContent(
                     onClick = { viewModel.emitIntent(AuthIntent.Login) },
                     titleResId = R.string.button_title_login,
                 )
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(Modifier.height(80.dp))
+                Spacer(modifier = Modifier.heightIn(min = 80.dp))
                 SignWithGoogleButton(
                     onClick = { viewModel.emitIntent(AuthIntent.LoginWithGoogle) },
                 )
