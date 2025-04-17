@@ -12,6 +12,18 @@ android {
     namespace = "com.bondidos.movieapp"
     compileSdk = 35
 
+    signingConfigs {
+//        debug {
+//            storeFile file("debug.keystore")
+//        }
+//        release {
+//            storeFile file("your_keystore.jks")
+//            storePassword "your_password"
+//            keyAlias "your_alias"
+//            keyPassword "your_key_password"
+//        }
+    }
+
     defaultConfig {
         applicationId = "com.bondidos.movieapp"
         minSdk = 24

@@ -1,5 +1,10 @@
 package com.bondidos.auth.presentation.auth_screen.model
 
+import android.content.Context
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
@@ -8,7 +13,9 @@ import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
 import com.bondidos.auth.presentation.auth_screen.intent.AuthEvent
 import com.bondidos.auth.presentation.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
+import com.bondidos.auth.domain.model.AuthUser
 import com.bondidos.auth.domain.usecase.LoginUseCase
+import com.bondidos.auth.domain.usecase.SingUpWithCredentials
 import com.bondidos.base.UseCaseResult
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.MoviesScreen
@@ -19,7 +26,11 @@ import com.bondidos.utils.AppValidator
 import com.bondidos.utils.FormValidationResult
 import com.bondidos.utils.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +41,10 @@ class AuthViewModel @Inject constructor(
     private val appValidator: AppValidator,
     private val analytics: AppAnalytics,
     private val loginUseCase: LoginUseCase,
+    private val credentialManager: CredentialManager,
+    private val credentialRequest: GetCredentialRequest,
+    private val singUpWithCredentials: SingUpWithCredentials,
+    @ApplicationContext private val context: Context,
     reducer: AuthReducer,
 ) : BaseViewModel<AuthState, AuthEvent, AuthEffect>(
     AuthState.init(),
@@ -58,7 +73,8 @@ class AuthViewModel @Inject constructor(
 
             is AuthIntent.LoginWithGoogle -> {
                 analytics.logButton(ButtonNames.LoginWithGoogle)
-                TODO()
+
+                handleLoginWithGoogle()
             }
 
             is AuthIntent.PasswordChanged -> {
@@ -72,6 +88,29 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    private fun handleLoginWithGoogle() {
+        viewModelScope.launch(Dispatchers.IO) {
+            flow {
+                emit(
+                    credentialManager.getCredential(
+                        context,
+                        credentialRequest
+                    )
+                )
+            }.catch {
+                reduce(AuthEvent.AuthError(it.message))
+            }.collect { response ->
+                singUpWithCredentials(response)
+                    .catch {
+                        reduce(AuthEvent.AuthError(it.message))
+                    }
+                    .collect { authResult ->
+                        handleSuccessLogin(authResult)
+                    }
+            }
+        }
+    }
+
     private fun login() {
         if (currentState.isFormValid()) {
             val loginParams = currentState.emailValue to currentState.passwordValue
@@ -79,27 +118,30 @@ class AuthViewModel @Inject constructor(
                 loginUseCase.invoke(loginParams)
                     .onStart { reduce(AuthEvent.Loading) }
                     .collect { useCaseResult ->
-                        when (useCaseResult) {
-                            is UseCaseResult.Success -> {
-                                /// Set UserId for analytics
-                                analytics.setUserId(useCaseResult.data.id)
-
-                                launch(Dispatchers.Main) {
-                                    appNavigator.popAndPush(MoviesScreen)
-                                }
-                            }
-
-                            is UseCaseResult.Error -> {
-                                reduce(
-                                    AuthEvent.AuthError(
-                                        useCaseResult.error.message
-                                    )
-                                )
-                            }
-                        }
-
+                        handleSuccessLogin(useCaseResult)
                     }
 
+            }
+        }
+    }
+
+    private fun CoroutineScope.handleSuccessLogin(useCaseResult: UseCaseResult<AuthUser>) {
+        when (useCaseResult) {
+            is UseCaseResult.Success -> {
+                /// Set UserId for analytics
+                analytics.setUserId(useCaseResult.data.id)
+
+                launch(Dispatchers.Main) {
+                    appNavigator.popAndPush(MoviesScreen)
+                }
+            }
+
+            is UseCaseResult.Error -> {
+                reduce(
+                    AuthEvent.AuthError(
+                        useCaseResult.error.message
+                    )
+                )
             }
         }
     }
