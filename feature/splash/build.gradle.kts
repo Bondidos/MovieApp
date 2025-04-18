@@ -44,6 +44,7 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.auth)
     implementation(projects.core.analytics)
+    implementation(projects.core.utils)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
