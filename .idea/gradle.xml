@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/analytics" />
+            <option value="$PROJECT_DIR$/core/auth" />
             <option value="$PROJECT_DIR$/core/navigation-api" />
             <option value="$PROJECT_DIR$/core/navigation-impl" />
             <option value="$PROJECT_DIR$/core/network" />

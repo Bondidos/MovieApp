@@ -1,8 +1,6 @@
 package com.bondidos.auth.presentation.auth_screen.view
 
 import android.content.Context
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,12 +30,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
 import com.bondidos.auth.presentation.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
+import com.bondidos.auth.presentation.SingWithGoogle
 import com.bondidos.auth.presentation.auth_screen.model.AuthViewModel
 import com.bondidos.core_ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppInputTextField
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.ui.composables.clickable.AppColoredButton
-import com.bondidos.core_ui.theme.composables.clickable.SignWithGoogleButton
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.utils.ValidationResult
@@ -130,8 +128,8 @@ fun AuthScreenContent(
                 )
                 Spacer(Modifier.height(80.dp))
                 Spacer(modifier = Modifier.heightIn(min = 80.dp))
-                SignWithGoogleButton(
-                    onClick = { viewModel.emitIntent(AuthIntent.LoginWithGoogle) },
+                SingWithGoogle(
+                    onClick = { response -> viewModel.emitIntent(AuthIntent.LoginWithGoogle(response)) },
                 )
                 Spacer(Modifier.height(48.dp))
             }

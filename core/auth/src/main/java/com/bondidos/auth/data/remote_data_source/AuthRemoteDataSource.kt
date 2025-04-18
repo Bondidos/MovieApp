@@ -6,7 +6,9 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AuthRemoteDataSource @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) {

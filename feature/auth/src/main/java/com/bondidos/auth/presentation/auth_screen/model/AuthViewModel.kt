@@ -1,9 +1,5 @@
 package com.bondidos.auth.presentation.auth_screen.model
 
-import android.content.Context
-import androidx.credentials.CredentialManager
-import androidx.credentials.CustomCredential
-import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
@@ -26,11 +22,9 @@ import com.bondidos.utils.AppValidator
 import com.bondidos.utils.FormValidationResult
 import com.bondidos.utils.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,10 +35,7 @@ class AuthViewModel @Inject constructor(
     private val appValidator: AppValidator,
     private val analytics: AppAnalytics,
     private val loginUseCase: LoginUseCase,
-    private val credentialManager: CredentialManager,
-    private val credentialRequest: GetCredentialRequest,
     private val singUpWithCredentials: SingUpWithCredentials,
-    @ApplicationContext private val context: Context,
     reducer: AuthReducer,
 ) : BaseViewModel<AuthState, AuthEvent, AuthEffect>(
     AuthState.init(),
@@ -74,7 +65,7 @@ class AuthViewModel @Inject constructor(
             is AuthIntent.LoginWithGoogle -> {
                 analytics.logButton(ButtonNames.LoginWithGoogle)
 
-                handleLoginWithGoogle()
+                handleLoginWithGoogle(intent.response)
             }
 
             is AuthIntent.PasswordChanged -> {
@@ -88,18 +79,11 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun handleLoginWithGoogle() {
-        viewModelScope.launch(Dispatchers.IO) {
-            flow {
-                emit(
-                    credentialManager.getCredential(
-                        context,
-                        credentialRequest
-                    )
-                )
-            }.catch {
-                reduce(AuthEvent.AuthError(it.message))
-            }.collect { response ->
+    private fun handleLoginWithGoogle(response: GetCredentialResponse?) {
+        if (response == null)
+            reduce(AuthEvent.AuthError("Unknown Authentication error"))
+        else
+            viewModelScope.launch(Dispatchers.IO) {
                 singUpWithCredentials(response)
                     .catch {
                         reduce(AuthEvent.AuthError(it.message))
@@ -108,7 +92,6 @@ class AuthViewModel @Inject constructor(
                         handleSuccessLogin(authResult)
                     }
             }
-        }
     }
 
     private fun login() {

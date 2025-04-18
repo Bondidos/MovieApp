@@ -39,27 +39,20 @@ android {
 }
 
 dependencies {
-    // Modules
-    implementation(projects.core.navigationApi)
-    implementation(projects.core.ui)
-    implementation(projects.core.analytics)
     implementation(projects.core.utils)
-    implementation(projects.core.auth)
+    implementation(projects.core.ui)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.material3)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.credentials)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Firebase Auth
+    api(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.googleid)
 
     // Hilt
     implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.runtime.android)
     kapt(libs.hilt.compiler)
 }
