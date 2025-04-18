@@ -1,7 +1,7 @@
-package com.bondidos.auth.auth_screen.model
+package com.bondidos.auth.presentation.auth_screen.model
 
-import com.bondidos.auth.auth_screen.intent.AuthEffect
-import com.bondidos.auth.auth_screen.intent.AuthEvent
+import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
+import com.bondidos.auth.presentation.auth_screen.intent.AuthEvent
 import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.ui.base_mvi.Reducer
 import javax.inject.Inject
@@ -31,6 +31,14 @@ class AuthReducer @Inject constructor() : Reducer<AuthState, AuthEvent, AuthEffe
                     event.email,
                     event.password
                 )
+            )
+
+            is AuthEvent.AuthError -> previousState.copy(
+                isLoading = false,
+                isEmailError = true,
+                isPasswordValueError = true
+            ) to AuthEffect.AuthError(
+                event.value ?: "UnknownError"
             )
         }
     }

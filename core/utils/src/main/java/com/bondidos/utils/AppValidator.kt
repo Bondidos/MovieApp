@@ -11,6 +11,16 @@ class AppValidator {
     ): FormValidationResult =
         validateEmail(email) to validatePassword(password)
 
+    fun validateSingUpForm(
+        email: String,
+        password: String,
+        passwordRetyped: String,
+    ) = SingInFormValidationResult(
+        email = validateEmail(email),
+        password = validatePassword(password),
+        passwordRetyped = validatePasswordRetyped(password, passwordRetyped)
+    )
+
     private fun validateEmail(email: String): ValidationResult.EmailValidationResult {
         return when {
             email.isBlank() -> ValidationResult.EmailValidationResult.EmailIsBlank
@@ -31,23 +41,28 @@ class AppValidator {
             else -> ValidationResult.PasswordValidationResult.PasswordOk
         }
     }
-}
 
-private fun isValidEmailFormat(email: String): Boolean {
-    return Pattern.compile(
-        ("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-                "\\@" +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                "(" +
-                "\\." +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                ")+")
-    ).matcher(email).matches()
-}
+    private fun validatePasswordRetyped(password: String, retypedPassword: String) =
+        if (password == retypedPassword)
+            validatePassword(retypedPassword)
+        else ValidationResult.PasswordValidationResult.PasswordsNotIdentical
 
-private fun isValidEmailDomain(email: String): Boolean {
-    val domainPattern = Pattern.compile(
-        "^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}\$"
-    )
-    return domainPattern.matcher(email).matches()
+    private fun isValidEmailFormat(email: String): Boolean {
+        return Pattern.compile(
+            ("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+")
+        ).matcher(email).matches()
+    }
+
+    private fun isValidEmailDomain(email: String): Boolean {
+        val domainPattern = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}\$"
+        )
+        return domainPattern.matcher(email).matches()
+    }
 }

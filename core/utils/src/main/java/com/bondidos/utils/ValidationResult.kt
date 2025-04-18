@@ -16,6 +16,7 @@ interface ValidationResult {
         PasswordTooLong,
         PasswordTooShort,
         PasswordWrongRequirements,
+        PasswordsNotIdentical,
         PasswordOk;
 
         fun isPasswordValid() = this == PasswordOk

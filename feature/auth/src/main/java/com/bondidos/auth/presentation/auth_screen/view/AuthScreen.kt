@@ -1,16 +1,16 @@
-package com.bondidos.auth.auth_screen.view
+package com.bondidos.auth.presentation.auth_screen.view
 
 import android.content.Context
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -27,15 +27,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bondidos.auth.auth_screen.intent.AuthEffect
-import com.bondidos.auth.auth_screen.intent.AuthIntent
+import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
+import com.bondidos.auth.presentation.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
-import com.bondidos.auth.auth_screen.model.AuthViewModel
+import com.bondidos.auth.presentation.SingWithGoogle
+import com.bondidos.auth.presentation.auth_screen.model.AuthViewModel
 import com.bondidos.core_ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppInputTextField
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.ui.composables.clickable.AppColoredButton
-import com.bondidos.core_ui.theme.composables.clickable.SignWithGoogleButton
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.utils.ValidationResult
@@ -56,6 +56,10 @@ fun AuthScreen(
                         createValidationMessage(context, action.validationResult)
                     )
                 }
+
+                is AuthEffect.AuthError -> snackBarHostState.showSnackbar(
+                    action.message
+                )
             }
         }
     }
@@ -94,9 +98,9 @@ fun AuthScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(screenScrollState)
                     .padding(padding)
                     .padding(all = 25.dp)
-                    .scrollable(screenScrollState, orientation = Orientation.Vertical)
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 AppInputTextField(
@@ -122,9 +126,10 @@ fun AuthScreenContent(
                     onClick = { viewModel.emitIntent(AuthIntent.Login) },
                     titleResId = R.string.button_title_login,
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                SignWithGoogleButton(
-                    onClick = { viewModel.emitIntent(AuthIntent.LoginWithGoogle) },
+                Spacer(Modifier.height(80.dp))
+                Spacer(modifier = Modifier.heightIn(min = 80.dp))
+                SingWithGoogle(
+                    onClick = { response -> viewModel.emitIntent(AuthIntent.LoginWithGoogle(response)) },
                 )
                 Spacer(Modifier.height(48.dp))
             }

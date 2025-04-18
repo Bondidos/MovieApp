@@ -13,3 +13,4 @@ object AuthModule {
     @Provides
     fun provideAppValidator() = AppValidator()
 }
+
