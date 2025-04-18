@@ -49,6 +49,7 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.feature.auth)
     implementation(projects.feature.movies)
+    implementation(projects.feature.splash)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)

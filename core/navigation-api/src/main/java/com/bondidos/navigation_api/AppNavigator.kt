@@ -18,3 +18,6 @@ object MoviesScreen: AppScreen
 
 @Serializable
 object  SingUpScreen: AppScreen
+
+@Serializable
+object  SplashScreen: AppScreen

@@ -12,4 +12,6 @@ class MoviesScreenViewModel @Inject constructor(
 ) : ViewModel() {
     //todo refactor to MVI
     fun navigateToMovies() = appNavigator.push(AuthScreen)
+
+    //todo st user id to analytics
 }

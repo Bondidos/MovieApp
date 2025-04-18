@@ -4,7 +4,8 @@ import androidx.compose.ui.graphics.Color
 
 interface AppColors {
     val appBackground: Color
-    val appSplash: Color
+    val appSplashLight: Color
+    val appSplashDark: Color
     val buttonActive: Color
     val starActive: Color
     val mainText: Color
@@ -28,7 +29,8 @@ interface AppColors {
 
 private data class AppColorsLight(
     override val appBackground: Color = Color(0xFFFFFFFF),
-    override val appSplash: Color = Color(0xFFDD454C),
+    override val appSplashLight: Color = Color(0xFFDC474D),
+    override val appSplashDark: Color = Color(0xFFDD454C),
     override val buttonActive: Color = Color(0xFFE51937),
     override val starActive: Color = Color(0xFFF8C42F),
     override val mainText: Color = Color(0xFF0F1B2B),
@@ -44,7 +46,8 @@ private data class AppColorsLight(
 
 private data class AppColorsDark(
     override val appBackground: Color = Color(0xFF0F1B2B),
-    override val appSplash: Color = Color(0xFFDC474D),
+    override val appSplashLight: Color = Color(0xFFDC474D),
+    override val appSplashDark: Color = Color(0xFFDD454C),
     override val buttonActive: Color = Color(0xFFE51937),
     override val starActive: Color = Color(0xFFF8C42F),
     override val mainText: Color = Color(0xFFFFFFFF),
