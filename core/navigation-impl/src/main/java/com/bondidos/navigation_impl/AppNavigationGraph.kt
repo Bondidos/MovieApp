@@ -17,7 +17,6 @@ fun AppNavigationGraph(
     navControllerHolder: NavControllerHolder,
 ) {
 
-
     val navController = rememberNavController()
     navControllerHolder.navController = navController
 
