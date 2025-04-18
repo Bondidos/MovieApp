@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -96,9 +97,9 @@ fun SingUpScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(screenScrollState)
                 .padding(padding)
                 .padding(all = 25.dp)
-                .scrollable(screenScrollState, orientation = Orientation.Vertical)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             AppInputTextField(
@@ -129,13 +130,13 @@ fun SingUpScreenContent(
                 isError = state.value.isPasswordRetypedValueError,
                 visualTransformation = PasswordVisualTransformation()
             )
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(Modifier.height(80.dp))
             AppColoredButton(
                 onClick = { viewModel.emitIntent(SingUpIntent.CreateAccount) },
                 titleResId = R.string.title_create_account,
             )
+            Spacer(modifier = Modifier.weight(1f))
             Spacer(Modifier.height(48.dp))
-
         }
     }
 }
