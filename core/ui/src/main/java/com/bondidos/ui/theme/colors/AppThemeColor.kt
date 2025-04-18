@@ -8,7 +8,8 @@ import com.bondidos.core_ui.theme.appColors
 
 enum class AppThemeColor {
     APP_BACKGROUND,
-    APP_SPLASH,
+    APP_SPLASH_LIGHT,
+    APP_SPLASH_DARK,
     BUTTON_ACTIVE,
     STAR_ACTIVE,
     MAIN_TEXT,
@@ -26,7 +27,8 @@ enum class AppThemeColor {
         val colors = MaterialTheme.appColors
         return when (this) {
             APP_BACKGROUND -> colors.appBackground
-            APP_SPLASH -> colors.appSplash
+            APP_SPLASH_LIGHT -> colors.appSplashLight
+            APP_SPLASH_DARK -> colors.appSplashDark
             BUTTON_ACTIVE -> colors.buttonActive
             STAR_ACTIVE -> colors.starActive
             MAIN_TEXT -> colors.mainText

@@ -8,12 +8,14 @@ import com.bondidos.navigation_impl.di.NavControllerHolder
 import com.bondidos.navigation_api.AuthScreen
 import com.bondidos.navigation_api.MoviesScreen
 import com.bondidos.navigation_api.SingUpScreen
+import com.bondidos.navigation_api.SplashScreen
 
 @Composable
 fun AppNavigationGraph(
     authScreen: @Composable () -> Unit,
     singUpScreen: @Composable () -> Unit,
     moviesScreen: @Composable () -> Unit,
+    splashScreen: @Composable () -> Unit,
     navControllerHolder: NavControllerHolder,
 ) {
 
@@ -22,10 +24,11 @@ fun AppNavigationGraph(
 
     NavHost(
         navController = navController,
-        startDestination = AuthScreen
+        startDestination = SplashScreen
     ) {
         composable<AuthScreen> { authScreen() }
         composable<MoviesScreen> { moviesScreen() }
         composable<SingUpScreen> { singUpScreen() }
+        composable<SplashScreen> { splashScreen() }
     }
 }

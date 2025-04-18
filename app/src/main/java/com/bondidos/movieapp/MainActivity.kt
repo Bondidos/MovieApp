@@ -10,6 +10,7 @@ import com.bondidos.core_ui.theme.MovieAppTheme
 import com.bondidos.auth.presentation.auth_screen.view.AuthScreen
 import com.bondidos.auth.presentation.sing_up_screen.view.SingUpScreen
 import com.bondidos.movies.movies_screen.MoviesScreen
+import com.bondidos.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
                     authScreen = { AuthScreen() },
                     singUpScreen = { SingUpScreen() },
                     moviesScreen = { MoviesScreen() },
+                    splashScreen = { SplashScreen() },
                     navControllerHolder = navControllerHolder,
                 )
             }
