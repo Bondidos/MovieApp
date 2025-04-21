@@ -11,5 +11,4 @@ interface TraktApiService {
 
     @GET("movies/anticipated")
     suspend fun getAnticipatedMovies(): List<AnticipatedMovieDto>
-
 }
