@@ -18,8 +18,11 @@ class MoviesScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = traktApiService.getTrendingMovies()
-            print(result)
+            val trending = traktApiService.getTrendingMovies()
+            println(trending)
+
+            val anticipated = traktApiService.getAnticipatedMovies()
+            println(anticipated)
         }
     }
 
