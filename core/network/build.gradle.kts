@@ -20,10 +20,6 @@ kotlin {
 }
 
 dependencies {
-    // Kotlin
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.kotlinx.coroutines.core)
-
     // Network
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.moshi)
@@ -32,7 +28,7 @@ dependencies {
 
     // Moshi
     implementation(libs.moshi.core)
-    implementation(libs.moshi.adapters)
+    implementation(libs.moshi.kotlin)
     ksp(libs.moshi.codegen)
 
     // Hilt
