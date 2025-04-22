@@ -11,7 +11,7 @@ data class MovieDto(
     @Json(name = "ids") val ids: MovieIdsDto,
     @Json(name = "tagline") val tagline: String,
     @Json(name = "overview") val overview: String,
-    @Json(name = "released") val released: String,
+    @Json(name = "released") val released: Date,
     @Json(name = "runtime") val runtime: Int,
     @Json(name = "country") val country: String,
     @Json(name = "trailer") val trailer: String?,

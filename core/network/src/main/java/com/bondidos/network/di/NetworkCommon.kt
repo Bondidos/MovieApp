@@ -1,5 +1,6 @@
 package com.bondidos.network.di
 
+import com.bondidos.network.adapters.DateAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -29,6 +30,7 @@ object NetworkCommon {
     @Singleton
     fun provideMoshi(): Moshi {
         return Moshi.Builder()
+            .add(DateAdapter())
             .add(KotlinJsonAdapterFactory())
             .build()
     }
