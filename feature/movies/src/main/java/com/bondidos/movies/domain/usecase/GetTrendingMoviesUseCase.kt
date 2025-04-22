@@ -2,13 +2,14 @@ package com.bondidos.movies.domain.usecase
 
 import com.bondidos.base.BaseUseCase
 import com.bondidos.movies.domain.model.TrendingMovie
+import com.bondidos.movies.domain.repository.TraktApiRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetTrendingMoviesUseCase @Inject constructor(
-    //todo repo + mapper
+    private val traktApiRepository: TraktApiRepository,
 ) : BaseUseCase<Int, Flow<List<TrendingMovie>>>() {
     override fun invoke(params: Int): Flow<List<TrendingMovie>> {
-        TODO("Not yet implemented")
+        return traktApiRepository.getTrending(1)//todo hardcoded page
     }
 }

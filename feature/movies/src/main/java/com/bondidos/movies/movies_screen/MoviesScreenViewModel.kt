@@ -24,7 +24,7 @@ class MoviesScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getTrendingMovies.invoke(1)
                 .collect {
-//                    TODO
+                    it
                 }
         }
     }

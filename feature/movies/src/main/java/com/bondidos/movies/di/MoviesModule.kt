@@ -1,15 +1,17 @@
 package com.bondidos.movies.di
 
-import com.bondidos.network.services.TraktApiService
+import com.bondidos.movies.data.repository_impl.TraktApiRepositoryImpl
+import com.bondidos.movies.domain.repository.TraktApiRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent ::class)
-object MoviesModule {
+interface MoviesModuleBinds {
 
-//    @Provides
-//    fun providesTraktApiService(traktApiService: TraktApiService): Tra
+    @Binds
+    fun providesTraktApiRepository(traktApiRepository: TraktApiRepositoryImpl): TraktApiRepository
 }

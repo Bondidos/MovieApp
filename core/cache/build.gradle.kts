@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger.hilt)
     kotlin("kapt")
 }
 
@@ -47,8 +48,10 @@ dependencies {
 
     // Moshi
     implementation(libs.moshi.core)
+    implementation(libs.moshi.kotlin)
 
     // Hilt
     implementation(libs.hilt.core)
+    implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }

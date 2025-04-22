@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface MovieCacheDao {
+interface TrendingMoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: TrendingMoviesCacheEntity)
 
