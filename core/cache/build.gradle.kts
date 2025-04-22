@@ -45,6 +45,9 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
+    // Moshi
+    implementation(libs.moshi.core)
+
     // Hilt
     implementation(libs.hilt.core)
     kapt(libs.hilt.compiler)
