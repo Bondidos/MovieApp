@@ -1,4 +1,4 @@
-package com.bondidos.movies.domain.usecase.modles
+package com.bondidos.movies.domain.usecase.models
 
 sealed class GetMoviesParams {
     data class GetTrending(val page: Int) : GetMoviesParams()

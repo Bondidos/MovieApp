@@ -7,7 +7,7 @@ import com.bondidos.base.toUseCaseError
 import com.bondidos.exceptions.CacheExceptions
 import com.bondidos.movies.domain.model.Movie
 import com.bondidos.movies.domain.repository.TraktApiRepository
-import com.bondidos.movies.domain.usecase.modles.GetMoviesParams
+import com.bondidos.movies.domain.usecase.models.GetMoviesParams
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
