@@ -3,9 +3,10 @@ package com.bondidos.cache.di
 import android.content.Context
 import androidx.room.Room
 import com.bondidos.cache.MovieDatabase
-import com.bondidos.cache.TrendingMoviesDao
-import com.bondidos.cache.type_converter.TrendingMovieConverters
-import com.squareup.moshi.Moshi
+import com.bondidos.cache.dao.AnticipatedMoviesDao
+import com.bondidos.cache.dao.TrendingMoviesDao
+import com.bondidos.cache.type_converter.AnticipatedMovieConverter
+import com.bondidos.cache.type_converter.TrendingMovieConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,8 @@ object CacheModule {
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context,
-        trendingMovieConverters: TrendingMovieConverters
+        trendingMovieConverters: TrendingMovieConverter,
+        anticipatedMovieConverter: AnticipatedMovieConverter
     ): MovieDatabase {
         return Room.databaseBuilder(
             context,
@@ -28,6 +30,7 @@ object CacheModule {
             "movie-database"
         )
             .addTypeConverter(trendingMovieConverters)
+            .addTypeConverter(anticipatedMovieConverter)
             .build()
     }
 
@@ -37,5 +40,12 @@ object CacheModule {
 
 
     @Provides
-    fun provideTrendingMovieConverters(): TrendingMovieConverters = TrendingMovieConverters()
+    fun provideTrendingMovieConverters(): TrendingMovieConverter = TrendingMovieConverter()
+
+    @Provides
+    fun provideAnticipatedMoviesDao(database: MovieDatabase): AnticipatedMoviesDao =
+        database.anticipatedMovieDao()
+
+    @Provides
+    fun provideAnticipatedMovieConverter(): AnticipatedMovieConverter = AnticipatedMovieConverter()
 }
