@@ -12,7 +12,11 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
         event: MoviesEvent
     ): Pair<MoviesState, MoviesEffect?> {
         return when (event) {
-
+            is MoviesEvent.Loading -> previousState.copy(isLoading = true) to null
+            is MoviesEvent.ToggleMoviesType -> {
+                // todo Temp solution. ToggleMoviesType should contain list of movies?
+                return previousState.copy(moviesType = event.moviesType, isLoading = false) to null
+            }
         }
     }
 }

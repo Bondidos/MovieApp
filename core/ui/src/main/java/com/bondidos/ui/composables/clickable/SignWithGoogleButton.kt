@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bondidos.core_ui.theme.MovieAppTheme
-import com.bondidos.core_ui.theme.colors.AppThemeColor
+import com.bondidos.ui.theme.MovieAppTheme
+import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.R
 
 @Composable

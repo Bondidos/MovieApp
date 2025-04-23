@@ -13,8 +13,6 @@ import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,20 +31,24 @@ class MoviesScreenViewModel @Inject constructor(
     init {
         appAnalytics.logScreen(ScreenNames.MoviesScreen)
 
-        viewModelScope.launch(Dispatchers.IO) {
-            getMovies.invoke(
-                GetMoviesParams.GetTrending(page = startingPage)
-            )
-                .collect {
-                    it
-                }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            getMovies.invoke(
+//                GetMoviesParams.GetTrending(page = startingPage)
+//            )
+//                .collect {
+//                    it
+//                }
+//        }
     }
 
     override fun emitIntent(intent: Intention) {
-        when(intent) {
-            is MoviesIntent.ShowAnticipated -> {
+        when (intent) {
+            is MoviesIntent.ToggleMovies -> {
+                reduce(MoviesEvent.Loading)
+                // todo call for content
 
+                if (currentState.moviesType != intent.type)
+                    reduce(MoviesEvent.ToggleMoviesType(intent.type))
             }
         }
     }

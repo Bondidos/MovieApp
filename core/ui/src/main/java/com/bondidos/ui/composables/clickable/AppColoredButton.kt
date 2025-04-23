@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.bondidos.core_ui.theme.colors.AppThemeColor
+import com.bondidos.ui.theme.colors.AppThemeColor
 
 @Composable
 fun AppColoredButton(

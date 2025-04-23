@@ -1,4 +1,4 @@
-package com.bondidos.core_ui.theme
+package com.bondidos.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,6 +13,7 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
+import com.bondidos.core_ui.theme.Typography
 import com.bondidos.core_ui.theme.colors.AppColors
 
 val LocalMyAppColors: ProvidableCompositionLocal<AppColors> = staticCompositionLocalOf {

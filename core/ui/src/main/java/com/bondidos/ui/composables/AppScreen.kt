@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import com.bondidos.core_ui.theme.colors.AppThemeColor
+import com.bondidos.ui.theme.colors.AppThemeColor
 
 @Composable
 fun AppScreen(

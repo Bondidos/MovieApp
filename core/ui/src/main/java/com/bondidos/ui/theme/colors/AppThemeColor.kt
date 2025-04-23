@@ -1,11 +1,11 @@
-package com.bondidos.core_ui.theme.colors
+package com.bondidos.ui.theme.colors
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.bondidos.core_ui.theme.appColors
+import com.bondidos.ui.theme.appColors
 
-
+// todo delete
 enum class AppThemeColor {
     APP_BACKGROUND,
     APP_SPLASH_LIGHT,
@@ -20,7 +20,9 @@ enum class AppThemeColor {
     ON_BUTTON_TEXT,
     NAVIGATION_BAR_ICON,
     NAVIGATION_ITEM_SELECTED,
-    TEXT_FIELD_BACKGROUND;
+    TEXT_FIELD_BACKGROUND,
+    DISABLED_TEXT_COLOR,
+    BORDER_COLOR;
 
     @Composable
     fun color(): Color {
@@ -40,6 +42,8 @@ enum class AppThemeColor {
             NAVIGATION_BAR_ICON -> colors.navigationBarIcon
             NAVIGATION_ITEM_SELECTED -> colors.navigationItemSelected
             TEXT_FIELD_BACKGROUND -> colors.textFieldBackGround
+            DISABLED_TEXT_COLOR -> colors.disabledText
+            BORDER_COLOR -> colors.disabledText
         }
     }
 }

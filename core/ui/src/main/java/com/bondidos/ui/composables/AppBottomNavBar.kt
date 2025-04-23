@@ -1,4 +1,4 @@
-package com.bondidos.core_ui.theme.composables
+package com.bondidos.ui.composables
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bondidos.core_ui.theme.MovieAppTheme
-import com.bondidos.core_ui.theme.colors.AppThemeColor
+import com.bondidos.ui.theme.MovieAppTheme
+import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.R
 
 enum class AppBottomNavBar {
