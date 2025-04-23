@@ -10,8 +10,7 @@ import com.bondidos.network.dto.movies.trending.TrendingMovieDto
 @TypeConverters(TrendingMovieConverters::class)
 data class TrendingMoviesCacheEntity(
     @PrimaryKey
-    val id: String = "trending_list",
+    val page: Int,
     val movies: List<TrendingMovieDto>,
     val createdAt: Long = System.currentTimeMillis(),
-    val page: Int = 1,
 )

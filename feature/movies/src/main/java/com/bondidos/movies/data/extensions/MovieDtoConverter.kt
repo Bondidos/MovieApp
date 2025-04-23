@@ -24,12 +24,12 @@ fun List<TrendingMovieDto>.toTrendingMovie(): List<TrendingMovie> {
 
     return this.map { dto ->
         TrendingMovie(
-            title = dto.movie.title,
-            genre = (dto.movie.genres.firstOrNull() ?: "").capitalize(Locale.current),
+            title = dto.movie.title ?: "",
+            genre = (dto.movie.genres?.firstOrNull() ?: "").capitalize(Locale.current),
             certification = dto.movie.certification ?: "",
-            image = movieIdToImage(dto.movie.ids.imdb),
-            stars = (dto.movie.rating / 2).roundToInt(),
-            duration = durationToString(dto.movie.runtime),
+            image = movieIdToImage(dto.movie.ids.imdb ?: ""),
+            stars = ((dto.movie.rating?.toInt() ?: 0) / 2),
+            duration = durationToString(dto.movie.runtime ?: 0),
         )
     }
 }
