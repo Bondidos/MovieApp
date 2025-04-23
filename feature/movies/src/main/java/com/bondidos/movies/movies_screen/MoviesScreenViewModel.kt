@@ -3,8 +3,8 @@ package com.bondidos.movies.movies_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
-import com.bondidos.movies.domain.usecase.GetAnticipatedMovieUseCase
-import com.bondidos.movies.domain.usecase.GetTrendingMoviesUseCase
+import com.bondidos.movies.domain.usecase.GetMoviesUseCase
+import com.bondidos.movies.domain.usecase.modles.GetMoviesParams
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.AuthScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,13 +16,15 @@ import javax.inject.Inject
 class MoviesScreenViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
     private val appAnalytics: AppAnalytics,
-    private val getTrendingMovies: GetTrendingMoviesUseCase,
-    private val getAnticipatedMovies: GetAnticipatedMovieUseCase
+    private val getMovies: GetMoviesUseCase,
     ) : ViewModel() {
 
     init {
+
         viewModelScope.launch(Dispatchers.IO) {
-            getTrendingMovies.invoke(1)
+            getMovies.invoke(
+                GetMoviesParams.GetTrending(page = 1)
+            )
                 .collect {
                     it
                 }
