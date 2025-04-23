@@ -1,6 +1,6 @@
 package com.bondidos.movies.domain.model
 
-data class AnticipatedMovie(
+data class Movie(
     val title: String,
     val genre: String,
     val certification: String,
