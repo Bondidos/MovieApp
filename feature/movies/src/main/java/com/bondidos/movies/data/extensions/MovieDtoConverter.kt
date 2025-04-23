@@ -32,8 +32,6 @@ fun List<TrendingMovieDto>.toTrendingMovie(): List<TrendingMovie> {
             duration = durationToString(dto.movie.runtime),
         )
     }
-
-
 }
 
 

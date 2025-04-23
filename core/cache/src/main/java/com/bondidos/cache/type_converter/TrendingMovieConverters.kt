@@ -6,7 +6,6 @@ import com.bondidos.network.adapters.DateAdapter
 import com.bondidos.network.dto.movies.trending.TrendingMovieDto
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
@@ -27,18 +26,7 @@ class TrendingMovieConverters {
     @OptIn(ExperimentalStdlibApi::class)
     @TypeConverter
     fun toTrendingMovieList(value: String): List<TrendingMovieDto>? {
-//        val type = Types.newParameterizedType(List::class.java, TrendingMovieDto::class.java)
-//        val adapter = moshi.adapter<List<TrendingMovieDto>>(type)
-//        return adapter.fromJson(value)
         val jsonAdapter: JsonAdapter<List<TrendingMovieDto>> = moshi.adapter<List<TrendingMovieDto>>()
         return jsonAdapter.fromJson(value)
     }
-
-//    // For Date
-//    @TypeConverter
-//    fun fromDate(date: Date): Long = date.time
-//
-//    @TypeConverter
-//    fun toDate(timestamp: Long): Date = Date(timestamp)
-
 }
