@@ -6,7 +6,7 @@ import com.bondidos.movies.domain.model.Movie
 import com.bondidos.network.dto.movies.anticipated.AnticipatedMovieDto
 import com.bondidos.network.dto.movies.trending.TrendingMovieDto
 
-private const val imageUrl = "http://img.omdbapi.com/?apikey="
+private const val imageUrl = "https://img.omdbapi.com/?apikey="
 private const val apiKey = "a8c50fd3" //todo Hide ApiKey
 
 fun List<TrendingMovieDto>.toTrendingMovie(): List<Movie> {
