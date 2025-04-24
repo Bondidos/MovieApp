@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val CACHE_LIVE_TIME_HOURS = 5
+private const val CACHE_LIVE_TIME_HOURS = 0
 
 @Singleton
 class TraktApiRepositoryImpl @Inject constructor(

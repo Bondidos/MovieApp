@@ -13,20 +13,19 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
     ): Pair<MoviesState, MoviesEffect?> {
         return when (event) {
             is MoviesEvent.Loading -> previousState.copy(isLoading = true) to null
+            is MoviesEvent.Loaded -> previousState.copy(isLoading = false) to null
             is MoviesEvent.ToggleMoviesType ->
                 previousState.copy(moviesType = event.moviesType) to null
 
             is MoviesEvent.AnticipatedMovies -> previousState.copy(
-                isLoading = false,
                 anticipatedMovies = event.movies
             ) to null
 
             is MoviesEvent.TrendingMovies -> previousState.copy(
-                isLoading = false,
                 trendingMovies = event.movies
             ) to null
 
-            is MoviesEvent.HandleError -> previousState.copy(isLoading = false) to MoviesEffect.ShowErrorMessage(
+            is MoviesEvent.HandleError -> previousState to MoviesEffect.ShowErrorMessage(
                 event.message
             )
         }

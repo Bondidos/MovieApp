@@ -8,6 +8,7 @@ import com.bondidos.ui.composables.MovieType
 @Immutable
 sealed class MoviesEvent : Reducer.ViewEvent {
     data object Loading : MoviesEvent()
+    data object Loaded : MoviesEvent()
     data class ToggleMoviesType(val moviesType: MovieType) : MoviesEvent()
     data class TrendingMovies(val movies: List<Movie>) : MoviesEvent()
     data class AnticipatedMovies(val movies: List<Movie>) : MoviesEvent()
