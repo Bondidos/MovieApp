@@ -54,6 +54,7 @@ fun MoviesScreen(
         viewModel.effect.collect { action ->
             when (action) {
                 TODO() -> TODO()
+                else -> TODO()
             }
         }
     }

@@ -5,5 +5,5 @@ import com.bondidos.ui.base_mvi.Reducer
 
 @Immutable
 sealed class MoviesEffect: Reducer.ViewEffect {
-    //TODO(): Network/DataBase Errors
+    data class ShowErrorMessage(val message: String): MoviesEffect()
 }

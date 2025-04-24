@@ -4,5 +4,7 @@ enum class ButtonNames {
     Login,
     SingUp,
     LoginWithGoogle,
-    CreateAccount
+    CreateAccount,
+    AnticipatedMovies,
+    TrendingMovies
 }

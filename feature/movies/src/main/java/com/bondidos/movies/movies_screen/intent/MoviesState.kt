@@ -10,7 +10,9 @@ data class MoviesState(
     val isLoading: Boolean,
     val moviesType: MovieType,
     val trendingMovies: List<Movie>,
+    val trendingPage: Int,
     val anticipatedMovies: List<Movie>,
+    val anticipatedPage: Int,
 ) : Reducer.ViewState {
 
     companion object {
@@ -18,7 +20,9 @@ data class MoviesState(
             isLoading = false,
             moviesType = MovieType.Trending,
             trendingMovies = emptyList(),
+            trendingPage = 1,
             anticipatedMovies = emptyList(),
+            anticipatedPage = 1,
         )
     }
 }
