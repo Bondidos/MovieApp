@@ -37,7 +37,7 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
                 trendingPage = previousState.trendingPage.inc()
             ) to null
 
-            is MoviesEvent.Refresh -> previousState.copy(refreshing = event.inProgress) to null
+            is MoviesEvent.Refresh -> previousState.copy(refreshing = true) to null
         }
     }
 }
