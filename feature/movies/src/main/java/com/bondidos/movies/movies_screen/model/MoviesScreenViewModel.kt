@@ -1,6 +1,5 @@
 package com.bondidos.movies.movies_screen.model
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
@@ -38,47 +37,22 @@ class MoviesScreenViewModel @Inject constructor(
     init {
         appAnalytics.logScreen(ScreenNames.MoviesScreen)
 
-            // Todo: Optimize
-        viewModelScope.launch(Dispatchers.IO) {
+        val trendingFlow =
             getMovies.invoke(GetMoviesParams.GetTrending(page = currentState.trendingPage))
-                .zip(
-                    other = getMovies.invoke(GetMoviesParams.GetAnticipated(page = currentState.anticipatedPage)),
-                    transform = { trending, anticipated -> trending to anticipated }
-                )
+        val anticipatedFlow =
+            getMovies.invoke(GetMoviesParams.GetAnticipated(page = currentState.anticipatedPage))
+
+        viewModelScope.launch(Dispatchers.IO) {
+            trendingFlow.zip(
+                other = anticipatedFlow,
+                transform = { trending, anticipated -> trending to anticipated }
+            )
                 .onStart { reduce(MoviesEvent.Loading) }
-                .collect { (trending, anticipated) ->
-                    when (trending) {
-                        is UseCaseResult.Error -> reduce(
-                            MoviesEvent.HandleError(
-                                trending.error.message ?: "UnknownError"
-                            )
-                        )
-
-                        is UseCaseResult.Success -> reduce(
-                            MoviesEvent.TrendingMovies(
-                                trending.data
-                            )
-                        )
-                    }
-                    when (anticipated) {
-                        is UseCaseResult.Error -> reduce(
-                            MoviesEvent.HandleError(
-                                anticipated.error.message ?: "UnknownError"
-                            )
-                        )
-
-                        is UseCaseResult.Success -> reduce(
-                            MoviesEvent.AnticipatedMovies(
-                                anticipated.data
-                            )
-                        )
-                    }
-
-                    reduce(MoviesEvent.Loaded)
-                }
+                .collect(::handleMoviesCollected)
         }
 
     }
+
 
     override fun emitIntent(intent: Intention) {
         when (intent) {
@@ -93,6 +67,29 @@ class MoviesScreenViewModel @Inject constructor(
                     reduce(MoviesEvent.ToggleMoviesType(intent.type))
             }
         }
+    }
+
+    private fun handleMoviesCollected(value: Pair<UseCaseResult<List<Movie>>, UseCaseResult<List<Movie>>>) {
+        val (trending, anticipated) = value
+        if (trending is UseCaseResult.Error) reduce(
+            MoviesEvent.HandleError(
+                trending.error.message ?: "UnknownError"
+            )
+        )
+
+        if (anticipated is UseCaseResult.Error) reduce(
+            MoviesEvent.HandleError(
+                anticipated.error.message ?: "UnknownError"
+            )
+        )
+
+        if (trending is UseCaseResult.Success)
+            reduce(MoviesEvent.TrendingMovies(trending.data))
+
+        if (anticipated is UseCaseResult.Success)
+            reduce(MoviesEvent.AnticipatedMovies(anticipated.data))
+
+        reduce(MoviesEvent.Loaded)
     }
 
     //todo pagination
