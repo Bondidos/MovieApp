@@ -28,6 +28,7 @@ import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppBottomNavBar
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.movies.domain.model.Movie
+import com.bondidos.movies.movies_screen.intent.MoviesEffect
 import com.bondidos.movies.movies_screen.intent.MoviesIntent
 import com.bondidos.movies.movies_screen.intent.MoviesState
 import com.bondidos.ui.R
@@ -50,7 +51,6 @@ fun MoviesScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val trendingViewScrollState = rememberLazyGridState()
     val anticipatedViewScrollState = rememberLazyGridState()
-    val context = LocalContext.current
 
     LaunchedEffect(trendingViewScrollState, anticipatedViewScrollState) {
         handleScrollState(trendingViewScrollState) { viewModel.emitIntent(MoviesIntent.NextTrendingPage) }
@@ -60,7 +60,13 @@ fun MoviesScreen(
     }
 
     LaunchedEffect(viewModel.effect, snackBarHostState) {
-
+        viewModel.effect.collect { action ->
+            when (action) {
+                is MoviesEffect.ShowErrorMessage -> snackBarHostState.showSnackbar(
+                    action.message
+                )
+            }
+        }
     }
 
 
@@ -172,5 +178,4 @@ private suspend inline fun handleScrollState(
                     handle()
             }
         }
-
 }
