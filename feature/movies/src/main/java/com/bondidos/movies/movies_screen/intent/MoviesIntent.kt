@@ -11,4 +11,5 @@ sealed class MoviesIntent : Intention {
     data object NavigateToProfile: MoviesIntent()
     data object NextAnticipatedPage: MoviesIntent()
     data object NextTrendingPage: MoviesIntent()
+    data object SingOut: MoviesIntent()
 }

@@ -69,7 +69,6 @@ fun MoviesScreen(
         }
     }
 
-
     AppScreen(isLoading = state.value.isLoading) {
         MoviesScreenContent(
             viewModel = viewModel,
@@ -97,6 +96,8 @@ fun MoviesScreenContent(
             MoviesAppbar(
                 titleRes = R.string.title_movies,
                 titleTextStyle = MaterialTheme.typography.titleLarge,
+                afterLeadingTitle = R.string.title_sign_out,
+                onAfterLeadingClick = { viewModel.emitIntent(MoviesIntent.SingOut) },
             )
         },
         bottomBar = {

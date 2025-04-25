@@ -15,6 +15,8 @@ class AuthRepositoryImpl @Inject constructor(
     override fun login(email: String, password: String): Flow<AuthUser?> =
         authRemoteDataSource.login(email, password)
 
+    override fun loginOut() = authRemoteDataSource.singOut()
+
     override fun register(email: String, password: String): Flow<AuthUser?> =
         authRemoteDataSource.singIn(email, password)
 

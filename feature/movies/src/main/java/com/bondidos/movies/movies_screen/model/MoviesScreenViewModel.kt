@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
+import com.bondidos.auth.domain.usecase.SingOutUseCase
 import com.bondidos.base.UseCaseResult
 import com.bondidos.movies.domain.model.Movie
 import com.bondidos.movies.domain.usecase.GetMoviesUseCase
@@ -13,6 +14,7 @@ import com.bondidos.movies.movies_screen.intent.MoviesEvent
 import com.bondidos.movies.movies_screen.intent.MoviesIntent
 import com.bondidos.movies.movies_screen.intent.MoviesState
 import com.bondidos.navigation_api.AppNavigator
+import com.bondidos.navigation_api.AuthScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieType
@@ -28,12 +30,12 @@ class MoviesScreenViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
     private val appAnalytics: AppAnalytics,
     private val getMovies: GetMoviesUseCase,
+    private val singOut: SingOutUseCase,
     reducer: MoviesReducer
 ) : BaseViewModel<MoviesState, MoviesEvent, MoviesEffect>(
     MoviesState.init(),
     reducer
 ) {
-
     init {
         appAnalytics.logScreen(ScreenNames.MoviesScreen)
 
@@ -53,26 +55,36 @@ class MoviesScreenViewModel @Inject constructor(
 
     }
 
-
     override fun emitIntent(intent: Intention) {
         when (intent) {
             is MoviesIntent.ToggleMovies -> {
                 val buttonClicked = when (intent.type) {
                     MovieType.Anticipated -> ButtonNames.AnticipatedMovies
-                    MovieType.Trending -> ButtonNames.AnticipatedMovies
+                    MovieType.Trending -> ButtonNames.TrendingMovies
                 }
                 appAnalytics.logButton(buttonClicked)
 
                 if (currentState.moviesType != intent.type)
                     reduce(MoviesEvent.ToggleMoviesType(intent.type))
             }
+
             MoviesIntent.NextTrendingPage -> {
                 reduce(MoviesEvent.IncrementTrendingPage)
-                loadMoviesPage(currentState.moviesType,currentState.trendingPage)
+                loadMoviesPage(currentState.moviesType, currentState.trendingPage)
             }
+
             MoviesIntent.NextAnticipatedPage -> {
                 reduce(MoviesEvent.IncrementAnticipatedPage)
-                loadMoviesPage(currentState.moviesType,currentState.anticipatedPage)
+                loadMoviesPage(currentState.moviesType, currentState.anticipatedPage)
+            }
+
+            MoviesIntent.SingOut -> {
+                appAnalytics.logButton(ButtonNames.SingOut)
+                viewModelScope.launch {
+                    singOut().collect {
+                        appNavigator.popAndPush(AuthScreen)
+                    }
+                }
             }
         }
     }

@@ -46,6 +46,7 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.analytics)
     implementation(projects.core.cache)
+    implementation(projects.core.auth)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
