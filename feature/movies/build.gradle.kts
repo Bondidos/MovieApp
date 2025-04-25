@@ -42,6 +42,11 @@ dependencies {
     // Modules
     implementation(projects.core.navigationApi)
     implementation(projects.core.network)
+    implementation(projects.core.utils)
+    implementation(projects.core.ui)
+    implementation(projects.core.analytics)
+    implementation(projects.core.cache)
+    implementation(projects.core.auth)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)

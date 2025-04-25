@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class MovieIdsDto(
-    @Json(name = "trakt") val trakt: Int,
-    @Json(name = "slug") val slug: String,
-    @Json(name = "imdb") val imdb: String,
-    @Json(name = "tmdb") val tmdb: Int
+    @Json(name = "trakt") val trakt: Int?,
+    @Json(name = "slug") val slug: String?,
+    @Json(name = "imdb") val imdb: String?,
+    @Json(name = "tmdb") val tmdb: Int?
 )

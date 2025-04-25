@@ -1,6 +1,5 @@
 package com.bondidos.auth.presentation.sing_up_screen.model
 
-import com.bondidos.auth.presentation.auth_screen.intent.AuthEffect
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpEffect
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpState
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpEvent

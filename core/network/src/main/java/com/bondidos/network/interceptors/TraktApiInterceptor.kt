@@ -6,7 +6,7 @@ import okhttp3.Response
 class TraktApiInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-
+//todo hide key
         val newRequest = originalRequest.newBuilder()
             .header("Content-Type","application/json")
             .header("trakt-api-version","2")

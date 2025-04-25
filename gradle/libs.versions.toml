@@ -1,10 +1,12 @@
 [versions]
 agp = "8.9.0"
-kotlin = "2.0.21"
-coreKtx = "1.15.0"
+coilCompose = "2.7.0"
+kotlin = "2.1.10"
+coreKtx = "1.16.0"
+kotlinxDatetime = "0.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2024.09.00"
+composeBom = "2025.04.00"
 appcompat = "1.7.0"
 hilt = "2.56.1"
 androidxNavigation = "2.8.9"
@@ -20,6 +22,7 @@ retrofit = "2.11.0"
 okhttp = "4.12.0"
 moshi = "1.15.1"
 ksp = "2.1.10-1.0.31"
+room = "2.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +37,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
@@ -61,6 +66,11 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room"}
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room"}
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

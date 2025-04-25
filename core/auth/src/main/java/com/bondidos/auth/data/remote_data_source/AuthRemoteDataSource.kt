@@ -31,4 +31,6 @@ class AuthRemoteDataSource @Inject constructor(
         val result = firebaseAuth.signInWithCredential(credentials).await()
         emit(result.user?.toAuthUser())
     }
+
+    fun singOut() = firebaseAuth.signOut()
 }

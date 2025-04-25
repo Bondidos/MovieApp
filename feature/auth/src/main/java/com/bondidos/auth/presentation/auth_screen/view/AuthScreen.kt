@@ -32,7 +32,7 @@ import com.bondidos.auth.presentation.auth_screen.intent.AuthIntent
 import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.auth.presentation.SingWithGoogle
 import com.bondidos.auth.presentation.auth_screen.model.AuthViewModel
-import com.bondidos.core_ui.theme.colors.AppThemeColor
+import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppInputTextField
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.ui.composables.clickable.AppColoredButton

@@ -1,8 +1,6 @@
 package com.bondidos.auth.presentation.sing_up_screen.view
 
 import android.content.Context
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +30,7 @@ import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpEffect
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpIntent
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpState
 import com.bondidos.auth.presentation.sing_up_screen.model.SingUpViewModel
-import com.bondidos.core_ui.theme.colors.AppThemeColor
+import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppInputTextField
