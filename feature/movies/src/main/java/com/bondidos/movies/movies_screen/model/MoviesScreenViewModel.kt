@@ -86,6 +86,12 @@ class MoviesScreenViewModel @Inject constructor(
                     }
                 }
             }
+            MoviesIntent.ShowDetails -> {
+
+            }
+            MoviesIntent.NavigateToProfile -> {
+
+            }
         }
     }
 
