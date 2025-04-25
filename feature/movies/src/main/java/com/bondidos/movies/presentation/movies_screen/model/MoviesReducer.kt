@@ -1,8 +1,8 @@
-package com.bondidos.movies.movies_screen.model
+package com.bondidos.movies.presentation.movies_screen.model
 
-import com.bondidos.movies.movies_screen.intent.MoviesEffect
-import com.bondidos.movies.movies_screen.intent.MoviesEvent
-import com.bondidos.movies.movies_screen.intent.MoviesState
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEvent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.ui.base_mvi.Reducer
 import javax.inject.Inject
 

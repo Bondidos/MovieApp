@@ -1,4 +1,4 @@
-package com.bondidos.movies.movies_screen.model
+package com.bondidos.movies.presentation.movies_screen.model
 
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
@@ -9,10 +9,10 @@ import com.bondidos.base.UseCaseResult
 import com.bondidos.movies.domain.model.Movie
 import com.bondidos.movies.domain.usecase.GetMoviesUseCase
 import com.bondidos.movies.domain.usecase.models.GetMoviesParams
-import com.bondidos.movies.movies_screen.intent.MoviesEffect
-import com.bondidos.movies.movies_screen.intent.MoviesEvent
-import com.bondidos.movies.movies_screen.intent.MoviesIntent
-import com.bondidos.movies.movies_screen.intent.MoviesState
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEvent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesIntent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.AuthScreen
 import com.bondidos.ui.base_mvi.BaseViewModel

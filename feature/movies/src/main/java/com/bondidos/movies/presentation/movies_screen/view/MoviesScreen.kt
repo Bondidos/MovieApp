@@ -1,4 +1,4 @@
-package com.bondidos.movies.movies_screen.view
+package com.bondidos.movies.presentation.movies_screen.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,11 +31,11 @@ import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppBottomNavBar
 import com.bondidos.core_ui.theme.composables.MoviesAppbar
 import com.bondidos.movies.domain.model.Movie
-import com.bondidos.movies.movies_screen.intent.MoviesEffect
-import com.bondidos.movies.movies_screen.intent.MoviesIntent
-import com.bondidos.movies.movies_screen.intent.MoviesState
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesIntent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.ui.R
-import com.bondidos.movies.movies_screen.model.MoviesScreenViewModel
+import com.bondidos.movies.presentation.movies_screen.model.MoviesScreenViewModel
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.ui.composables.AppTabRow
 import com.bondidos.ui.composables.MovieCard
