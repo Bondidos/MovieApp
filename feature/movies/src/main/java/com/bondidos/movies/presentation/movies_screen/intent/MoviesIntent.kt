@@ -6,11 +6,11 @@ import com.bondidos.ui.composables.MovieType
 
 @Immutable
 sealed class MoviesIntent : Intention {
-    data class ToggleMovies(val type: MovieType): MoviesIntent()
-    data object ShowDetails: MoviesIntent()
-    data object NavigateToProfile: MoviesIntent()
-    data object NextAnticipatedPage: MoviesIntent()
-    data object NextTrendingPage: MoviesIntent()
-    data object SingOut: MoviesIntent()
-    data object Refresh: MoviesIntent()
+    data class ToggleMovies(val type: MovieType) : MoviesIntent()
+    data class ShowDetails(val id: Int?) : MoviesIntent()
+    data object NavigateToProfile : MoviesIntent()
+    data object NextAnticipatedPage : MoviesIntent()
+    data object NextTrendingPage : MoviesIntent()
+    data object SingOut : MoviesIntent()
+    data object Refresh : MoviesIntent()
 }

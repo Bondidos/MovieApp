@@ -10,6 +10,7 @@ import com.bondidos.ui.theme.MovieAppTheme
 import com.bondidos.auth.presentation.auth_screen.view.AuthScreen
 import com.bondidos.auth.presentation.sing_up_screen.view.SingUpScreen
 import com.bondidos.movies.presentation.movies_screen.view.MoviesScreen
+import com.bondidos.movies.presentation.movie_details_screen.view.MovieDetailsScreen
 import com.bondidos.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
                     singUpScreen = { SingUpScreen() },
                     moviesScreen = { MoviesScreen() },
                     splashScreen = { SplashScreen() },
+                    movieDetailsScreen = { MovieDetailsScreen() },
                     navControllerHolder = navControllerHolder,
                 )
             }

@@ -12,6 +12,7 @@ private const val apiKey = "a8c50fd3" //todo Hide ApiKey
 fun List<TrendingMovieDto>.toTrendingMovie(): List<Movie> {
     return this.map { dto ->
         Movie(
+            id = dto.movie.ids.trakt,
             title = dto.movie.title ?: "",
             genre = (dto.movie.genres?.firstOrNull() ?: "").capitalize(Locale.current),
             certification = dto.movie.certification ?: "",
@@ -26,6 +27,7 @@ fun List<TrendingMovieDto>.toTrendingMovie(): List<Movie> {
 fun List<AnticipatedMovieDto>.toAnticipatedMovie(): List<Movie> {
     return this.map { dto ->
         Movie(
+            id = dto.movie.ids.trakt,
             title = dto.movie.title ?: "",
             genre = (dto.movie.genres?.firstOrNull() ?: "").capitalize(Locale.current),
             certification = dto.movie.certification ?: "",

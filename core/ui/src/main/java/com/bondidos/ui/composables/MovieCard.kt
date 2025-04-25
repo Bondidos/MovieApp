@@ -25,9 +25,11 @@ fun MovieCard(
     image: String,
     stars: Int,
     duration: String,
+    modifier: Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
+        modifier = modifier,
     ) {
         NetworkImage(
             url = image, modifier = Modifier
@@ -63,6 +65,7 @@ fun PreviewMovieCard() {
             image = "https://img.omdbapi.com/?apikey=a8c50fd3&i=tt9150192",
             stars = 3,
             duration = "1h 56m",
+            modifier = Modifier
         )
     }
 }

@@ -15,6 +15,7 @@ import com.bondidos.movies.presentation.movies_screen.intent.MoviesIntent
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.AuthScreen
+import com.bondidos.navigation_api.MovieDetailsScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieType
@@ -80,8 +81,8 @@ class MoviesScreenViewModel @Inject constructor(
                 loadTrendingAndAnticipated()
             }
 
-            MoviesIntent.ShowDetails -> {
-                TODO()
+            is MoviesIntent.ShowDetails -> {
+                appNavigator.push(MovieDetailsScreen(intent.id))
             }
 
             MoviesIntent.NavigateToProfile -> {

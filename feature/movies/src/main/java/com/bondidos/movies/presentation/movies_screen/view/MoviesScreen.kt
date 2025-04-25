@@ -1,5 +1,6 @@
 package com.bondidos.movies.presentation.movies_screen.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -100,7 +100,6 @@ fun MoviesScreenContent(
     anticipatedViewScrollState: LazyGridState
 ) {
 
-
     Scaffold(
         containerColor = AppThemeColor.APP_BACKGROUND.color(),
         topBar = {
@@ -137,11 +136,13 @@ fun MoviesScreenContent(
                 is MovieType.Trending -> MoviesGridView(
                     state = trendingViewScrollState,
                     movies = state.value.trendingMovies,
+                    onClick = { viewModel.emitIntent(MoviesIntent.ShowDetails(it)) }
                 )
 
                 is MovieType.Anticipated -> MoviesGridView(
                     state = anticipatedViewScrollState,
                     movies = state.value.anticipatedMovies,
+                    onClick = { viewModel.emitIntent(MoviesIntent.ShowDetails(it)) }
                 )
             }
         }
@@ -152,6 +153,7 @@ fun MoviesScreenContent(
 fun MoviesGridView(
     movies: List<Movie>,
     state: LazyGridState,
+    onClick: (Int?) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.FixedSize(size = 164.dp),
@@ -169,6 +171,7 @@ fun MoviesGridView(
                 image = movie.image,
                 stars = movie.stars,
                 duration = movie.duration,
+                modifier = Modifier.clickable { onClick(movie.id) }
             )
         }
     }
