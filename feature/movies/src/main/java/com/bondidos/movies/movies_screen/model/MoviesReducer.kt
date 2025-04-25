@@ -13,7 +13,7 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
     ): Pair<MoviesState, MoviesEffect?> {
         return when (event) {
             is MoviesEvent.Loading -> previousState.copy(isLoading = true) to null
-            is MoviesEvent.Loaded -> previousState.copy(isLoading = false) to null
+            is MoviesEvent.Loaded -> previousState.copy(isLoading = false, refreshing = false) to null
             is MoviesEvent.ToggleMoviesType ->
                 previousState.copy(moviesType = event.moviesType) to null
 
@@ -36,6 +36,8 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
             MoviesEvent.IncrementTrendingPage -> previousState.copy(
                 trendingPage = previousState.trendingPage.inc()
             ) to null
+
+            is MoviesEvent.Refresh -> previousState.copy(refreshing = event.inProgress) to null
         }
     }
 }

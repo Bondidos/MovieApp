@@ -9,10 +9,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -42,6 +46,7 @@ import kotlinx.coroutines.flow.debounce
 private const val PAGINATION_COUNT = 5
 private const val PAGINATION_TIMEOUT = 500L
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoviesScreen(
     viewModel: MoviesScreenViewModel = hiltViewModel()
@@ -50,6 +55,7 @@ fun MoviesScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val trendingViewScrollState = rememberLazyGridState()
     val anticipatedViewScrollState = rememberLazyGridState()
+    val pullToRefreshState = rememberPullToRefreshState()
 
     LaunchedEffect(trendingViewScrollState, anticipatedViewScrollState) {
         handleScrollState(trendingViewScrollState) { viewModel.emitIntent(MoviesIntent.NextTrendingPage) }
@@ -68,14 +74,20 @@ fun MoviesScreen(
         }
     }
 
-    AppScreen(isLoading = state.value.isLoading) {
-        MoviesScreenContent(
-            viewModel = viewModel,
-            state = state,
-            snackBarHostState = snackBarHostState,
-            trendingViewScrollState = trendingViewScrollState,
-            anticipatedViewScrollState = anticipatedViewScrollState,
-        )
+    PullToRefreshBox(
+        isRefreshing = state.value.refreshing,
+        onRefresh = { viewModel.emitIntent(MoviesIntent.Refresh) },
+        state = pullToRefreshState,
+    ) {
+        AppScreen(isLoading = state.value.isLoading) {
+            MoviesScreenContent(
+                viewModel = viewModel,
+                state = state,
+                snackBarHostState = snackBarHostState,
+                trendingViewScrollState = trendingViewScrollState,
+                anticipatedViewScrollState = anticipatedViewScrollState,
+            )
+        }
     }
 }
 
@@ -102,7 +114,7 @@ fun MoviesScreenContent(
         bottomBar = {
             AppBottomNavBar(
                 onMovieClick = {},
-                onProfileClick = {viewModel.emitIntent(MoviesIntent.NavigateToProfile)},
+                onProfileClick = { viewModel.emitIntent(MoviesIntent.NavigateToProfile) },
                 currentItem = AppBottomNavBar.MOVIES
             )
         },

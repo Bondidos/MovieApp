@@ -8,6 +8,7 @@ import com.bondidos.ui.composables.MovieType
 @Immutable
 data class MoviesState(
     val isLoading: Boolean,
+    val refreshing: Boolean,
     val moviesType: MovieType,
     val trendingMovies: List<Movie>,
     val trendingPage: Int,
@@ -18,6 +19,7 @@ data class MoviesState(
     companion object {
         fun init() = MoviesState(
             isLoading = false,
+            refreshing = false,
             moviesType = MovieType.Trending,
             trendingMovies = emptyList(),
             trendingPage = 1,

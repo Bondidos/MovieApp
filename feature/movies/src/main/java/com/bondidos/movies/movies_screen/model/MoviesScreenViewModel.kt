@@ -20,6 +20,8 @@ import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -39,20 +41,7 @@ class MoviesScreenViewModel @Inject constructor(
     init {
         appAnalytics.logScreen(ScreenNames.MoviesScreen)
 
-        val trendingFlow =
-            getMovies.invoke(GetMoviesParams.GetTrending(page = currentState.trendingPage))
-        val anticipatedFlow =
-            getMovies.invoke(GetMoviesParams.GetAnticipated(page = currentState.anticipatedPage))
-
-        viewModelScope.launch(Dispatchers.IO) {
-            trendingFlow.zip(
-                other = anticipatedFlow,
-                transform = { trending, anticipated -> trending to anticipated }
-            )
-                .onStart { reduce(MoviesEvent.Loading) }
-                .collect(::handleMoviesCollected)
-        }
-
+        loadTrendingAndAnticipated()
     }
 
     override fun emitIntent(intent: Intention) {
@@ -86,12 +75,36 @@ class MoviesScreenViewModel @Inject constructor(
                     }
                 }
             }
+
+            MoviesIntent.Refresh -> {
+                // Just reload from Repository, but also possible to drop cache and load from remote
+                reduce(MoviesEvent.Refresh(true))
+                loadTrendingAndAnticipated()
+            }
+
             MoviesIntent.ShowDetails -> {
-
+                TODO()
             }
+
             MoviesIntent.NavigateToProfile -> {
-
+                TODO()
             }
+        }
+    }
+
+    private fun loadTrendingAndAnticipated() {
+        val trendingFlow =
+            getMovies.invoke(GetMoviesParams.GetTrending(page = currentState.trendingPage))
+        val anticipatedFlow =
+            getMovies.invoke(GetMoviesParams.GetAnticipated(page = currentState.anticipatedPage))
+
+        viewModelScope.launch(Dispatchers.IO) {
+            trendingFlow.zip(
+                other = anticipatedFlow,
+                transform = { trending, anticipated -> trending to anticipated }
+            )
+                .onStart { reduce(MoviesEvent.Loading) }
+                .collect(::handleMoviesCollected)
         }
     }
 
