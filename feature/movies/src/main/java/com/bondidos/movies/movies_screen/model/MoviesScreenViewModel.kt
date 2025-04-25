@@ -66,6 +66,14 @@ class MoviesScreenViewModel @Inject constructor(
                 if (currentState.moviesType != intent.type)
                     reduce(MoviesEvent.ToggleMoviesType(intent.type))
             }
+            MoviesIntent.NextTrendingPage -> {
+                reduce(MoviesEvent.IncrementTrendingPage)
+                loadMoviesPage(currentState.moviesType,currentState.trendingPage)
+            }
+            MoviesIntent.NextAnticipatedPage -> {
+                reduce(MoviesEvent.IncrementAnticipatedPage)
+                loadMoviesPage(currentState.moviesType,currentState.anticipatedPage)
+            }
         }
     }
 
@@ -92,7 +100,6 @@ class MoviesScreenViewModel @Inject constructor(
         reduce(MoviesEvent.Loaded)
     }
 
-    //todo pagination
     private fun loadMoviesPage(
         type: MovieType,
         page: Int

@@ -10,7 +10,7 @@ data class MoviesState(
     val isLoading: Boolean,
     val moviesType: MovieType,
     val trendingMovies: List<Movie>,
-    val trendingPage: Int,
+    val trendingPage: Int, //todo to MovieType?
     val anticipatedMovies: List<Movie>,
     val anticipatedPage: Int,
 ) : Reducer.ViewState {

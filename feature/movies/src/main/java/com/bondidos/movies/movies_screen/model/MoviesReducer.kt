@@ -18,16 +18,24 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
                 previousState.copy(moviesType = event.moviesType) to null
 
             is MoviesEvent.AnticipatedMovies -> previousState.copy(
-                anticipatedMovies = event.movies
+                anticipatedMovies = previousState.anticipatedMovies + event.movies
             ) to null
 
             is MoviesEvent.TrendingMovies -> previousState.copy(
-                trendingMovies = event.movies
+                trendingMovies = previousState.trendingMovies + event.movies
             ) to null
 
             is MoviesEvent.HandleError -> previousState to MoviesEffect.ShowErrorMessage(
                 event.message
             )
+
+            MoviesEvent.IncrementAnticipatedPage -> previousState.copy(
+                anticipatedPage = previousState.anticipatedPage.inc()
+            ) to null
+
+            MoviesEvent.IncrementTrendingPage -> previousState.copy(
+                trendingPage = previousState.trendingPage.inc()
+            ) to null
         }
     }
 }

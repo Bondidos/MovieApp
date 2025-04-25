@@ -13,4 +13,6 @@ sealed class MoviesEvent : Reducer.ViewEvent {
     data class TrendingMovies(val movies: List<Movie>) : MoviesEvent()
     data class AnticipatedMovies(val movies: List<Movie>) : MoviesEvent()
     data class HandleError(val message: String): MoviesEvent()
+    data object IncrementTrendingPage : MoviesEvent()
+    data object IncrementAnticipatedPage : MoviesEvent()
 }
