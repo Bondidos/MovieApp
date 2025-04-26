@@ -26,6 +26,10 @@ class MovieDetailsReducer @Inject constructor() :
                 rating = event.moveDetails.rating,
                 id = event.moveDetails.id,
             ) to null
+
+            is MovieDetailsEvent.ChangeDetailsType -> previousState.copy(
+                detailsType = event.type
+            ) to null
         }
     }
 }

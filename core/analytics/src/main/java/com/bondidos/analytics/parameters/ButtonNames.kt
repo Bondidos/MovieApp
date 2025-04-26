@@ -9,4 +9,7 @@ enum class ButtonNames {
     AnticipatedMovies,
     TrendingMovies,
     GoBack,
+    Details,
+    Reviews,
+    Showtime
 }

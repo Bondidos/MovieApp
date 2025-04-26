@@ -76,10 +76,10 @@ fun MoviesTabRow(
 }
 
 @Composable
-private fun AppTab(
-    type: MovieType,
+fun <T> AppTab(
+    type: T,
     selected: Boolean,
-    onClick: (MovieType) -> Unit,
+    onClick: (T) -> Unit,
     stringResId: Int
 ) {
     val tabColor =

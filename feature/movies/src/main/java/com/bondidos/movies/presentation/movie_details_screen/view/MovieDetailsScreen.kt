@@ -1,11 +1,11 @@
 package com.bondidos.movies.presentation.movie_details_screen.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,12 +36,12 @@ import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetails
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsIntent
 import com.bondidos.movies.presentation.movie_details_screen.model.MovieDetailsScreenViewModel
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
-import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.ui.composables.MovieDetailsAppBar
+import com.bondidos.ui.composables.MovieDetailsTabRow
+import com.bondidos.ui.composables.MovieDetailsType
 import com.bondidos.ui.composables.MovieStarRow
 import com.bondidos.ui.composables.NetworkImage
-import com.bondidos.ui.theme.MovieAppTheme
 import com.bondidos.ui.theme.appColors
 
 @Composable
@@ -82,15 +80,6 @@ fun MovieDetailsScreenContent(
 
     Scaffold(
         containerColor = AppThemeColor.APP_BACKGROUND.color(),
-//        topBar = {
-//            MoviesAppbar(
-        //todo back button
-//                titleRes = R.string.title_movies,
-//                titleTextStyle = MaterialTheme.typography.titleLarge,
-//                afterLeadingTitle = R.string.title_sign_out,
-//                onAfterLeadingClick = { viewModel.emitIntent(MoviesIntent.SingOut) },
-//            )
-//        },
         snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { padding ->
         if (!data.isLoading) {
@@ -100,64 +89,106 @@ fun MovieDetailsScreenContent(
                     .scrollable(scroll, Orientation.Vertical),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(modifier = Modifier.height(385.dp)) {
-                    NetworkImage(
-                        url = data.image,
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier
-                            .height(260.dp)
-                            .fillMaxWidth()
-                            .alpha(0.2f)
-                            .align(Alignment.TopCenter)
-                    )
-                    NetworkImage(
-                        url = data.image,
-                        modifier = Modifier
-                            .size(165.dp, 250.dp)
-                            .align(Alignment.BottomCenter)
-                    )
-                    MovieDetailsAppBar(
-                        modifier = Modifier
-                            .padding(padding)
-                            .padding(start = 18.dp, top = 10.dp, end = 18.dp)
-                            .align(Alignment.TopCenter),
-                        onBackArrowClick = { viewModel.emitIntent(MovieDetailsIntent.GoBack) },
-                        onPlayClick = { viewModel.emitIntent(MovieDetailsIntent.PlayTrailer) },
-                        onShareClick = { viewModel.emitIntent(MovieDetailsIntent.ShareTrailerLink) },
-                    )
-                }
+                TopPart(
+                    data,
+                    onBackArrowClick = { viewModel.emitIntent(MovieDetailsIntent.GoBack) },
+                    onPlayClick = { viewModel.emitIntent(MovieDetailsIntent.PlayTrailer) },
+                    onShareClick = { viewModel.emitIntent(MovieDetailsIntent.ShareTrailerLink) },
+                    padding = padding
+                )
                 Spacer(Modifier.padding(bottom = 30.dp))
-                Text(
-                    data.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.appColors.mainText
+                ShortInfo(data)
+                Spacer(modifier = Modifier.padding(40.dp))
+                MovieDetailsTabRow(
+                    modifier = Modifier.padding(horizontal = 18.dp),
+                    onChange = { viewModel.emitIntent(MovieDetailsIntent.MovieDetailsTypeChanged(it)) },
+                    currentDetailsType = data.detailsType
                 )
-                Spacer(modifier = Modifier.padding(16.dp))
-                Text(
-                    data.durationAndCertification,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.appColors.disabledText,
-                )
-                Spacer(modifier = Modifier.padding(8.dp))
-                Text(
-                    data.genres,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.appColors.disabledText,
-                )
-                Spacer(modifier = Modifier.padding(20.dp))
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        data.rating,
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.appColors.mainText
-                    )
-                    Spacer(Modifier.width(15.dp))
-                    MovieStarRow(data.stars, true)
+
+                when (data.detailsType) {
+                    MovieDetailsType.Detail -> {
+
+                    }
+                    MovieDetailsType.Reviews -> {
+
+                    }
+                    MovieDetailsType.Showtime -> {
+
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun TopPart(
+    data: MovieDetailsState,
+    onBackArrowClick: () -> Unit,
+    onPlayClick: () -> Unit,
+    onShareClick: () -> Unit,
+    padding: PaddingValues
+) {
+    Box(modifier = Modifier.height(385.dp)) {
+        NetworkImage(
+            url = data.image,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .height(260.dp)
+                .fillMaxWidth()
+                .alpha(0.2f)
+                .align(Alignment.TopCenter)
+        )
+        NetworkImage(
+            url = data.image,
+            modifier = Modifier
+                .size(165.dp, 250.dp)
+                .align(Alignment.BottomCenter)
+        )
+        MovieDetailsAppBar(
+            modifier = Modifier
+                .padding(padding)
+                .padding(start = 18.dp, top = 10.dp, end = 18.dp)
+                .align(Alignment.TopCenter),
+            onBackArrowClick = onBackArrowClick,
+            onPlayClick = onPlayClick,
+            onShareClick = onShareClick,
+        )
+    }
+}
+
+@Composable
+private fun ShortInfo(
+    data: MovieDetailsState,
+) {
+    Text(
+        data.title,
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.appColors.mainText
+    )
+    Spacer(modifier = Modifier.padding(16.dp))
+    Text(
+        data.durationAndCertification,
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialTheme.appColors.disabledText,
+    )
+    Spacer(modifier = Modifier.padding(8.dp))
+    Text(
+        data.genres,
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialTheme.appColors.disabledText,
+    )
+    Spacer(modifier = Modifier.padding(20.dp))
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            data.rating,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.appColors.mainText
+        )
+        Spacer(Modifier.width(15.dp))
+        MovieStarRow(data.stars, true)
     }
 }

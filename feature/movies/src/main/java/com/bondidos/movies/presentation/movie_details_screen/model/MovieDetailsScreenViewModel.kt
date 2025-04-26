@@ -12,10 +12,10 @@ import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetails
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEvent
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsIntent
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
-import com.bondidos.movies.presentation.movies_screen.intent.MoviesEvent
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
+import com.bondidos.ui.composables.MovieDetailsType
 import com.bondidos.ui.composables.MovieType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -66,11 +66,25 @@ class MovieDetailsScreenViewModel @Inject constructor(
 
                 appNavigator.pop()
             }
+
             MovieDetailsIntent.PlayTrailer -> {
                 TODO("Play trailer")
             }
+
             MovieDetailsIntent.ShareTrailerLink -> {
                 TODO("Share")
+            }
+
+            is MovieDetailsIntent.MovieDetailsTypeChanged -> {
+                val buttonType = when (intent.type) {
+                    MovieDetailsType.Detail -> ButtonNames.Details
+                    MovieDetailsType.Reviews -> ButtonNames.Reviews
+                    MovieDetailsType.Showtime -> ButtonNames.Showtime
+                }
+                appAnalytics.logButton(buttonType)
+
+                if (currentState.detailsType != intent.type)
+                    reduce(MovieDetailsEvent.ChangeDetailsType(intent.type))
             }
         }
     }

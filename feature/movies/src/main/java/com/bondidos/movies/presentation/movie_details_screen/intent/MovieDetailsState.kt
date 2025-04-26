@@ -2,6 +2,7 @@ package com.bondidos.movies.presentation.movie_details_screen.intent
 
 import androidx.compose.runtime.Immutable
 import com.bondidos.ui.base_mvi.Reducer
+import com.bondidos.ui.composables.MovieDetailsType
 
 @Immutable
 data class MovieDetailsState(
@@ -14,6 +15,7 @@ data class MovieDetailsState(
     val stars: Int,
     val rating: String,
     val id: Int,
+    val detailsType: MovieDetailsType
 ) : Reducer.ViewState {
 
     companion object {
@@ -27,6 +29,7 @@ data class MovieDetailsState(
             stars = -1,
             rating = "",
             id = -1,
+            detailsType = MovieDetailsType.Detail
         )
     }
 }
