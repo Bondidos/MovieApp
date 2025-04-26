@@ -1,9 +1,7 @@
 package com.bondidos.navigation_api
 
 import androidx.annotation.Keep
-import androidx.lifecycle.SavedStateHandle
 import kotlinx.serialization.Serializable
-import androidx.navigation.toRoute
 
 interface AppNavigator {
     fun push(screen: AppScreen)
@@ -27,9 +25,8 @@ object SplashScreen : AppScreen
 
 @Serializable
 @Keep
-data class MovieDetailsScreen(val movieId: Int?) : AppScreen {
-    companion object {
-        fun from(savedStateHandle: SavedStateHandle): MovieDetailsScreen =
-            savedStateHandle.toRoute()
-    }
-}
+data class MovieDetailsScreen(
+    val movieId: Int?,
+    val movieType: String,
+    val page: Int,
+    ) : AppScreen

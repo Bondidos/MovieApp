@@ -6,8 +6,10 @@ import com.bondidos.cache.dao.TrendingMoviesDao
 import com.bondidos.cache.entity.AnticipatedMoviesCacheEntity
 import com.bondidos.exceptions.CacheExceptions
 import com.bondidos.movies.data.extensions.toAnticipatedMovie
+import com.bondidos.movies.data.extensions.toMovieDetails
 import com.bondidos.movies.data.extensions.toTrendingMovie
 import com.bondidos.movies.domain.model.Movie
+import com.bondidos.movies.domain.model.MovieDetails
 import com.bondidos.movies.domain.repository.TraktApiRepository
 import com.bondidos.network.services.TraktApiService
 import com.bondidos.utils.DateUtils
@@ -48,6 +50,18 @@ class TraktApiRepositoryImpl @Inject constructor(
         emit(
             cache?.movies?.toAnticipatedMovie() ?: throw CacheExceptions.AnticipatedMovieEmptyCache
         )
+    }
+
+    override fun getTrendingMovieDetails(traktId: Int?, page: Int) = flow {
+        val movieDto =
+            trendingMovieDao.get(page)?.movies?.find { movie -> movie.movie.ids.trakt == traktId }
+        emit(movieDto?.toMovieDetails())
+    }
+
+    override fun getAnticipatedMovieDetails(traktId: Int?, page: Int) = flow {
+        val movieDto =
+            anticipatedMoviesDao.get(page)?.movies?.find { movie -> movie.movie.ids.trakt == traktId }
+        emit(movieDto?.toMovieDetails())
     }
 
     private suspend fun getAnticipatedFromCacheIfActual(page: Int): List<Movie> {

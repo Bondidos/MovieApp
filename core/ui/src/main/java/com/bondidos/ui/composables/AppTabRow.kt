@@ -30,6 +30,16 @@ sealed class MovieType(
 ) {
     data object Trending : MovieType(1)
     data object Anticipated : MovieType(2)
+
+    companion object {
+        fun fromString(value: String?): MovieType {
+            return when (value) {
+                Trending.toString() -> Trending
+                Anticipated.toString() -> Anticipated
+                else -> throw IllegalArgumentException()
+            }
+        }
+    }
 }
 
 @Composable

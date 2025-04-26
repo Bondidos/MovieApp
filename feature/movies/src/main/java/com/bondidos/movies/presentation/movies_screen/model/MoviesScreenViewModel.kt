@@ -82,7 +82,18 @@ class MoviesScreenViewModel @Inject constructor(
             }
 
             is MoviesIntent.ShowDetails -> {
-                appNavigator.push(MovieDetailsScreen(intent.id))
+                appAnalytics.logMovie(intent.id)
+
+                appNavigator.push(
+                    MovieDetailsScreen(
+                        intent.id,
+                        currentState.moviesType.toString(),
+                        when (currentState.moviesType) {
+                            is MovieType.Trending -> currentState.trendingPage
+                            is MovieType.Anticipated -> currentState.anticipatedPage
+                        }
+                    )
+                )
             }
 
             MoviesIntent.NavigateToProfile -> {

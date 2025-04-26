@@ -3,6 +3,7 @@ package com.bondidos.movies.data.extensions
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import com.bondidos.movies.domain.model.Movie
+import com.bondidos.movies.domain.model.MovieDetails
 import com.bondidos.network.dto.movies.anticipated.AnticipatedMovieDto
 import com.bondidos.network.dto.movies.trending.TrendingMovieDto
 
@@ -17,12 +18,11 @@ fun List<TrendingMovieDto>.toTrendingMovie(): List<Movie> {
             genre = (dto.movie.genres?.firstOrNull() ?: "").capitalize(Locale.current),
             certification = dto.movie.certification ?: "",
             image = movieIdToImage(dto.movie.ids.imdb ?: ""),
-            stars = ((dto.movie.rating?.toInt() ?: 0) / 2),
+            stars = ratingToStarsCount(dto.movie.rating),
             duration = durationToString(dto.movie.runtime ?: 0),
         )
     }
 }
-
 
 fun List<AnticipatedMovieDto>.toAnticipatedMovie(): List<Movie> {
     return this.map { dto ->
@@ -32,11 +32,39 @@ fun List<AnticipatedMovieDto>.toAnticipatedMovie(): List<Movie> {
             genre = (dto.movie.genres?.firstOrNull() ?: "").capitalize(Locale.current),
             certification = dto.movie.certification ?: "",
             image = movieIdToImage(dto.movie.ids.imdb ?: ""),
-            stars = ((dto.movie.rating?.toInt() ?: 0) / 2),
+            stars = ratingToStarsCount(dto.movie.rating),
             duration = durationToString(dto.movie.runtime ?: 0),
         )
     }
 }
+
+fun TrendingMovieDto?.toMovieDetails() = MovieDetails(
+    title = this?.movie?.title ?: "",
+    overview = this?.movie?.overview ?: "",
+    durationAndCertification = durationToString(this?.movie?.runtime ?: 0),
+    genres = this?.movie?.genres?.joinToString(separator = ", ") { it.capitalize(Locale.current) }
+        ?: "",
+    image = movieIdToImage(this?.movie?.ids?.imdb ?: ""),
+    stars = ratingToStarsCount(this?.movie?.rating),
+    rating = ratingToString(this?.movie?.rating),
+    id = this?.movie?.ids?.trakt ?: 0,
+)
+
+fun AnticipatedMovieDto?.toMovieDetails() = MovieDetails(
+    title = this?.movie?.title ?: "",
+    overview = this?.movie?.overview ?: "",
+    durationAndCertification = durationToString(this?.movie?.runtime ?: 0),
+    genres = this?.movie?.genres?.joinToString(separator = ", ") { it.capitalize(Locale.current) }
+        ?: "",
+    image = movieIdToImage(this?.movie?.ids?.imdb ?: ""),
+    stars = ratingToStarsCount(this?.movie?.rating),
+    rating = ratingToString(this?.movie?.rating),
+    id = this?.movie?.ids?.trakt ?: 0,
+)
+
+private fun ratingToStarsCount(rating: Double?) = ((rating?.toInt() ?: 0) / 2)
+
+private fun ratingToString(rating: Double?) = "%2f".format(rating)
 
 private fun durationToString(params: Int): String {
     val hours = params / 60

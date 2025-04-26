@@ -14,6 +14,18 @@ class MovieDetailsReducer @Inject constructor() :
     ): Pair<MovieDetailsState, MovieDetailsEffect?> {
         return when (event) {
             is MovieDetailsEvent.Loading -> previousState.copy(isLoading = true) to null
+            is MovieDetailsEvent.HandleError -> TODO()
+            is MovieDetailsEvent.Loaded -> previousState.copy(
+                isLoading = false,
+                title = event.moveDetails.title,
+                overview = event.moveDetails.overview,
+                durationAndCertification = event.moveDetails.durationAndCertification,
+                genres = event.moveDetails.genres,
+                image = event.moveDetails.image,
+                stars = event.moveDetails.stars,
+                rating = event.moveDetails.rating,
+                id = event.moveDetails.id,
+            ) to null
         }
     }
 }

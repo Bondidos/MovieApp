@@ -6,11 +6,27 @@ import com.bondidos.ui.base_mvi.Reducer
 @Immutable
 data class MovieDetailsState(
     val isLoading: Boolean,
+    val title: String,
+    val overview: String,
+    val durationAndCertification: String,
+    val genres: String,
+    val image: String,
+    val stars: Int,
+    val rating: String,
+    val id: Int,
 ) : Reducer.ViewState {
 
     companion object {
         fun init() = MovieDetailsState(
             isLoading = false,
+            title = "",
+            overview ="",
+            durationAndCertification = "",
+            genres = "",
+            image = "",
+            stars = -1,
+            rating = "",
+            id = -1,
         )
     }
 }
