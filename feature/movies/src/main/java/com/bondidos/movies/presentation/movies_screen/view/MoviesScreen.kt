@@ -37,7 +37,7 @@ import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.ui.R
 import com.bondidos.movies.presentation.movies_screen.model.MoviesScreenViewModel
 import com.bondidos.ui.composables.AppScreen
-import com.bondidos.ui.composables.AppTabRow
+import com.bondidos.ui.composables.MoviesTabRow
 import com.bondidos.ui.composables.MovieCard
 import com.bondidos.ui.composables.MovieType
 import kotlinx.coroutines.FlowPreview
@@ -127,7 +127,7 @@ fun MoviesScreenContent(
                 .padding(padding)
                 .padding(all = 25.dp)
         ) {
-            AppTabRow(
+            MoviesTabRow(
                 onChange = { viewModel.emitIntent(MoviesIntent.ToggleMovies(it)) },
                 currentMovieType = state.value.moviesType
             )

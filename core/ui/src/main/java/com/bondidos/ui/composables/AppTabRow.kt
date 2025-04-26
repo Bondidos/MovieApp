@@ -43,7 +43,7 @@ sealed class MovieType(
 }
 
 @Composable
-fun AppTabRow(
+fun MoviesTabRow(
     onChange: (MovieType) -> Unit,
     currentMovieType: MovieType,
 ) {
@@ -121,7 +121,7 @@ fun PreviewMovies() {
     val type = remember { mutableStateOf<MovieType>(MovieType.Trending) }
 
     MovieAppTheme {
-        AppTabRow(
+        MoviesTabRow(
             currentMovieType = type.value,
             onChange = { type.value = it }
         )
