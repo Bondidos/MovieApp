@@ -3,12 +3,14 @@ package com.bondidos.movies.presentation.movie_details_screen.model
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
+import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.base.UseCaseResult
 import com.bondidos.movies.domain.usecase.GetMovieDetailsUseCase
 import com.bondidos.movies.domain.usecase.models.GetMovieDetailsParams
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEffect
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEvent
+import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsIntent
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesEvent
 import com.bondidos.navigation_api.AppNavigator
@@ -45,18 +47,32 @@ class MovieDetailsScreenViewModel @Inject constructor(
                 .onStart { reduce(MovieDetailsEvent.Loading) }
                 .collect { result ->
                     when (result) {
-                        is UseCaseResult.Error -> reduce(MovieDetailsEvent.HandleError(
-                            result.error.message ?: "Unknown Error"
-                        ))
+                        is UseCaseResult.Error -> reduce(
+                            MovieDetailsEvent.HandleError(
+                                result.error.message ?: "Unknown Error"
+                            )
+                        )
 
                         is UseCaseResult.Success -> reduce(MovieDetailsEvent.Loaded(result.data))
                     }
                 }
         }
     }
-//todo add trailers
-    override fun emitIntent(intent: Intention) {
 
+    override fun emitIntent(intent: Intention) {
+        when (intent) {
+            MovieDetailsIntent.GoBack -> {
+                appAnalytics.logButton(ButtonNames.GoBack)
+
+                appNavigator.pop()
+            }
+            MovieDetailsIntent.PlayTrailer -> {
+                TODO("Play trailer")
+            }
+            MovieDetailsIntent.ShareTrailerLink -> {
+                TODO("Share")
+            }
+        }
     }
 
     companion object {

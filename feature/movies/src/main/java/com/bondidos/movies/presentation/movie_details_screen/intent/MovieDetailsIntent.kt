@@ -5,5 +5,7 @@ import com.bondidos.ui.base_mvi.Intention
 
 @Immutable
 sealed class MovieDetailsIntent : Intention {
-
+    data object GoBack : MovieDetailsIntent()
+    data object PlayTrailer : MovieDetailsIntent()
+    data object ShareTrailerLink : MovieDetailsIntent()
 }

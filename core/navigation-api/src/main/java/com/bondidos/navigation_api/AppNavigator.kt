@@ -7,6 +7,7 @@ interface AppNavigator {
     fun push(screen: AppScreen)
     fun popAndPush(screen: AppScreen)
     fun popAllAndPush(screen: AppScreen)
+    fun pop()
 }
 
 interface AppScreen

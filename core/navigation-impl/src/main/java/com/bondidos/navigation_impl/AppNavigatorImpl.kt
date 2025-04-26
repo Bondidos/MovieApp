@@ -35,4 +35,15 @@ class AppNavigatorImpl @Inject constructor(
             navigate(screen)
         }
     }
+
+    @SuppressLint("RestrictedApi")
+    @MainThread
+    override fun pop() {
+        navControllerHolder.navController.apply {
+            if (currentBackStack.value.size == 1 )
+                return@apply
+
+            popBackStack()
+        }
+    }
 }

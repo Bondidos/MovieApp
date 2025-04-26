@@ -1,5 +1,6 @@
 package com.bondidos.movies.presentation.movie_details_screen.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,23 +27,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.ui.theme.colors.AppThemeColor
-import com.bondidos.ui.composables.MoviesAppbar
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEffect
+import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsIntent
 import com.bondidos.movies.presentation.movie_details_screen.model.MovieDetailsScreenViewModel
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppScreen
+import com.bondidos.ui.composables.MovieDetailsAppBar
 import com.bondidos.ui.composables.MovieStarRow
 import com.bondidos.ui.composables.NetworkImage
 import com.bondidos.ui.theme.MovieAppTheme
@@ -118,6 +116,15 @@ fun MovieDetailsScreenContent(
                             .size(165.dp, 250.dp)
                             .align(Alignment.BottomCenter)
                     )
+                    MovieDetailsAppBar(
+                        modifier = Modifier
+                            .padding(padding)
+                            .padding(start = 18.dp, top = 10.dp, end = 18.dp)
+                            .align(Alignment.TopCenter),
+                        onBackArrowClick = { viewModel.emitIntent(MovieDetailsIntent.GoBack) },
+                        onPlayClick = { viewModel.emitIntent(MovieDetailsIntent.PlayTrailer) },
+                        onShareClick = { viewModel.emitIntent(MovieDetailsIntent.ShareTrailerLink) },
+                    )
                 }
                 Spacer(Modifier.padding(bottom = 30.dp))
                 Text(
@@ -152,18 +159,5 @@ fun MovieDetailsScreenContent(
                 }
             }
         }
-    }
-}
-
-@Preview(device = Devices.PIXEL, showBackground = true)
-@Composable
-fun ImagePreview() {
-    MovieAppTheme {
-//        NetworkImage(
-//            url = "https://img.omdbapi.com/?apikey=a8c50fd3&i=tt14123284",
-//            contentScale = ContentScale.Fit,
-//            modifier = Modifier.height(260.dp)
-//        )
-//        MovieDetailsScreen()
     }
 }
