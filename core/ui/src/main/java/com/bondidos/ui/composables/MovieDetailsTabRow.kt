@@ -39,14 +39,14 @@ fun MovieDetailsTabRow(
             type = MovieDetailsType.Detail,
             selected = currentDetailsType == MovieDetailsType.Detail,
             onClick = { onChange(it) },
-            stringResId = R.string.title_trending
+            stringResId = R.string.title_detail
         )
 
         AppTab(
             type = MovieDetailsType.Reviews,
             selected = currentDetailsType == MovieDetailsType.Reviews,
             onClick = { onChange(it) },
-            stringResId = R.string.title_anticipated
+            stringResId = R.string.title_reviews
         )
         AppTab(
             type = MovieDetailsType.Showtime,

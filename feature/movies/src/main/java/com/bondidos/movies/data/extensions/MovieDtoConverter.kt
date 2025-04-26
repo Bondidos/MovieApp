@@ -44,7 +44,7 @@ fun TrendingMovieDto?.toMovieDetails() = MovieDetails(
     overview = this?.movie?.overview ?: "",
     durationAndCertification = durationToString(
         this?.movie?.runtime ?: 0
-    ) + "| ${this?.movie?.certification}",
+    ) + " | ${this?.movie?.certification}",
     genres = this?.movie?.genres?.joinToString(separator = ", ") { it.capitalize(Locale.current) }
         ?: "",
     image = movieIdToImage(this?.movie?.ids?.imdb ?: ""),
@@ -58,7 +58,7 @@ fun AnticipatedMovieDto?.toMovieDetails() = MovieDetails(
     overview = this?.movie?.overview ?: "",
     durationAndCertification = durationToString(
         this?.movie?.runtime ?: 0
-    ) + "| ${this?.movie?.certification}",
+    ) + " | ${this?.movie?.certification}",
     genres = this?.movie?.genres?.joinToString(separator = ", ") { it.capitalize(Locale.current) }
         ?: "",
     image = movieIdToImage(this?.movie?.ids?.imdb ?: ""),
