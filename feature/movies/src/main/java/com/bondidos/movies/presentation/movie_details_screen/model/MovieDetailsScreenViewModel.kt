@@ -17,6 +17,7 @@ import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,13 +42,14 @@ class MovieDetailsScreenViewModel @Inject constructor(
         )
         viewModelScope.launch(Dispatchers.IO) {
             getMovieDetailsUseCase.invoke(params)
+                .onStart { reduce(MovieDetailsEvent.Loading) }
                 .collect { result ->
                     when (result) {
-                        is UseCaseResult.Error -> MovieDetailsEvent.HandleError(
+                        is UseCaseResult.Error -> reduce(MovieDetailsEvent.HandleError(
                             result.error.message ?: "Unknown Error"
-                        )
+                        ))
 
-                        is UseCaseResult.Success -> MovieDetailsEvent.Loaded(result.data)
+                        is UseCaseResult.Success -> reduce(MovieDetailsEvent.Loaded(result.data))
                     }
                 }
         }

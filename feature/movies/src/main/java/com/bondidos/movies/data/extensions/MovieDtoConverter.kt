@@ -1,5 +1,6 @@
 package com.bondidos.movies.data.extensions
 
+import android.annotation.SuppressLint
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import com.bondidos.movies.domain.model.Movie
@@ -41,7 +42,9 @@ fun List<AnticipatedMovieDto>.toAnticipatedMovie(): List<Movie> {
 fun TrendingMovieDto?.toMovieDetails() = MovieDetails(
     title = this?.movie?.title ?: "",
     overview = this?.movie?.overview ?: "",
-    durationAndCertification = durationToString(this?.movie?.runtime ?: 0),
+    durationAndCertification = durationToString(
+        this?.movie?.runtime ?: 0
+    ) + "| ${this?.movie?.certification}",
     genres = this?.movie?.genres?.joinToString(separator = ", ") { it.capitalize(Locale.current) }
         ?: "",
     image = movieIdToImage(this?.movie?.ids?.imdb ?: ""),
@@ -53,7 +56,9 @@ fun TrendingMovieDto?.toMovieDetails() = MovieDetails(
 fun AnticipatedMovieDto?.toMovieDetails() = MovieDetails(
     title = this?.movie?.title ?: "",
     overview = this?.movie?.overview ?: "",
-    durationAndCertification = durationToString(this?.movie?.runtime ?: 0),
+    durationAndCertification = durationToString(
+        this?.movie?.runtime ?: 0
+    ) + "| ${this?.movie?.certification}",
     genres = this?.movie?.genres?.joinToString(separator = ", ") { it.capitalize(Locale.current) }
         ?: "",
     image = movieIdToImage(this?.movie?.ids?.imdb ?: ""),
@@ -64,7 +69,8 @@ fun AnticipatedMovieDto?.toMovieDetails() = MovieDetails(
 
 private fun ratingToStarsCount(rating: Double?) = ((rating?.toInt() ?: 0) / 2)
 
-private fun ratingToString(rating: Double?) = "%2f".format(rating)
+@SuppressLint("DefaultLocale")
+private fun ratingToString(rating: Double?) = String.format("%.1f",rating?.div(2)) + "/5"
 
 private fun durationToString(params: Int): String {
     val hours = params / 60
