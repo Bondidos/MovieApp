@@ -19,6 +19,7 @@ interface AppColors {
     val textFieldBackGround: Color
     val borderColor: Color
     val disabledText: Color
+    val expandText: Color
 
     companion object {
         private val dark = AppColorsDark()
@@ -46,6 +47,7 @@ private data class AppColorsLight(
     override val textFieldBackGround: Color = Color(0xFFFFFFFF),
     override val borderColor: Color = Color(0xFFCFD1D5),
     override val disabledText: Color = Color(0xFF878D95),
+    override val expandText: Color = Color(0xFF47CFFF),
 ) : AppColors
 
 private data class AppColorsDark(
@@ -65,4 +67,5 @@ private data class AppColorsDark(
     override val textFieldBackGround: Color = Color(0xFF2B3543),
     override val borderColor: Color = Color(0xFF2C3F5B),
     override val disabledText: Color = Color(0xFF878D95),
+    override val expandText: Color = Color(0xFF47CFFF),
 ) : AppColors

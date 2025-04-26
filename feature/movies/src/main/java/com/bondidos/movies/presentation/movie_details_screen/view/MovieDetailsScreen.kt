@@ -1,5 +1,6 @@
 package com.bondidos.movies.presentation.movie_details_screen.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -23,12 +25,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.ui.theme.colors.AppThemeColor
@@ -43,6 +55,9 @@ import com.bondidos.ui.composables.MovieDetailsType
 import com.bondidos.ui.composables.MovieStarRow
 import com.bondidos.ui.composables.NetworkImage
 import com.bondidos.ui.theme.appColors
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import com.bondidos.ui.composables.ExpandableText
 
 @Composable
 fun MovieDetailsScreen(
@@ -106,12 +121,11 @@ fun MovieDetailsScreenContent(
                 )
 
                 when (data.detailsType) {
-                    MovieDetailsType.Detail -> {
-
-                    }
+                    MovieDetailsType.Detail -> DetailsAndCast(data.overview, emptyList())
                     MovieDetailsType.Reviews -> {
 
                     }
+
                     MovieDetailsType.Showtime -> {
 
                     }
@@ -190,5 +204,23 @@ private fun ShortInfo(
         )
         Spacer(Modifier.width(15.dp))
         MovieStarRow(data.stars, true)
+    }
+}
+
+@Composable
+private fun DetailsAndCast(
+    details: String,
+    cast: List<Any> //todo Model
+) {
+
+    Column(modifier = Modifier) {
+        ExpandableText(
+            text = details,
+            minimizedMaxLines = 4,
+            modifier = Modifier.padding(horizontal = 18.dp, vertical = 20.dp),//todo move outside
+            textStyle = MaterialTheme.typography.bodyMedium.copy(lineHeight = 24.sp),
+            textColor = MaterialTheme.appColors.disabledText,
+            linkTextColor = MaterialTheme.appColors.expandText
+        )
     }
 }

@@ -42,6 +42,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
             MovieType.fromString(savedStateHandle[MOVIE_TYPE_KEY]),
             savedStateHandle[PAGE_KEY] ?: -1,
         )
+            // TODO("Fetch Cast")
         viewModelScope.launch(Dispatchers.IO) {
             getMovieDetailsUseCase.invoke(params)
                 .onStart { reduce(MovieDetailsEvent.Loading) }
