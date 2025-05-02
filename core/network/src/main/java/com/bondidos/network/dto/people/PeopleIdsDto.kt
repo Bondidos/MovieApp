@@ -1,4 +1,4 @@
-package com.bondidos.network.dto.peoples
+package com.bondidos.network.dto.people
 
 import com.squareup.moshi.JsonClass
 

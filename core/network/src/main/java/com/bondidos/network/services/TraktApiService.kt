@@ -2,7 +2,7 @@ package com.bondidos.network.services
 
 import com.bondidos.network.dto.movies.anticipated.AnticipatedMovieDto
 import com.bondidos.network.dto.movies.trending.TrendingMovieDto
-import com.bondidos.network.dto.peoples.CrewAndCastDto
+import com.bondidos.network.dto.people.CrewAndCastDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
