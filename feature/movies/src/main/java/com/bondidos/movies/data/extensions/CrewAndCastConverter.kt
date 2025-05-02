@@ -3,9 +3,9 @@ package com.bondidos.movies.data.extensions
 import com.bondidos.movies.domain.model.people.CrewAndCastMember
 import com.bondidos.movies.domain.model.people.PeopleIds
 import com.bondidos.movies.domain.model.people.Person
-import com.bondidos.network.dto.peoples.CrewAndCastDto
-import com.bondidos.network.dto.peoples.PeopleIdsDto
-import com.bondidos.network.dto.peoples.PersonDto
+import com.bondidos.network.dto.people.CrewAndCastDto
+import com.bondidos.network.dto.people.PeopleIdsDto
+import com.bondidos.network.dto.people.PersonDto
 
 fun CrewAndCastDto.toCrewAndCastMemberList(): List<CrewAndCastMember> {
     if (cast != null && crew != null) {

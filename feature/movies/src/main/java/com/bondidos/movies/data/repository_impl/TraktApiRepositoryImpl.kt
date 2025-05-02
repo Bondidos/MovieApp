@@ -1,8 +1,10 @@
 package com.bondidos.movies.data.repository_impl
 
 import com.bondidos.cache.dao.AnticipatedMoviesDao
+import com.bondidos.cache.dao.CrewAndCastDao
 import com.bondidos.cache.dao.TrendingMoviesDao
 import com.bondidos.cache.entity.AnticipatedMoviesCacheEntity
+import com.bondidos.cache.entity.CrewAndCastEntity
 import com.bondidos.cache.entity.TrendingMoviesCacheEntity
 import com.bondidos.exceptions.CacheExceptions
 import com.bondidos.movies.data.extensions.toAnticipatedMovie
@@ -12,6 +14,7 @@ import com.bondidos.movies.data.extensions.toTrendingMovie
 import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.domain.model.people.CrewAndCastMember
 import com.bondidos.movies.domain.repository.TraktApiRepository
+import com.bondidos.network.dto.people.CrewAndCastDto
 import com.bondidos.network.services.TraktApiService
 import com.bondidos.utils.DateUtils
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +28,8 @@ private const val CACHE_LIVE_TIME_HOURS = 5
 class TraktApiRepositoryImpl @Inject constructor(
     private val traktApiService: TraktApiService,
     private val trendingMovieDao: TrendingMoviesDao,
-    private val anticipatedMoviesDao: AnticipatedMoviesDao
+    private val anticipatedMoviesDao: AnticipatedMoviesDao,
+    private val crewAndCastDao: CrewAndCastDao
 ) : TraktApiRepository {
     override fun getTrending(page: Int): Flow<List<Movie>> = flow {
 
@@ -66,9 +70,21 @@ class TraktApiRepositoryImpl @Inject constructor(
     }
 
     override fun getCastAndCrew(traktId: Int): Flow<List<CrewAndCastMember>> = flow {
-        val crewAndCastDto = traktApiService.getCrewAndCast(traktId)
-        // todo cache logic
-        emit(crewAndCastDto.toCrewAndCastMemberList())
+        val crewAndCastDto = getCrewAndCastFromCacheIfActual(traktId)
+        val result = crewAndCastDto ?: getCrewAndCastFromRemoteAndCache(traktId)
+        emit(result.toCrewAndCastMemberList())
+    }
+
+    private suspend fun getCrewAndCastFromCacheIfActual(id: Int): CrewAndCastDto? {
+        val cache = crewAndCastDao.get(id = id)
+        if (DateUtils.isOlderThenNowWithGivenGap(
+                timeStamp = cache?.createdAt,
+                gap = CACHE_LIVE_TIME_HOURS
+            )
+        ) {
+            return cache?.crewAndCast
+        }
+        return null
     }
 
     private suspend fun getAnticipatedFromCacheIfActual(page: Int): List<Movie> {
@@ -94,6 +110,18 @@ class TraktApiRepositoryImpl @Inject constructor(
             return cache?.movies?.toTrendingMovie() ?: throw CacheExceptions.TrendingMovieEmptyCache
         }
         return emptyList()
+    }
+
+
+    private suspend fun getCrewAndCastFromRemoteAndCache(id: Int): CrewAndCastDto {
+        val crewAndCast = traktApiService.getCrewAndCast(id)
+        crewAndCastDao.insert(
+            CrewAndCastEntity(
+                id = id,
+                crewAndCast = crewAndCast
+            )
+        )
+        return crewAndCast
     }
 
     private suspend fun getTrendingFromRemoteAndCache(page: Int): List<Movie> {
