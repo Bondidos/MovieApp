@@ -1,15 +1,16 @@
 package com.bondidos.movies.data.repository_impl
 
 import com.bondidos.cache.dao.AnticipatedMoviesDao
-import com.bondidos.cache.entity.TrendingMoviesCacheEntity
 import com.bondidos.cache.dao.TrendingMoviesDao
 import com.bondidos.cache.entity.AnticipatedMoviesCacheEntity
+import com.bondidos.cache.entity.TrendingMoviesCacheEntity
 import com.bondidos.exceptions.CacheExceptions
 import com.bondidos.movies.data.extensions.toAnticipatedMovie
+import com.bondidos.movies.data.extensions.toCrewAndCastMemberList
 import com.bondidos.movies.data.extensions.toMovieDetails
 import com.bondidos.movies.data.extensions.toTrendingMovie
-import com.bondidos.movies.domain.model.Movie
-import com.bondidos.movies.domain.model.MovieDetails
+import com.bondidos.movies.domain.model.movie.Movie
+import com.bondidos.movies.domain.model.people.CrewAndCastMember
 import com.bondidos.movies.domain.repository.TraktApiRepository
 import com.bondidos.network.services.TraktApiService
 import com.bondidos.utils.DateUtils
@@ -62,6 +63,12 @@ class TraktApiRepositoryImpl @Inject constructor(
         val movieDto =
             anticipatedMoviesDao.get(page)?.movies?.find { movie -> movie.movie.ids.trakt == traktId }
         emit(movieDto?.toMovieDetails())
+    }
+
+    override fun getCastAndCrew(traktId: Int): Flow<List<CrewAndCastMember>> = flow {
+        val crewAndCastDto = traktApiService.getCrewAndCast(traktId)
+        // todo cache logic
+        emit(crewAndCastDto.toCrewAndCastMemberList())
     }
 
     private suspend fun getAnticipatedFromCacheIfActual(page: Int): List<Movie> {

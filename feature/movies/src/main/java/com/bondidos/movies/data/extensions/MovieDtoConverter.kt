@@ -3,8 +3,8 @@ package com.bondidos.movies.data.extensions
 import android.annotation.SuppressLint
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
-import com.bondidos.movies.domain.model.Movie
-import com.bondidos.movies.domain.model.MovieDetails
+import com.bondidos.movies.domain.model.movie.Movie
+import com.bondidos.movies.domain.model.movie.MovieDetails
 import com.bondidos.network.dto.movies.anticipated.AnticipatedMovieDto
 import com.bondidos.network.dto.movies.trending.TrendingMovieDto
 

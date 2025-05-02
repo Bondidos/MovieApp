@@ -1,4 +1,4 @@
-package com.bondidos.movies.domain.model
+package com.bondidos.movies.domain.model.movie
 
 data class Movie(
     val id: Int?,
