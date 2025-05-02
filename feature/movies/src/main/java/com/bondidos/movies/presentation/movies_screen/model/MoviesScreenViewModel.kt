@@ -6,7 +6,7 @@ import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.auth.domain.usecase.SingOutUseCase
 import com.bondidos.base.UseCaseResult
-import com.bondidos.movies.domain.model.Movie
+import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.domain.usecase.GetMoviesUseCase
 import com.bondidos.movies.domain.usecase.models.GetMoviesParams
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect

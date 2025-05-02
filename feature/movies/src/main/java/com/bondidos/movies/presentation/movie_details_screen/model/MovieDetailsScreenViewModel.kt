@@ -6,6 +6,7 @@ import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.base.UseCaseResult
+import com.bondidos.movies.domain.usecase.GetCrewAndCast
 import com.bondidos.movies.domain.usecase.GetMovieDetailsUseCase
 import com.bondidos.movies.domain.usecase.models.GetMovieDetailsParams
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEffect
@@ -28,6 +29,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
     private val appAnalytics: AppAnalytics,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val getCrewAndCast: GetCrewAndCast,
     reducer: MovieDetailsReducer,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsState, MovieDetailsEvent, MovieDetailsEffect>(
@@ -57,6 +59,12 @@ class MovieDetailsScreenViewModel @Inject constructor(
                         is UseCaseResult.Success -> reduce(MovieDetailsEvent.Loaded(result.data))
                     }
                 }
+
+            //todo test zone
+            getCrewAndCast.invoke(params.traktId!!).collect{
+                it
+                // todo cache and error catching
+            }
         }
     }
 

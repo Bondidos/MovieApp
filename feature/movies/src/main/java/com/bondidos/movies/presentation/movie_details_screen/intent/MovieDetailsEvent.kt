@@ -1,7 +1,7 @@
 package com.bondidos.movies.presentation.movie_details_screen.intent
 
 import androidx.compose.runtime.Immutable
-import com.bondidos.movies.domain.model.MovieDetails
+import com.bondidos.movies.domain.model.movie.MovieDetails
 import com.bondidos.ui.base_mvi.Reducer
 import com.bondidos.ui.composables.MovieDetailsType
 

@@ -30,7 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppBottomNavBar
 import com.bondidos.ui.composables.MoviesAppbar
-import com.bondidos.movies.domain.model.Movie
+import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesIntent
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
