@@ -77,6 +77,17 @@ fun MovieDetailsScreen(
                         )
                     )
                 }
+
+                is MovieDetailsEffect.Share -> context.startActivity(
+                    Intent(
+                        Intent.ACTION_SEND,
+                    ).apply {
+                        putExtra(
+                            Intent.EXTRA_TEXT, "${action.title} \n ${action.url}"
+                        )
+                        type = "text/plain"
+                    }
+                )
             }
         }
     }

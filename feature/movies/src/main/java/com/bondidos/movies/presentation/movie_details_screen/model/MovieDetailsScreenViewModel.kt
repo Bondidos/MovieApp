@@ -69,9 +69,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
 
             MovieDetailsIntent.PlayTrailer -> reduce(MovieDetailsEvent.PlayTrailer)
 
-            MovieDetailsIntent.ShareTrailerLink -> {
-                TODO("Share")
-            }
+            MovieDetailsIntent.ShareTrailerLink -> reduce(MovieDetailsEvent.ShareMovie)
 
             MovieDetailsIntent.ShowAllCastAndCrew -> {
                 //todo Navigate to Show all cast and crew

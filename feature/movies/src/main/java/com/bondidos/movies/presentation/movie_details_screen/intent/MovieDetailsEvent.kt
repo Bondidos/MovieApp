@@ -15,4 +15,5 @@ sealed class MovieDetailsEvent : Reducer.ViewEvent {
     data class HandleError(val message: String) : MovieDetailsEvent()
     data class ChangeDetailsType(val type: MovieDetailsType) : MovieDetailsEvent()
     data object PlayTrailer : MovieDetailsEvent()
+    data object ShareMovie : MovieDetailsEvent()
 }

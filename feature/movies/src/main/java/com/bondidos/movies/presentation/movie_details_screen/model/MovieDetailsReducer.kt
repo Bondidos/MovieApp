@@ -50,6 +50,11 @@ class MovieDetailsReducer @Inject constructor() :
             MovieDetailsEvent.PlayTrailer -> previousState to MovieDetailsEffect.PlayTrailer(
                 previousState.trailer
             )
+
+            MovieDetailsEvent.ShareMovie -> previousState to MovieDetailsEffect.Share(
+                title = previousState.title,
+                url = previousState.trailer
+            )
         }
     }
 }
