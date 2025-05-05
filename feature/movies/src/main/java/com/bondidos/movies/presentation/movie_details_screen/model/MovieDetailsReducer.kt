@@ -29,6 +29,7 @@ class MovieDetailsReducer @Inject constructor() :
                 stars = event.moveDetails.stars,
                 rating = event.moveDetails.rating,
                 id = event.moveDetails.id,
+                trailer = event.moveDetails.trailer
             ) to null
 
             is MovieDetailsEvent.ChangeDetailsType -> previousState.copy(
@@ -46,6 +47,9 @@ class MovieDetailsReducer @Inject constructor() :
             ) to null
 
             MovieDetailsEvent.Loaded -> previousState.copy(isLoading = false) to null
+            MovieDetailsEvent.PlayTrailer -> previousState to MovieDetailsEffect.PlayTrailer(
+                previousState.trailer
+            )
         }
     }
 }

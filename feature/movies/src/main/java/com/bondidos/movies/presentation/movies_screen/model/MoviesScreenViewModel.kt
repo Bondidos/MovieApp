@@ -89,8 +89,15 @@ class MoviesScreenViewModel @Inject constructor(
                         intent.id,
                         currentState.moviesType.toString(),
                         when (currentState.moviesType) {
-                            is MovieType.Trending -> currentState.trendingPage
-                            is MovieType.Anticipated -> currentState.anticipatedPage
+                            is MovieType.Trending -> calculatePage(
+                                currentState.trendingMovies,
+                                intent.id
+                            )
+
+                            is MovieType.Anticipated -> calculatePage(
+                                currentState.anticipatedMovies,
+                                intent.id
+                            )
                         }
                     )
                 )
@@ -175,5 +182,11 @@ class MoviesScreenViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun calculatePage(movies: List<Movie>, id: Int?): Int {
+        val movie = movies.find { it.id == id }
+        val index = movies.indexOf(movie)
+        return  (index / 10) + 1
     }
 }

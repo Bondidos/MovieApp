@@ -14,4 +14,5 @@ sealed class MovieDetailsEvent : Reducer.ViewEvent {
     data class CrewAndCastLoaded(val crewAndCast: List<PeopleWithImage>) : MovieDetailsEvent()
     data class HandleError(val message: String) : MovieDetailsEvent()
     data class ChangeDetailsType(val type: MovieDetailsType) : MovieDetailsEvent()
+    data object PlayTrailer : MovieDetailsEvent()
 }

@@ -16,7 +16,8 @@ data class MovieDetailsState(
     val rating: String,
     val id: Int,
     val detailsType: MovieDetailsType,
-    val crewAndCast: List<CrewAndCastUI>
+    val crewAndCast: List<CrewAndCastUI>,
+    val trailer: String
 ) : Reducer.ViewState {
 
     companion object {
@@ -31,7 +32,8 @@ data class MovieDetailsState(
             rating = "",
             id = -1,
             detailsType = MovieDetailsType.Detail,
-            crewAndCast = emptyList()
+            crewAndCast = emptyList(),
+            trailer = ""
         )
     }
 }

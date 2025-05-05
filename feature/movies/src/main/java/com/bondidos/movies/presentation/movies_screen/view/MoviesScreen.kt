@@ -27,19 +27,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bondidos.ui.theme.colors.AppThemeColor
-import com.bondidos.ui.composables.AppBottomNavBar
-import com.bondidos.ui.composables.MoviesAppbar
 import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesIntent
 import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
-import com.bondidos.ui.R
 import com.bondidos.movies.presentation.movies_screen.model.MoviesScreenViewModel
+import com.bondidos.ui.R
+import com.bondidos.ui.composables.AppBottomNavBar
 import com.bondidos.ui.composables.AppScreen
-import com.bondidos.ui.composables.MoviesTabRow
 import com.bondidos.ui.composables.MovieCard
 import com.bondidos.ui.composables.MovieType
+import com.bondidos.ui.composables.MoviesAppbar
+import com.bondidos.ui.composables.MoviesTabRow
+import com.bondidos.ui.theme.colors.AppThemeColor
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 
@@ -64,7 +64,7 @@ fun MoviesScreen(
         handleScrollState(anticipatedViewScrollState) { viewModel.emitIntent(MoviesIntent.NextAnticipatedPage) }
     }
 
-    LaunchedEffect(viewModel.effect, snackBarHostState) {
+    LaunchedEffect(viewModel, snackBarHostState) {
         viewModel.effect.collect { action ->
             when (action) {
                 is MoviesEffect.ShowErrorMessage -> snackBarHostState.showSnackbar(

@@ -1,5 +1,6 @@
 package com.bondidos.movies.presentation.movie_details_screen.view
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,9 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.movies.presentation.movie_details_screen.intent.CrewAndCastUI
@@ -56,14 +59,24 @@ fun MovieDetailsScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
 
-    LaunchedEffect(viewModel.effect, snackBarHostState) {
+    LaunchedEffect(viewModel, snackBarHostState) {
         viewModel.effect.collect { action ->
             when (action) {
                 is MovieDetailsEffect.ShowErrorMessage -> snackBarHostState.showSnackbar(
                     action.message
                 )
+
+                is MovieDetailsEffect.PlayTrailer -> {
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            action.url.toUri()
+                        )
+                    )
+                }
             }
         }
     }

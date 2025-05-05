@@ -67,9 +67,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
                 appNavigator.pop()
             }
 
-            MovieDetailsIntent.PlayTrailer -> {
-                TODO("Play trailer")
-            }
+            MovieDetailsIntent.PlayTrailer -> reduce(MovieDetailsEvent.PlayTrailer)
 
             MovieDetailsIntent.ShareTrailerLink -> {
                 TODO("Share")

@@ -51,6 +51,7 @@ fun TrendingMovieDto?.toMovieDetails() = MovieDetails(
     stars = ratingToStarsCount(this?.movie?.rating),
     rating = ratingToString(this?.movie?.rating),
     id = this?.movie?.ids?.trakt ?: 0,
+    trailer = this?.movie?.trailer ?: ""
 )
 
 fun AnticipatedMovieDto?.toMovieDetails() = MovieDetails(
@@ -65,12 +66,13 @@ fun AnticipatedMovieDto?.toMovieDetails() = MovieDetails(
     stars = ratingToStarsCount(this?.movie?.rating),
     rating = ratingToString(this?.movie?.rating),
     id = this?.movie?.ids?.trakt ?: 0,
+    trailer = this?.movie?.trailer ?: ""
 )
 
 private fun ratingToStarsCount(rating: Double?) = ((rating?.toInt() ?: 0) / 2)
 
 @SuppressLint("DefaultLocale")
-private fun ratingToString(rating: Double?) = String.format("%.1f",rating?.div(2)) + "/5"
+private fun ratingToString(rating: Double?) = String.format("%.1f", rating?.div(2)) + "/5"
 
 private fun durationToString(params: Int): String {
     val hours = params / 60

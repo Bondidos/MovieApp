@@ -9,4 +9,5 @@ data class MovieDetails(
     val stars: Int,
     val rating: String,
     val id: Int,
+    val trailer: String,
 )
