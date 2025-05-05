@@ -76,7 +76,7 @@ class MovieDetailsScreenViewModel @Inject constructor(
             }
 
             MovieDetailsIntent.ShowAllCastAndCrew -> {
-//todo Navigate to Show all cast and crew
+                //todo Navigate to Show all cast and crew
             }
 
             is MovieDetailsIntent.MovieDetailsTypeChanged -> {

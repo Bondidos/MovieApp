@@ -61,7 +61,9 @@ fun MovieDetailsScreen(
     LaunchedEffect(viewModel.effect, snackBarHostState) {
         viewModel.effect.collect { action ->
             when (action) {
-                is MovieDetailsEffect.ShowErrorMessage -> TODO()
+                is MovieDetailsEffect.ShowErrorMessage -> snackBarHostState.showSnackbar(
+                    action.message
+                )
             }
         }
     }
