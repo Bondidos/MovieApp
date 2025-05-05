@@ -1,5 +1,6 @@
 package com.bondidos.movies.presentation.movie_details_screen.model
 
+import com.bondidos.movies.presentation.movie_details_screen.intent.CrewAndCastUI
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEffect
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEvent
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
@@ -26,11 +27,22 @@ class MovieDetailsReducer @Inject constructor() :
                 rating = event.moveDetails.rating,
                 id = event.moveDetails.id,
             ) to null
+
             is MovieDetailsEvent.ChangeDetailsType -> previousState.copy(
                 detailsType = event.type
             ) to null
 
-            is MovieDetailsEvent.CrewAndCastLoaded -> TODO()
+            is MovieDetailsEvent.CrewAndCastLoaded -> previousState.copy(
+                crewAndCast = event.crewAndCast.map {
+                    CrewAndCastUI(
+                        it.imageUrl,
+                        it.person?.name ?: "",
+                        it.activities?.firstOrNull() ?: ""
+                    )
+                }
+            ) to null
+
+            MovieDetailsEvent.Loaded -> previousState.copy(isLoading = false) to null
         }
     }
 }

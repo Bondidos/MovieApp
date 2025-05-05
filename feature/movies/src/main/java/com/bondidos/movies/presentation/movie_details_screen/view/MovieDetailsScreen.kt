@@ -1,7 +1,6 @@
 package com.bondidos.movies.presentation.movie_details_screen.view
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -28,10 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bondidos.movies.presentation.movie_details_screen.intent.CrewAndCastUI
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsEffect
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsIntent
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
@@ -43,6 +45,7 @@ import com.bondidos.ui.composables.MovieDetailsTabRow
 import com.bondidos.ui.composables.MovieDetailsType
 import com.bondidos.ui.composables.MovieStarRow
 import com.bondidos.ui.composables.NetworkImage
+import com.bondidos.ui.composables.PersonCard
 import com.bondidos.ui.theme.appColors
 import com.bondidos.ui.theme.colors.AppThemeColor
 
@@ -88,7 +91,7 @@ fun MovieDetailsScreenContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .scrollable(scroll, Orientation.Vertical),
+                    .verticalScroll(scroll),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TopPart(
@@ -108,13 +111,21 @@ fun MovieDetailsScreenContent(
                 )
 
                 when (data.detailsType) {
-                    MovieDetailsType.Detail -> DetailsAndCast(data.overview, emptyList())
-                    MovieDetailsType.Reviews -> {
+                    MovieDetailsType.Detail -> DetailsAndCast(
+                        data.overview,
+                        data.crewAndCast,
+                        modifier = Modifier.padding(
+                            horizontal = 18.dp,
+                        ),
+                        onViewAllCastTap = { viewModel.emitIntent(MovieDetailsIntent.ShowAllCastAndCrew) }
+                    )
 
+                    MovieDetailsType.Reviews -> {
+                        TODO()
                     }
 
                     MovieDetailsType.Showtime -> {
-
+                        TODO()
                     }
                 }
             }
@@ -197,17 +208,50 @@ private fun ShortInfo(
 @Composable
 private fun DetailsAndCast(
     details: String,
-    cast: List<Any> //todo Model
+    cast: List<CrewAndCastUI>,
+    onViewAllCastTap: () -> Unit,
+    modifier: Modifier,
 ) {
-
-    Column(modifier = Modifier) {
+    Column(modifier = modifier) {
         ExpandableText(
             text = details,
             minimizedMaxLines = 4,
-            modifier = Modifier.padding(horizontal = 18.dp, vertical = 20.dp),//todo move outside
             textStyle = MaterialTheme.typography.bodyMedium.copy(lineHeight = 24.sp),
             textColor = MaterialTheme.appColors.disabledText,
-            linkTextColor = MaterialTheme.appColors.expandText
+            linkTextColor = MaterialTheme.appColors.expandText,
+            modifier = Modifier.padding(vertical = 20.dp)
+        )
+
+        CastAndCrewHeader(onViewAllCastTap)
+        Spacer(Modifier.height(20.dp))
+
+        cast.take(4).forEach {
+            PersonCard(it.imageUrl, it.personName, it.role)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Spacer(Modifier.height(20.dp))
+    }
+}
+
+@Composable
+private fun CastAndCrewHeader(
+    onViewAllCastTap: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            stringResource(com.bondidos.ui.R.string.title_cast_and_crew),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.appColors.mainText,
+        )
+        Text(
+            stringResource(com.bondidos.ui.R.string.title_view_all),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.appColors.expandText,
+            modifier = Modifier.clickable { onViewAllCastTap() }
         )
     }
 }

@@ -15,21 +15,30 @@ data class MovieDetailsState(
     val stars: Int,
     val rating: String,
     val id: Int,
-    val detailsType: MovieDetailsType
+    val detailsType: MovieDetailsType,
+    val crewAndCast: List<CrewAndCastUI>
 ) : Reducer.ViewState {
 
     companion object {
         fun init() = MovieDetailsState(
             isLoading = false,
             title = "",
-            overview ="",
+            overview = "",
             durationAndCertification = "",
             genres = "",
             image = "",
             stars = -1,
             rating = "",
             id = -1,
-            detailsType = MovieDetailsType.Detail
+            detailsType = MovieDetailsType.Detail,
+            crewAndCast = emptyList()
         )
     }
 }
+
+@Immutable
+data class CrewAndCastUI(
+    val imageUrl: String,
+    val personName: String,
+    val role: String,
+)

@@ -9,7 +9,7 @@ import com.bondidos.network.dto.people.CrewAndCastDto
 import com.bondidos.network.dto.people.PeopleIdsDto
 import com.bondidos.network.dto.people.PersonDto
 
-private const val IMAGE_URL = "http://image.tmdb.org/t/p/w185"
+private const val IMAGE_URL = "https://image.tmdb.org/t/p/w185"
 
 fun CrewAndCastDto.toCrewAndCastMemberList(): List<CrewAndCastMember> {
     if (cast != null && crew != null) {

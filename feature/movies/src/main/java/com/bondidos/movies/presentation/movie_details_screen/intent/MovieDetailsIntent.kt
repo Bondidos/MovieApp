@@ -9,5 +9,6 @@ sealed class MovieDetailsIntent : Intention {
     data object GoBack : MovieDetailsIntent()
     data object PlayTrailer : MovieDetailsIntent()
     data object ShareTrailerLink : MovieDetailsIntent()
+    data object ShowAllCastAndCrew : MovieDetailsIntent()
     data class MovieDetailsTypeChanged(val type: MovieDetailsType) : MovieDetailsIntent()
 }

@@ -75,6 +75,10 @@ class MovieDetailsScreenViewModel @Inject constructor(
                 TODO("Share")
             }
 
+            MovieDetailsIntent.ShowAllCastAndCrew -> {
+//todo Navigate to Show all cast and crew
+            }
+
             is MovieDetailsIntent.MovieDetailsTypeChanged -> {
                 val buttonType = when (intent.type) {
                     MovieDetailsType.Detail -> ButtonNames.Details
@@ -93,31 +97,35 @@ class MovieDetailsScreenViewModel @Inject constructor(
         value: Pair<UseCaseResult<MovieDetails>, UseCaseResult<List<PeopleWithImage>>>
     ) {
         val (movieDetails, crewAndCast) = value
-        when {
-            movieDetails is UseCaseResult.Success -> reduce(
+        when (movieDetails) {
+            is UseCaseResult.Success -> reduce(
                 MovieDetailsEvent.DetailsLoaded(
                     movieDetails.data
                 )
             )
 
-            crewAndCast is UseCaseResult.Success -> reduce(
+            is UseCaseResult.Error -> reduce(
+                MovieDetailsEvent.HandleError(
+                    movieDetails.error.message ?: "Unknown Error"
+                )
+            )
+        }
+
+        when (crewAndCast) {
+            is UseCaseResult.Success -> reduce(
                 MovieDetailsEvent.CrewAndCastLoaded(
                     crewAndCast.data
                 )
             )
 
-            movieDetails is UseCaseResult.Error -> reduce(
-                MovieDetailsEvent.HandleError(
-                    movieDetails.error.message ?: "Unknown Error"
-                )
-            )
-
-            crewAndCast is UseCaseResult.Error -> reduce(
+            is UseCaseResult.Error -> reduce(
                 MovieDetailsEvent.HandleError(
                     crewAndCast.error.message ?: "Unknown Error"
                 )
             )
         }
+
+        reduce(MovieDetailsEvent.Loaded)
     }
 
     companion object {

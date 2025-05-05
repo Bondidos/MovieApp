@@ -1,4 +1,4 @@
-package com.bondidos.core_ui.theme
+package com.bondidos.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

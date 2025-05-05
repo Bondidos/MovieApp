@@ -9,6 +9,7 @@ import com.bondidos.ui.composables.MovieDetailsType
 @Immutable
 sealed class MovieDetailsEvent : Reducer.ViewEvent {
     data object Loading : MovieDetailsEvent()
+    data object Loaded : MovieDetailsEvent()
     data class DetailsLoaded(val moveDetails: MovieDetails) : MovieDetailsEvent()
     data class CrewAndCastLoaded(val crewAndCast: List<PeopleWithImage>) : MovieDetailsEvent()
     data class HandleError(val message: String) : MovieDetailsEvent()
