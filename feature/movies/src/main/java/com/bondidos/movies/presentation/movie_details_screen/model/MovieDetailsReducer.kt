@@ -15,7 +15,7 @@ class MovieDetailsReducer @Inject constructor() :
         return when (event) {
             is MovieDetailsEvent.Loading -> previousState.copy(isLoading = true) to null
             is MovieDetailsEvent.HandleError -> TODO()
-            is MovieDetailsEvent.Loaded -> previousState.copy(
+            is MovieDetailsEvent.DetailsLoaded -> previousState.copy(
                 isLoading = false,
                 title = event.moveDetails.title,
                 overview = event.moveDetails.overview,
@@ -29,6 +29,8 @@ class MovieDetailsReducer @Inject constructor() :
             is MovieDetailsEvent.ChangeDetailsType -> previousState.copy(
                 detailsType = event.type
             ) to null
+
+            is MovieDetailsEvent.CrewAndCastLoaded -> TODO()
         }
     }
 }

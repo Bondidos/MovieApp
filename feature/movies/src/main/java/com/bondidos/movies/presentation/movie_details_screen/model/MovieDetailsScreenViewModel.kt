@@ -6,6 +6,8 @@ import com.bondidos.analytics.AppAnalytics
 import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.base.UseCaseResult
+import com.bondidos.movies.domain.model.movie.MovieDetails
+import com.bondidos.movies.domain.model.people.PeopleWithImage
 import com.bondidos.movies.domain.usecase.GetCrewAndCastUseCase
 import com.bondidos.movies.domain.usecase.GetMovieDetailsUseCase
 import com.bondidos.movies.domain.usecase.models.GetMovieDetailsParams
@@ -21,6 +23,7 @@ import com.bondidos.ui.composables.MovieType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,26 +47,14 @@ class MovieDetailsScreenViewModel @Inject constructor(
             MovieType.fromString(savedStateHandle[MOVIE_TYPE_KEY]),
             savedStateHandle[PAGE_KEY] ?: -1,
         )
-        // TODO("Fetch Cast")
         viewModelScope.launch(Dispatchers.IO) {
-            getMovieDetailsUseCase.invoke(params)
-                .onStart { reduce(MovieDetailsEvent.Loading) }
-                .collect { result ->
-                    when (result) {
-                        is UseCaseResult.Error -> reduce(
-                            MovieDetailsEvent.HandleError(
-                                result.error.message ?: "Unknown Error"
-                            )
-                        )
-
-                        is UseCaseResult.Success -> reduce(MovieDetailsEvent.Loaded(result.data))
-                    }
-                }
-
-            //todo test zone
-            getCrewAndCast.invoke(params.traktId!!).collect {
-                it
-                // todo cache and error catching
+            params.traktId?.let {
+                getMovieDetailsUseCase(params).zip(
+                    getCrewAndCast(it),
+                    transform = { movies, cast -> movies to cast }
+                )
+                    .onStart { reduce(MovieDetailsEvent.Loading) }
+                    .collect(::handleOnDetailsReceived)
             }
         }
     }
@@ -95,6 +86,37 @@ class MovieDetailsScreenViewModel @Inject constructor(
                 if (currentState.detailsType != intent.type)
                     reduce(MovieDetailsEvent.ChangeDetailsType(intent.type))
             }
+        }
+    }
+
+    private fun handleOnDetailsReceived(
+        value: Pair<UseCaseResult<MovieDetails>, UseCaseResult<List<PeopleWithImage>>>
+    ) {
+        val (movieDetails, crewAndCast) = value
+        when {
+            movieDetails is UseCaseResult.Success -> reduce(
+                MovieDetailsEvent.DetailsLoaded(
+                    movieDetails.data
+                )
+            )
+
+            crewAndCast is UseCaseResult.Success -> reduce(
+                MovieDetailsEvent.CrewAndCastLoaded(
+                    crewAndCast.data
+                )
+            )
+
+            movieDetails is UseCaseResult.Error -> reduce(
+                MovieDetailsEvent.HandleError(
+                    movieDetails.error.message ?: "Unknown Error"
+                )
+            )
+
+            crewAndCast is UseCaseResult.Error -> reduce(
+                MovieDetailsEvent.HandleError(
+                    crewAndCast.error.message ?: "Unknown Error"
+                )
+            )
         }
     }
 
