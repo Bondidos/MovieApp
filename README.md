@@ -1,3 +1,5 @@
+API requires VPN or location != BLR/RU
+
 Features:
 
 - MultiModule App

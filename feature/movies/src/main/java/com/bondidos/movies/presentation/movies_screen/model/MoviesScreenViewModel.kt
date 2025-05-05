@@ -1,4 +1,4 @@
-package com.bondidos.movies.movies_screen.model
+package com.bondidos.movies.presentation.movies_screen.model
 
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
@@ -6,15 +6,16 @@ import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.auth.domain.usecase.SingOutUseCase
 import com.bondidos.base.UseCaseResult
-import com.bondidos.movies.domain.model.Movie
+import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.domain.usecase.GetMoviesUseCase
 import com.bondidos.movies.domain.usecase.models.GetMoviesParams
-import com.bondidos.movies.movies_screen.intent.MoviesEffect
-import com.bondidos.movies.movies_screen.intent.MoviesEvent
-import com.bondidos.movies.movies_screen.intent.MoviesIntent
-import com.bondidos.movies.movies_screen.intent.MoviesState
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEvent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesIntent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.AuthScreen
+import com.bondidos.navigation_api.MovieDetailsScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieType
@@ -39,20 +40,7 @@ class MoviesScreenViewModel @Inject constructor(
     init {
         appAnalytics.logScreen(ScreenNames.MoviesScreen)
 
-        val trendingFlow =
-            getMovies.invoke(GetMoviesParams.GetTrending(page = currentState.trendingPage))
-        val anticipatedFlow =
-            getMovies.invoke(GetMoviesParams.GetAnticipated(page = currentState.anticipatedPage))
-
-        viewModelScope.launch(Dispatchers.IO) {
-            trendingFlow.zip(
-                other = anticipatedFlow,
-                transform = { trending, anticipated -> trending to anticipated }
-            )
-                .onStart { reduce(MoviesEvent.Loading) }
-                .collect(::handleMoviesCollected)
-        }
-
+        loadTrendingAndAnticipated()
     }
 
     override fun emitIntent(intent: Intention) {
@@ -86,12 +74,54 @@ class MoviesScreenViewModel @Inject constructor(
                     }
                 }
             }
-            MoviesIntent.ShowDetails -> {
 
+            MoviesIntent.Refresh -> {
+                // Just reload from Repository, but also possible to drop cache and load from remote
+                reduce(MoviesEvent.Refresh)
+                loadTrendingAndAnticipated()
             }
+
+            is MoviesIntent.ShowDetails -> {
+                appAnalytics.logMovie(intent.id)
+
+                appNavigator.push(
+                    MovieDetailsScreen(
+                        intent.id,
+                        currentState.moviesType.toString(),
+                        when (currentState.moviesType) {
+                            is MovieType.Trending -> calculatePage(
+                                currentState.trendingMovies,
+                                intent.id
+                            )
+
+                            is MovieType.Anticipated -> calculatePage(
+                                currentState.anticipatedMovies,
+                                intent.id
+                            )
+                        }
+                    )
+                )
+            }
+
             MoviesIntent.NavigateToProfile -> {
-
+                TODO()
             }
+        }
+    }
+
+    private fun loadTrendingAndAnticipated() {
+        val trendingFlow =
+            getMovies.invoke(GetMoviesParams.GetTrending(page = currentState.trendingPage))
+        val anticipatedFlow =
+            getMovies.invoke(GetMoviesParams.GetAnticipated(page = currentState.anticipatedPage))
+
+        viewModelScope.launch(Dispatchers.IO) {
+            trendingFlow.zip(
+                other = anticipatedFlow,
+                transform = { trending, anticipated -> trending to anticipated }
+            )
+                .onStart { reduce(MoviesEvent.Loading) }
+                .collect(::handleMoviesCollected)
         }
     }
 
@@ -152,5 +182,11 @@ class MoviesScreenViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun calculatePage(movies: List<Movie>, id: Int?): Int {
+        val movie = movies.find { it.id == id }
+        val index = movies.indexOf(movie)
+        return  (index / 10) + 1
     }
 }

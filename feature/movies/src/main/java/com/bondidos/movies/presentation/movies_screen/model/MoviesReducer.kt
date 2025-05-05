@@ -1,8 +1,8 @@
-package com.bondidos.movies.movies_screen.model
+package com.bondidos.movies.presentation.movies_screen.model
 
-import com.bondidos.movies.movies_screen.intent.MoviesEffect
-import com.bondidos.movies.movies_screen.intent.MoviesEvent
-import com.bondidos.movies.movies_screen.intent.MoviesState
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEffect
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesEvent
+import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.ui.base_mvi.Reducer
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
     ): Pair<MoviesState, MoviesEffect?> {
         return when (event) {
             is MoviesEvent.Loading -> previousState.copy(isLoading = true) to null
-            is MoviesEvent.Loaded -> previousState.copy(isLoading = false) to null
+            is MoviesEvent.Loaded -> previousState.copy(isLoading = false, refreshing = false) to null
             is MoviesEvent.ToggleMoviesType ->
                 previousState.copy(moviesType = event.moviesType) to null
 
@@ -36,6 +36,8 @@ class MoviesReducer @Inject constructor() : Reducer<MoviesState, MoviesEvent, Mo
             MoviesEvent.IncrementTrendingPage -> previousState.copy(
                 trendingPage = previousState.trendingPage.inc()
             ) to null
+
+            is MoviesEvent.Refresh -> previousState.copy(refreshing = true) to null
         }
     }
 }

@@ -26,10 +26,16 @@ class AppAnalytics @Inject constructor(private val firebaseAnalytics: FirebaseAn
         "errors" to validationErrors.joinToString("\n")
     )
 
+    private fun createMovieParameters(movieId: Int?) = bundleOf(
+        "traktId" to movieId.toString()
+    )
+
     fun logScreen(screen: ScreenNames) = logEvent("Screen_loaded", createScreenParams(screen))
 
     fun logButton(button: ButtonNames) = logEvent("Button_clicked", createButtonParams(button))
 
     fun logValidation(validationErrors: List<String>) =
         logEvent("Validation_errors", createValidationParameters(validationErrors))
+
+    fun logMovie(movieId: Int?) = logEvent("Movie clicked", createMovieParameters(movieId))
 }

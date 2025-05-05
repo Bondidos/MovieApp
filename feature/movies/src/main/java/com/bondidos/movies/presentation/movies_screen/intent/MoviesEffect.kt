@@ -1,4 +1,4 @@
-package com.bondidos.movies.movies_screen.intent
+package com.bondidos.movies.presentation.movies_screen.intent
 
 import androidx.compose.runtime.Immutable
 import com.bondidos.ui.base_mvi.Reducer

@@ -9,4 +9,4 @@ annotation class TraktApiRetrofit
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ImdbApiRetrofit
+annotation class TmdbApiRetrofit

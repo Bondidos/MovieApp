@@ -9,6 +9,12 @@
     <string name="title_movies">Movies</string>
     <string name="title_trending">Now Showing</string>
     <string name="title_anticipated">Coming Soon</string>
+    <string name="title_show_time">Show Time</string>
+    <string name="title_detail">Detail</string>
+    <string name="title_reviews">Reviews</string>
+    <string name="title_cast_and_crew">Cast &amp; Crew</string>
+    <string name="title_view_all">View All</string>
+    <string name="title_in_develop">Feature in develop</string>
 
     <string name="text_filed_icon_description">Trailing icon</string>
 

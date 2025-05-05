@@ -31,7 +31,7 @@ import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpIntent
 import com.bondidos.auth.presentation.sing_up_screen.intent.SingUpState
 import com.bondidos.auth.presentation.sing_up_screen.model.SingUpViewModel
 import com.bondidos.ui.theme.colors.AppThemeColor
-import com.bondidos.core_ui.theme.composables.MoviesAppbar
+import com.bondidos.ui.composables.MoviesAppbar
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppInputTextField
 import com.bondidos.ui.composables.AppScreen

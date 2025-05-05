@@ -30,10 +30,20 @@ sealed class MovieType(
 ) {
     data object Trending : MovieType(1)
     data object Anticipated : MovieType(2)
+
+    companion object {
+        fun fromString(value: String?): MovieType {
+            return when (value) {
+                Trending.toString() -> Trending
+                Anticipated.toString() -> Anticipated
+                else -> throw IllegalArgumentException()
+            }
+        }
+    }
 }
 
 @Composable
-fun AppTabRow(
+fun MoviesTabRow(
     onChange: (MovieType) -> Unit,
     currentMovieType: MovieType,
 ) {
@@ -66,10 +76,10 @@ fun AppTabRow(
 }
 
 @Composable
-private fun AppTab(
-    type: MovieType,
+fun <T> AppTab(
+    type: T,
     selected: Boolean,
-    onClick: (MovieType) -> Unit,
+    onClick: (T) -> Unit,
     stringResId: Int
 ) {
     val tabColor =
@@ -111,7 +121,7 @@ fun PreviewMovies() {
     val type = remember { mutableStateOf<MovieType>(MovieType.Trending) }
 
     MovieAppTheme {
-        AppTabRow(
+        MoviesTabRow(
             currentMovieType = type.value,
             onChange = { type.value = it }
         )

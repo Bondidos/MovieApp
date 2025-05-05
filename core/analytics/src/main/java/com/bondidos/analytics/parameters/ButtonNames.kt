@@ -7,5 +7,9 @@ enum class ButtonNames {
     LoginWithGoogle,
     CreateAccount,
     AnticipatedMovies,
-    TrendingMovies
+    TrendingMovies,
+    GoBack,
+    Details,
+    Reviews,
+    Showtime
 }

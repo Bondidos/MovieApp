@@ -3,6 +3,7 @@ package com.bondidos.ui.composables
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
@@ -13,7 +14,8 @@ import com.bondidos.ui.R
 fun NetworkImage(
     url: String,
     contentScale: ContentScale = ContentScale.Crop,
-    modifier: Modifier
+    modifier: Modifier,
+    colorFilter: ColorFilter? = null
 ) {
     Image(
         painter = rememberAsyncImagePainter(
@@ -30,5 +32,6 @@ fun NetworkImage(
         contentScale = contentScale,
         contentDescription = null,
         modifier = modifier,
+        colorFilter = colorFilter
     )
 }

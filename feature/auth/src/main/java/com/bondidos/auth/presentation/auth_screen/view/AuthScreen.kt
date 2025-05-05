@@ -34,7 +34,7 @@ import com.bondidos.auth.presentation.SingWithGoogle
 import com.bondidos.auth.presentation.auth_screen.model.AuthViewModel
 import com.bondidos.ui.theme.colors.AppThemeColor
 import com.bondidos.ui.composables.AppInputTextField
-import com.bondidos.core_ui.theme.composables.MoviesAppbar
+import com.bondidos.ui.composables.MoviesAppbar
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppScreen

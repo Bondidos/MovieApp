@@ -5,4 +5,5 @@ enum class ScreenNames {
     MoviesScreen,
     SingUpScreen,
     SplashScreen,
+    MovieDetailsScreen,
 }
