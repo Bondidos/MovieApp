@@ -40,6 +40,7 @@ import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetails
 import com.bondidos.movies.presentation.movie_details_screen.model.MovieDetailsScreenViewModel
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.ui.composables.ExpandableText
+import com.bondidos.ui.composables.InDevelopPlaceHolder
 import com.bondidos.ui.composables.MovieDetailsAppBar
 import com.bondidos.ui.composables.MovieDetailsTabRow
 import com.bondidos.ui.composables.MovieDetailsType
@@ -120,13 +121,9 @@ fun MovieDetailsScreenContent(
                         onViewAllCastTap = { viewModel.emitIntent(MovieDetailsIntent.ShowAllCastAndCrew) }
                     )
 
-                    MovieDetailsType.Reviews -> {
-                        TODO()
-                    }
+                    MovieDetailsType.Reviews -> InDevelopPlaceHolder()
 
-                    MovieDetailsType.Showtime -> {
-                        TODO()
-                    }
+                    MovieDetailsType.Showtime -> InDevelopPlaceHolder()
                 }
             }
         }
