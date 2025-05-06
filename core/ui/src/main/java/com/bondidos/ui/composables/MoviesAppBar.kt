@@ -1,5 +1,6 @@
 package com.bondidos.ui.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,13 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bondidos.ui.R
 import com.bondidos.ui.theme.MovieAppTheme
 import com.bondidos.ui.theme.colors.AppThemeColor
-import com.bondidos.ui.R
 
 @Composable
 fun MoviesAppbar(
@@ -28,6 +30,8 @@ fun MoviesAppbar(
     titleTextStyle: TextStyle,
     afterLeadingTitle: Int? = null,
     onAfterLeadingClick: () -> Unit = {},
+    leadingIconRes: Int? = null,
+    onLeadingClick: () -> Unit = {},
 ) {
     Surface(
         modifier = modifier.height(88.dp),
@@ -41,25 +45,39 @@ fun MoviesAppbar(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.Center,
         ) {
-            Text(
-                text = stringResource(titleRes),
-                color = AppThemeColor.MAIN_TEXT.color(),
-                style = titleTextStyle
-            )
-            if (afterLeadingTitle != null) {
+            if (leadingIconRes != null) {
+                Image(
+                    painter = painterResource(leadingIconRes),
+                    contentDescription = null,
+                    modifier = Modifier.clickable { onLeadingClick() }
+                )
                 Spacer(
                     modifier = Modifier.weight(
                         fill = true,
                         weight = 1f
                     )
                 )
+            }
+            Text(
+                text = stringResource(titleRes),
+                color = AppThemeColor.MAIN_TEXT.color(),
+                style = titleTextStyle
+            )
+            if (afterLeadingTitle != null || leadingIconRes != null)
+                Spacer(
+                    modifier = Modifier.weight(
+                        fill = true,
+                        weight = 1f
+                    )
+                )
+            if (afterLeadingTitle != null)
                 Text(
                     modifier = Modifier.clickable { onAfterLeadingClick() },
                     text = stringResource(afterLeadingTitle),
                     color = AppThemeColor.ATTENTION_TEXT.color(),
                     style = MaterialTheme.typography.titleMedium,
                 )
-            }
+
         }
     }
 }
