@@ -8,6 +8,7 @@ import com.bondidos.navigation_api.AuthScreen
 import com.bondidos.navigation_api.CastAndCrewScreen
 import com.bondidos.navigation_api.MovieDetailsScreen
 import com.bondidos.navigation_api.MoviesScreen
+import com.bondidos.navigation_api.ProfileScreen
 import com.bondidos.navigation_api.SingUpScreen
 import com.bondidos.navigation_api.SplashScreen
 import com.bondidos.navigation_impl.di.NavControllerHolder
@@ -20,6 +21,7 @@ fun AppNavigationGraph(
     splashScreen: @Composable () -> Unit,
     movieDetailsScreen: @Composable () -> Unit,
     castAndCrewScreen: @Composable () -> Unit,
+    profileScreen: @Composable () -> Unit,
     navControllerHolder: NavControllerHolder,
 ) {
 
@@ -36,5 +38,6 @@ fun AppNavigationGraph(
         composable<SplashScreen> { splashScreen() }
         composable<MovieDetailsScreen> { movieDetailsScreen() }
         composable<CastAndCrewScreen> { castAndCrewScreen() }
+        composable<ProfileScreen> { profileScreen() }
     }
 }

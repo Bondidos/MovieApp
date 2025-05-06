@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.bondidos.auth.presentation.auth_screen.view.AuthScreen
+import com.bondidos.auth.presentation.profile.view.ProfileScreen
 import com.bondidos.auth.presentation.sing_up_screen.view.SingUpScreen
 import com.bondidos.movies.presentation.cast_and_crew.view.CastAndCrewScreen
 import com.bondidos.movies.presentation.movie_details_screen.view.MovieDetailsScreen
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
                     splashScreen = { SplashScreen() },
                     movieDetailsScreen = { MovieDetailsScreen() },
                     castAndCrewScreen = { CastAndCrewScreen() },
+                    profileScreen = { ProfileScreen() },
                     navControllerHolder = navControllerHolder,
                 )
             }

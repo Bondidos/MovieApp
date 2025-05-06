@@ -14,5 +14,6 @@ enum class ButtonNames {
     Showtime,
     PlayTrailer,
     Share,
-    CastAndCrewAll
+    CastAndCrewAll,
+    Profile
 }
