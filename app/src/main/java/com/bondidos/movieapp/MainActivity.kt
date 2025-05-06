@@ -33,8 +33,8 @@ class MainActivity : ComponentActivity() {
                     moviesScreen = { MoviesScreen() },
                     splashScreen = { SplashScreen() },
                     movieDetailsScreen = { MovieDetailsScreen() },
-                    navControllerHolder = navControllerHolder,
                     castAndCrewScreen = { CastAndCrewScreen() },
+                    navControllerHolder = navControllerHolder,
                 )
             }
         }
