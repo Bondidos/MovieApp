@@ -12,7 +12,6 @@ import com.bondidos.auth.auth_screen.intent.AuthState
 import com.bondidos.auth.domain.model.AuthUser
 import com.bondidos.auth.domain.usecase.LoginUseCase
 import com.bondidos.auth.domain.usecase.SingUpWithCredentials
-import com.bondidos.auth.presentation.profile.model.AuthReducer
 import com.bondidos.base.UseCaseResult
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.MoviesScreen
