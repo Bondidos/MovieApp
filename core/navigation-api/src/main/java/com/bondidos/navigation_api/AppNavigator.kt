@@ -30,10 +30,10 @@ data class MovieDetailsScreen(
     val movieId: Int?,
     val movieType: String,
     val page: Int,
-    ) : AppScreen
+) : AppScreen
 
 @Serializable
 @Keep
 data class CastAndCrewScreen(
     val movieId: Int
-)
+) : AppScreen
