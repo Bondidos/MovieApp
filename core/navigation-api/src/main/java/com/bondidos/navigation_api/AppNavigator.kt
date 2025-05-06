@@ -31,3 +31,9 @@ data class MovieDetailsScreen(
     val movieType: String,
     val page: Int,
     ) : AppScreen
+
+@Serializable
+@Keep
+data class CastAndCrewScreen(
+    val movieId: Int
+)

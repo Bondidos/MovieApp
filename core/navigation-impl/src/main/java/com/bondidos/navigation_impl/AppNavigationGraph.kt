@@ -4,12 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.bondidos.navigation_impl.di.NavControllerHolder
 import com.bondidos.navigation_api.AuthScreen
+import com.bondidos.navigation_api.CastAndCrewScreen
 import com.bondidos.navigation_api.MovieDetailsScreen
 import com.bondidos.navigation_api.MoviesScreen
 import com.bondidos.navigation_api.SingUpScreen
 import com.bondidos.navigation_api.SplashScreen
+import com.bondidos.navigation_impl.di.NavControllerHolder
 
 @Composable
 fun AppNavigationGraph(
@@ -18,6 +19,7 @@ fun AppNavigationGraph(
     moviesScreen: @Composable () -> Unit,
     splashScreen: @Composable () -> Unit,
     movieDetailsScreen: @Composable () -> Unit,
+    castAndCrewScreen: @Composable () -> Unit,
     navControllerHolder: NavControllerHolder,
 ) {
 
@@ -33,5 +35,6 @@ fun AppNavigationGraph(
         composable<SingUpScreen> { singUpScreen() }
         composable<SplashScreen> { splashScreen() }
         composable<MovieDetailsScreen> { movieDetailsScreen() }
+        composable<CastAndCrewScreen> { castAndCrewScreen() }
     }
 }
