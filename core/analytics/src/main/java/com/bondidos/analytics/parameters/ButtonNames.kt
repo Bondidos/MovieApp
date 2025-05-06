@@ -11,5 +11,8 @@ enum class ButtonNames {
     GoBack,
     Details,
     Reviews,
-    Showtime
+    Showtime,
+    PlayTrailer,
+    Share,
+    CastAndCrewAll
 }

@@ -16,6 +16,7 @@ import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetails
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsIntent
 import com.bondidos.movies.presentation.movie_details_screen.intent.MovieDetailsState
 import com.bondidos.navigation_api.AppNavigator
+import com.bondidos.navigation_api.CastAndCrewScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieDetailsType
@@ -39,10 +40,12 @@ class MovieDetailsScreenViewModel @Inject constructor(
     MovieDetailsState.init(),
     reducer
 ) {
+    private var params: GetMovieDetailsParams
+
     init {
         appAnalytics.logScreen(ScreenNames.MovieDetailsScreen)
 
-        val params = GetMovieDetailsParams(
+        params = GetMovieDetailsParams(
             savedStateHandle[MOVIE_ID_KEY],
             MovieType.fromString(savedStateHandle[MOVIE_TYPE_KEY]),
             savedStateHandle[PAGE_KEY] ?: -1,
@@ -67,12 +70,26 @@ class MovieDetailsScreenViewModel @Inject constructor(
                 appNavigator.pop()
             }
 
-            MovieDetailsIntent.PlayTrailer -> reduce(MovieDetailsEvent.PlayTrailer)
+            MovieDetailsIntent.PlayTrailer -> {
+                appAnalytics.logButton(ButtonNames.PlayTrailer)
 
-            MovieDetailsIntent.ShareTrailerLink -> reduce(MovieDetailsEvent.ShareMovie)
+                reduce(MovieDetailsEvent.PlayTrailer)
+            }
+
+            MovieDetailsIntent.ShareTrailerLink -> {
+                appAnalytics.logButton(ButtonNames.Share)
+
+                reduce(MovieDetailsEvent.ShareMovie)
+            }
 
             MovieDetailsIntent.ShowAllCastAndCrew -> {
-                //todo Navigate to Show all cast and crew
+                appAnalytics.logButton(ButtonNames.CastAndCrewAll)
+
+                params.traktId?.let {
+                    appNavigator.push(
+                        CastAndCrewScreen(it)
+                    )
+                }
             }
 
             is MovieDetailsIntent.MovieDetailsTypeChanged -> {
