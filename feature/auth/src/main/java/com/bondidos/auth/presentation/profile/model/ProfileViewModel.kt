@@ -2,11 +2,13 @@ package com.bondidos.auth.presentation.profile.model
 
 import androidx.lifecycle.viewModelScope
 import com.bondidos.analytics.AppAnalytics
+import com.bondidos.analytics.parameters.ButtonNames
 import com.bondidos.analytics.parameters.ScreenNames
 import com.bondidos.auth.domain.usecase.ChangePasswordUseCase
 import com.bondidos.auth.domain.usecase.DeleteProfileUseCase
 import com.bondidos.auth.domain.usecase.GetCurrentUser
 import com.bondidos.auth.domain.usecase.ResetPasswordUseCase
+import com.bondidos.auth.domain.usecase.model.ChangePasswordParams
 import com.bondidos.auth.presentation.profile.intent.ProfileEffect
 import com.bondidos.auth.presentation.profile.intent.ProfileEvent
 import com.bondidos.auth.presentation.profile.intent.ProfileIntent
@@ -64,11 +66,51 @@ class ProfileViewModel @Inject constructor(
     override fun emitIntent(intent: Intention) {
         when (intent) {
             ProfileIntent.ResetPassword -> {
-                TODO()
+                analytics.logButton(ButtonNames.ResetPassword)
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    resetPasswordUseCase()
+                        .onStart { reduce(ProfileEvent.Loading) }
+                        .collect { TODO() }
+                }
             }
 
             ProfileIntent.DeleteProfile -> {
-                TODO()
+                analytics.logButton(ButtonNames.DeleteProfile)
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    deleteProfileUseCase()
+                        .onStart { reduce(ProfileEvent.Loading) }
+                        .collect { TODO() }
+                }
+            }
+
+            ProfileIntent.ChangePassword -> {
+                analytics.logButton(ButtonNames.ChangePassword)
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    changePasswordUseCase(
+                        ChangePasswordParams(
+                            currentState.oldPasswordValue,
+                            currentState.newPasswordValue,
+                        )
+                    )
+                        .onStart { reduce(ProfileEvent.Loading) }
+                        .collect { TODO() }
+                }
+            }
+
+            is ProfileIntent.OldPasswordChanged -> {
+                reduce(ProfileEvent.OldPasswordChanged(intent.value))
+            }
+
+            is ProfileIntent.NewPasswordChanged -> {
+                reduce(ProfileEvent.NewPasswordChanged(intent.value))
+            }
+            ProfileIntent.GoBack -> {
+                analytics.logButton(ButtonNames.GoBack)
+
+                appNavigator.pop()
             }
         }
     }

@@ -19,6 +19,9 @@
     <string name="text_filed_icon_description">Trailing icon</string>
 
     <string name="button_title_login">Login</string>
+    <string name="button_title_reset">Reset Password</string>
+    <string name="button_title_change">Change Password</string>
+    <string name="button_title_delete">Delete profile</string>
 
     <string name="validation_email_empty">Email is required</string>
     <string name="validation_email_too_long">Email too long (max 18 chars)</string>
@@ -30,6 +33,9 @@
     <string name="validation_password_max">Maximum 10 characters allowed</string>
     <string name="validation_password_requirements">Requirements: max 10 chars, A..Z, a..z, 1 capital</string>
     <string name="validation_password_is_not_identical">Passwords is not identical</string>
+
+    <string name="label_old_password">Old Password</string>
+    <string name="label_new_password">New Password</string>
 
     # TO Secrets
     <string name="auth_server_client_id">313151166516-njkm8epi9nhrbve5fihdmv5cmvtc3bvl.apps.googleusercontent.com</string>

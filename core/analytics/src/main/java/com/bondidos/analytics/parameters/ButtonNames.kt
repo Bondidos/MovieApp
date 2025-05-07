@@ -15,5 +15,8 @@ enum class ButtonNames {
     PlayTrailer,
     Share,
     CastAndCrewAll,
-    Profile
+    Profile,
+    ResetPassword,
+    ChangePassword,
+    DeleteProfile
 }

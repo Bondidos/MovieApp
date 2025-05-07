@@ -9,4 +9,7 @@ sealed class ProfileEvent : Reducer.ViewEvent {
     data object Loaded : ProfileEvent()
     data class UserData(val email: String) : ProfileEvent()
     data class Error(val message: String) : ProfileEvent()
+    data class OldPasswordChanged(val value: String) : ProfileEvent()
+    data class NewPasswordChanged(val value: String) : ProfileEvent()
+
 }

@@ -7,12 +7,18 @@ import com.bondidos.ui.base_mvi.Reducer
 data class ProfileState(
     val isLoading: Boolean,
     val email: String,
+    val isPasswordsNotSame: Boolean,
+    val oldPasswordValue: String,
+    val newPasswordValue: String,
 ) : Reducer.ViewState {
 
     companion object {
         fun init() = ProfileState(
             isLoading = false,
-            email = ""
+            email = "",
+            isPasswordsNotSame = false,
+            oldPasswordValue = "",
+            newPasswordValue = "",
         )
     }
 }
