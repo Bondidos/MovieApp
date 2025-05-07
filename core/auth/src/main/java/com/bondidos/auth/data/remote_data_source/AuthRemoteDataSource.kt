@@ -33,4 +33,31 @@ class AuthRemoteDataSource @Inject constructor(
     }
 
     fun singOut() = firebaseAuth.signOut()
+
+    fun resetPassword() = flow {
+        try {
+            firebaseAuth.sendPasswordResetEmail("").await()
+            emit(true)
+        } catch (_: Throwable) {
+            emit(false)
+        }
+    }
+
+    fun updatePassword(value: String) = flow {
+        try {
+            firebaseAuth.currentUser?.updatePassword(value)?.await()
+            emit(true)
+        } catch (_: Throwable) {
+            emit(false)
+        }
+    }
+
+    fun deleteUser() = flow<Boolean> {
+        try {
+            firebaseAuth.currentUser?.delete()?.await()
+            emit(true)
+        } catch (_: Throwable) {
+            emit(false)
+        }
+    }
 }
