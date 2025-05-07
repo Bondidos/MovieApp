@@ -51,12 +51,15 @@ class AuthRemoteDataSource @Inject constructor(
             emit(false)
         }
     }
-
-    fun deleteUser() = flow<Boolean> {
+//todo catch exceptions in usecase
+    fun deleteUser() = flow {
         try {
+//            firebaseAuth.currentUser.reauthenticate()
             firebaseAuth.currentUser?.delete()?.await()
             emit(true)
         } catch (_: Throwable) {
+            //ERROR_REQUIRES_RECENT_LOGIN
+            //This operation is sensitive and requires recent authentication. Log in again before retrying this request.
             emit(false)
         }
     }

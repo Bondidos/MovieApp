@@ -23,6 +23,8 @@ class AuthReducer @Inject constructor() : Reducer<ProfileState, ProfileEvent, Pr
             is ProfileEvent.OldPasswordChanged -> previousState.copy(
                 oldPasswordValue = event.value
             ) to null
+
+            ProfileEvent.ShowConfirmPassword -> previousState to ProfileEffect.ShowConfirmPassword
         }
     }
 }

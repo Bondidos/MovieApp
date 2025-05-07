@@ -15,6 +15,7 @@ import com.bondidos.auth.presentation.profile.intent.ProfileIntent
 import com.bondidos.auth.presentation.profile.intent.ProfileState
 import com.bondidos.base.UseCaseResult
 import com.bondidos.navigation_api.AppNavigator
+import com.bondidos.navigation_api.MoviesScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,17 +73,34 @@ class ProfileViewModel @Inject constructor(
                     resetPasswordUseCase()
                         .onStart { reduce(ProfileEvent.Loading) }
                         .collect { TODO() }
+                    reduce(ProfileEvent.Loaded)
                 }
             }
 
             ProfileIntent.DeleteProfile -> {
                 analytics.logButton(ButtonNames.DeleteProfile)
 
-                viewModelScope.launch(Dispatchers.IO) {
-                    deleteProfileUseCase()
-                        .onStart { reduce(ProfileEvent.Loading) }
-                        .collect { TODO() }
-                }
+                reduce(ProfileEvent.ShowConfirmPassword)
+//                viewModelScope.launch(Dispatchers.IO) {
+//                    deleteProfileUseCase()
+//                        //todo requires reautheficate (email and password)
+//                        // show popup window and ask to inter password
+//                        .onStart { reduce(ProfileEvent.Loading) }
+//                        .collect { result ->
+//                            when (result) {
+//                                is UseCaseResult.Error -> reduce(
+//                                    ProfileEvent.Error(
+//                                        result.error.message ?: "UnknownError"
+//                                    )
+//                                )
+//
+//                                is UseCaseResult.Success -> launch(Dispatchers.Main) {
+//                                    appNavigator.popAllAndPush(AuthScreen)
+//                                }
+//                            }
+//                            reduce(ProfileEvent.Loaded)
+//                        }
+//                }
             }
 
             ProfileIntent.ChangePassword -> {
@@ -97,6 +115,7 @@ class ProfileViewModel @Inject constructor(
                     )
                         .onStart { reduce(ProfileEvent.Loading) }
                         .collect { TODO() }
+                    reduce(ProfileEvent.Loaded)
                 }
             }
 
@@ -107,10 +126,11 @@ class ProfileViewModel @Inject constructor(
             is ProfileIntent.NewPasswordChanged -> {
                 reduce(ProfileEvent.NewPasswordChanged(intent.value))
             }
-            ProfileIntent.GoBack -> {
+
+            ProfileIntent.GoToMovies -> {
                 analytics.logButton(ButtonNames.GoBack)
 
-                appNavigator.pop()
+                appNavigator.push(MoviesScreen)
             }
         }
     }
