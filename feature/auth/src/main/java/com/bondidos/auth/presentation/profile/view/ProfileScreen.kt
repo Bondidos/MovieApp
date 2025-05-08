@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bondidos.auth.domain.model.AuthUser
+import com.bondidos.auth.presentation.authWithGoogle
 import com.bondidos.auth.presentation.profile.intent.BottomSheetType
 import com.bondidos.auth.presentation.profile.intent.ProfileEffect
 import com.bondidos.auth.presentation.profile.intent.ProfileIntent
@@ -42,6 +43,9 @@ import com.bondidos.ui.composables.bottom_sheet.ProfileDeleteBottomSheet
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.ui.theme.appColors
 import com.bondidos.ui.theme.colors.AppThemeColor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,19 +84,18 @@ fun ProfileScreen(
             onValueChanged = { viewModel.emitIntent(ProfileIntent.OldPasswordChanged(it)) },
             onSubmit = {
                 if (state.value.signInMethod == AuthUser.SignInMethod.Email)
-                    viewModel.emitIntent(ProfileIntent.DeleteProfileConfirm)
-                // todo google
-//                else CoroutineScope(Dispatchers.IO).launch {
-//                    try {
-//                        val credentials = authWithGoogle(context)
-//                        viewModel.emitIntent()
-//
-//                    } catch (e: Throwable) {
-//                        snackBarHostState.showSnackbar(
-//                            e.message.toString()
-//                        )
-//                    }
-//                }
+                    viewModel.emitIntent(ProfileIntent.DeleteEmailProfileConfirm)
+                else CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val credentials = authWithGoogle(context)
+                        viewModel.emitIntent(ProfileIntent.DeleteGoogleProfileConfirm(credentials))
+
+                    } catch (e: Throwable) {
+                        snackBarHostState.showSnackbar(
+                            e.message.toString()
+                        )
+                    }
+                }
             },
             onDismiss = { showBottomSheet = BottomSheetType.None },
             validationError = state.value.isPasswordsNotSame,

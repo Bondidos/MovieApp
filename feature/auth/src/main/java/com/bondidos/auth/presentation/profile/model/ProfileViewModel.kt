@@ -10,6 +10,7 @@ import com.bondidos.auth.domain.usecase.DeleteProfileUseCase
 import com.bondidos.auth.domain.usecase.GetCurrentUser
 import com.bondidos.auth.domain.usecase.LoginUseCase
 import com.bondidos.auth.domain.usecase.ResetPasswordUseCase
+import com.bondidos.auth.domain.usecase.SingUpWithCredentials
 import com.bondidos.auth.domain.usecase.model.ChangePasswordParams
 import com.bondidos.auth.presentation.profile.intent.ProfileEffect
 import com.bondidos.auth.presentation.profile.intent.ProfileEvent
@@ -38,6 +39,7 @@ class ProfileViewModel @Inject constructor(
     private val deleteProfileUseCase: DeleteProfileUseCase,
     private val resetPasswordUseCase: ResetPasswordUseCase,
     private val loginUseCase: LoginUseCase,
+    private val singUpWithCredentials: SingUpWithCredentials,
     reducer: AuthReducer,
 ) : BaseViewModel<ProfileState, ProfileEvent, ProfileEffect>(
     ProfileState.init(),
@@ -88,10 +90,16 @@ class ProfileViewModel @Inject constructor(
                 reduce(ProfileEvent.ShowConfirmProfileDelete)
             }
 
-            ProfileIntent.DeleteProfileConfirm -> {
+            ProfileIntent.DeleteEmailProfileConfirm -> {
                 analytics.logButton(ButtonNames.DeleteProfileConfirm)
 
-                handleDeleteProfileConfirmIntent()
+                handleDeleteEmailProfileConfirmIntent()
+            }
+
+            is ProfileIntent.DeleteGoogleProfileConfirm -> {
+                analytics.logButton(ButtonNames.DeleteProfileConfirm)
+
+                handleDeleteGgoogleProfileConfirmIntent(intent)
             }
 
             ProfileIntent.ChangePassword -> {
@@ -126,7 +134,26 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun handleDeleteProfileConfirmIntent() {
+    private fun handleDeleteGgoogleProfileConfirmIntent(intent: ProfileIntent.DeleteGoogleProfileConfirm) {
+        viewModelScope.launch(Dispatchers.IO) {
+            singUpWithCredentials(intent.credentials)
+                .onStart { reduce(ProfileEvent.Loading) }
+                .collect { authUserResult ->
+                    when (authUserResult) {
+                        is UseCaseResult.Error -> reduce(
+                            ProfileEvent.Error(
+                                authUserResult.error.message ?: "UnknownError"
+                            )
+                        )
+
+                        is UseCaseResult.Success<*> -> handleDeleteProfile()
+                    }
+                    reduce(ProfileEvent.Loaded)
+                }
+        }
+    }
+
+    private fun handleDeleteEmailProfileConfirmIntent() {
         if (currentState.signInMethod == AuthUser.SignInMethod.Email) {
             viewModelScope.launch(Dispatchers.IO) {
                 loginUseCase.invoke(currentState.email to currentState.oldPasswordValue)
@@ -144,25 +171,27 @@ class ProfileViewModel @Inject constructor(
                                 )
                             )
 
-                            is UseCaseResult.Success<*> -> deleteProfileUseCase.invoke()
-                                .collect { profileDeleteResult ->
-                                    when (profileDeleteResult) {
-                                        is UseCaseResult.Error -> ProfileEvent.Error(
-                                            profileDeleteResult.error.message
-                                                ?: "Unknown Error"
-                                        )
-
-                                        is UseCaseResult.Success -> viewModelScope.launch(
-                                            Dispatchers.Main
-                                        ) {
-                                            appNavigator.popAllAndPush(AuthScreen)
-                                        }
-                                    }
-                                }
+                            is UseCaseResult.Success<*> -> handleDeleteProfile()
                         }
                     }
                 reduce(ProfileEvent.Loaded)
             }
         }
     }
+
+    private suspend fun handleDeleteProfile() = deleteProfileUseCase.invoke()
+        .collect { profileDeleteResult ->
+            when (profileDeleteResult) {
+                is UseCaseResult.Error -> ProfileEvent.Error(
+                    profileDeleteResult.error.message
+                        ?: "Unknown Error"
+                )
+
+                is UseCaseResult.Success -> viewModelScope.launch(
+                    Dispatchers.Main
+                ) {
+                    appNavigator.popAllAndPush(AuthScreen)
+                }
+            }
+        }
 }
