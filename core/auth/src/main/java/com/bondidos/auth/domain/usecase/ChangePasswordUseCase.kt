@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ChangePasswordUseCase @Inject constructor(
@@ -21,17 +20,21 @@ class ChangePasswordUseCase @Inject constructor(
     override fun invoke(params: ChangePasswordParams): Flow<UseCaseResult<Unit>> {
         return authRepository.getCurrentUser()
             .flatMapConcat { user ->
-                user?.let {
-                    authRepository.login(user.email!!, params.oldPassword)
+                user?.email?.let { email ->
+                    authRepository.login(email, params.oldPassword)
                 } ?: flow { emit(null) }
             }
             .flatMapConcat { authUser ->
-                authUser?.let {
-                    authRepository.updatePassword(params.newPassword)
-                } ?: flow { emit(false) }
-            }.map {
-                if (it) UseCaseResult.Success(Unit)
-                else UseCaseResult.Error(Exception("Error while Changing password").toUseCaseError())
+                flow {
+                    authUser?.let {
+                        try {
+                            authRepository.updatePassword(params.newPassword)
+                            emit(UseCaseResult.Success(Unit))
+                        } catch (e: Throwable) {
+                            emit(UseCaseResult.Error(e.toUseCaseError()))
+                        }
+                    }
+                }
             }
             .catch { emit(UseCaseResult.Error(it.toUseCaseError())) }
     }
