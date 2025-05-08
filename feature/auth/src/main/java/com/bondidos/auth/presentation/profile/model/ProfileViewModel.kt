@@ -10,6 +10,7 @@ import com.bondidos.auth.domain.usecase.DeleteProfileUseCase
 import com.bondidos.auth.domain.usecase.GetCurrentUser
 import com.bondidos.auth.domain.usecase.LoginUseCase
 import com.bondidos.auth.domain.usecase.ResetPasswordUseCase
+import com.bondidos.auth.domain.usecase.SingOutUseCase
 import com.bondidos.auth.domain.usecase.SingUpWithCredentials
 import com.bondidos.auth.domain.usecase.model.ChangePasswordParams
 import com.bondidos.auth.presentation.profile.intent.ProfileEffect
@@ -40,6 +41,7 @@ class ProfileViewModel @Inject constructor(
     private val resetPasswordUseCase: ResetPasswordUseCase,
     private val loginUseCase: LoginUseCase,
     private val singUpWithCredentials: SingUpWithCredentials,
+    private val singOutUseCase: SingOutUseCase,
     reducer: AuthReducer,
 ) : BaseViewModel<ProfileState, ProfileEvent, ProfileEffect>(
     ProfileState.init(),
@@ -79,7 +81,12 @@ class ProfileViewModel @Inject constructor(
                 viewModelScope.launch(Dispatchers.IO) {
                     resetPasswordUseCase()
                         .onStart { reduce(ProfileEvent.Loading) }
-                        .collect { TODO() }
+                        .collect { resetPasswordResult ->
+                            when (resetPasswordResult) {
+                                is UseCaseResult.Error -> reduce(ProfileEvent.ResetPasswordFailure)
+                                is UseCaseResult.Success<*> -> reduce(ProfileEvent.ResetPasswordSuccess)
+                            }
+                        }
                     reduce(ProfileEvent.Loaded)
                 }
             }

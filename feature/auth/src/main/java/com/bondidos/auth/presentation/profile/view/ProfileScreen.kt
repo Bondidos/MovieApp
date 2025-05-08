@@ -39,6 +39,7 @@ import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppBottomNavBar
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.ui.composables.MoviesAppbar
+import com.bondidos.ui.composables.bottom_sheet.PasswordResetResult
 import com.bondidos.ui.composables.bottom_sheet.ProfileDeleteBottomSheet
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.ui.theme.appColors
@@ -66,6 +67,11 @@ fun ProfileScreen(
                 )
 
                 ProfileEffect.ShowConfirmPassword -> showBottomSheet = BottomSheetType.DeleteProfile
+                ProfileEffect.ShowResetPasswordFailure -> showBottomSheet =
+                    BottomSheetType.ResetPasswordFailure
+
+                ProfileEffect.ShowResetPasswordSuccess -> showBottomSheet =
+                    BottomSheetType.ResetPasswordSuccess
             }
         }
     }
@@ -102,6 +108,21 @@ fun ProfileScreen(
             sheetState = sheetState,
             isEmailAuth = state.value.signInMethod == AuthUser.SignInMethod.Email,
             isLoading = state.value.isLoading
+        )
+
+        BottomSheetType.ResetPasswordFailure -> PasswordResetResult(
+            sheetState = sheetState,
+            onDismiss = { showBottomSheet = BottomSheetType.None },
+            onSubmit = { showBottomSheet = BottomSheetType.None },
+            isSuccess = false
+
+        )
+
+        BottomSheetType.ResetPasswordSuccess -> PasswordResetResult(
+            sheetState = sheetState,
+            onDismiss = { showBottomSheet = BottomSheetType.None },
+            onSubmit = { showBottomSheet = BottomSheetType.None },
+            isSuccess = true
         )
 
         BottomSheetType.None -> Unit

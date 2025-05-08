@@ -29,4 +29,6 @@ data class ProfileState(
 enum class BottomSheetType {
     None,
     DeleteProfile,
+    ResetPasswordFailure,
+    ResetPasswordSuccess,
 }

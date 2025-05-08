@@ -18,4 +18,6 @@ sealed class ProfileEvent : Reducer.ViewEvent {
     data class NewPasswordChanged(val value: String) : ProfileEvent()
     data object ShowConfirmProfileDelete : ProfileEvent()
     data class InvalidPassword(val message: String) : ProfileEvent()
+    data object ResetPasswordFailure : ProfileEvent()
+    data object ResetPasswordSuccess : ProfileEvent()
 }

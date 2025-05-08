@@ -7,4 +7,6 @@ import com.bondidos.ui.base_mvi.Reducer
 sealed class ProfileEffect: Reducer.ViewEffect {
     data class HandleError(val message: String): ProfileEffect()
     data object ShowConfirmPassword: ProfileEffect()
+    data object ShowResetPasswordSuccess: ProfileEffect()
+    data object ShowResetPasswordFailure: ProfileEffect()
 }

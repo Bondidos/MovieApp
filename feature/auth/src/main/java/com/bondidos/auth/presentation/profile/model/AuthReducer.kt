@@ -31,11 +31,16 @@ class AuthReducer @Inject constructor() : Reducer<ProfileState, ProfileEvent, Pr
             ) to null
 
             ProfileEvent.ShowConfirmProfileDelete -> previousState to ProfileEffect.ShowConfirmPassword
+
             is ProfileEvent.InvalidPassword -> previousState.copy(
                 isPasswordsNotSame = true
             ) to ProfileEffect.HandleError(
                 event.message
             )
+
+            ProfileEvent.ResetPasswordFailure -> previousState to ProfileEffect.ShowResetPasswordFailure
+
+            ProfileEvent.ResetPasswordSuccess -> previousState to ProfileEffect.ShowResetPasswordSuccess
         }
     }
 }
