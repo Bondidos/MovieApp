@@ -34,33 +34,15 @@ class AuthRemoteDataSource @Inject constructor(
 
     fun singOut() = firebaseAuth.signOut()
 
-    fun resetPassword() = flow {
-        try {
-            firebaseAuth.sendPasswordResetEmail("").await()
-            emit(true)
-        } catch (_: Throwable) {
-            emit(false)
-        }
+    suspend fun resetPassword() {
+        firebaseAuth.sendPasswordResetEmail("").await()
     }
 
-    fun updatePassword(value: String) = flow {
-        try {
-            firebaseAuth.currentUser?.updatePassword(value)?.await()
-            emit(true)
-        } catch (_: Throwable) {
-            emit(false)
-        }
+    suspend fun updatePassword(value: String) {
+        firebaseAuth.currentUser?.updatePassword(value)?.await()
     }
-//todo catch exceptions in usecase
-    fun deleteUser() = flow {
-        try {
-//            firebaseAuth.currentUser.reauthenticate()
-            firebaseAuth.currentUser?.delete()?.await()
-            emit(true)
-        } catch (_: Throwable) {
-            //ERROR_REQUIRES_RECENT_LOGIN
-            //This operation is sensitive and requires recent authentication. Log in again before retrying this request.
-            emit(false)
-        }
+
+    suspend fun deleteCurrentUser() {
+        firebaseAuth.currentUser?.delete()?.await()
     }
 }
