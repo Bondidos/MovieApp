@@ -18,5 +18,6 @@ enum class ButtonNames {
     Profile,
     ResetPassword,
     ChangePassword,
-    DeleteProfile
+    DeleteProfile,
+    DeleteProfileConfirm
 }

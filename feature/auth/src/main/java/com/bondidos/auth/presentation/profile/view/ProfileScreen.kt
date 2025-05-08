@@ -4,15 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -27,20 +24,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bondidos.auth.domain.model.AuthUser
+import com.bondidos.auth.presentation.profile.intent.BottomSheetType
 import com.bondidos.auth.presentation.profile.intent.ProfileEffect
 import com.bondidos.auth.presentation.profile.intent.ProfileIntent
 import com.bondidos.auth.presentation.profile.intent.ProfileState
 import com.bondidos.auth.presentation.profile.model.ProfileViewModel
 import com.bondidos.ui.R
 import com.bondidos.ui.composables.AppBottomNavBar
-import com.bondidos.ui.composables.AppInputTextField
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.ui.composables.MoviesAppbar
+import com.bondidos.ui.composables.bottom_sheet.ProfileDeleteBottomSheet
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.ui.theme.appColors
 import com.bondidos.ui.theme.colors.AppThemeColor
@@ -53,8 +51,8 @@ fun ProfileScreen(
     val state = viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
     val sheetState = rememberModalBottomSheetState()
-    var showBottomSheet by remember { mutableStateOf(false) }
-
+    var showBottomSheet by remember { mutableStateOf(BottomSheetType.None) }
+    val context = LocalContext.current
 
     LaunchedEffect(viewModel, snackBarHostState) {
         viewModel.effect.collect { action ->
@@ -63,7 +61,7 @@ fun ProfileScreen(
                     action.message
                 )
 
-                ProfileEffect.ShowConfirmPassword -> showBottomSheet = true
+                ProfileEffect.ShowConfirmPassword -> showBottomSheet = BottomSheetType.DeleteProfile
             }
         }
     }
@@ -76,19 +74,34 @@ fun ProfileScreen(
         )
     }
 
-    if (showBottomSheet)
-        ModalBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
+    when (showBottomSheet) {
+        BottomSheetType.DeleteProfile -> ProfileDeleteBottomSheet(
+            oldPasswordValue = state.value.oldPasswordValue,
+            onValueChanged = { viewModel.emitIntent(ProfileIntent.OldPasswordChanged(it)) },
+            onSubmit = {
+                if (state.value.signInMethod == AuthUser.SignInMethod.Email)
+                    viewModel.emitIntent(ProfileIntent.DeleteProfileConfirm)
+                // todo google
+//                else CoroutineScope(Dispatchers.IO).launch {
+//                    try {
+//                        val credentials = authWithGoogle(context)
+//                        viewModel.emitIntent()
+//
+//                    } catch (e: Throwable) {
+//                        snackBarHostState.showSnackbar(
+//                            e.message.toString()
+//                        )
+//                    }
+//                }
+            },
+            onDismiss = { showBottomSheet = BottomSheetType.None },
+            validationError = state.value.isPasswordsNotSame,
             sheetState = sheetState,
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                TODO("Password")
-            }
-        }
+            isEmailAuth = state.value.signInMethod == AuthUser.SignInMethod.Email
+        )
+
+        BottomSheetType.None -> Unit
+    }
 }
 
 @Composable
@@ -131,31 +144,6 @@ private fun ProfileScreenContent(
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.appColors.mainText,
             )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                AppInputTextField(
-                    value = data.oldPasswordValue,
-                    onValueChange = { viewModel.emitIntent(ProfileIntent.OldPasswordChanged(it)) },
-                    labelTextRes = R.string.label_old_password,
-                    leadingIconResId = R.drawable.lock_icon,
-                    isError = data.isPasswordsNotSame,
-                    keyBoardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
-                )
-                Spacer(Modifier.height(20.dp))
-                AppInputTextField(
-                    value = data.newPasswordValue,
-                    onValueChange = { viewModel.emitIntent(ProfileIntent.NewPasswordChanged(it)) },
-                    labelTextRes = R.string.label_new_password,
-                    leadingIconResId = R.drawable.lock_icon,
-                    isError = data.isPasswordsNotSame,
-                    keyBoardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
-                )
-            }
 
             Column(
                 modifier = Modifier

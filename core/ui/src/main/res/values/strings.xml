@@ -15,6 +15,7 @@
     <string name="title_cast_and_crew">Cast &amp; Crew</string>
     <string name="title_view_all">View All</string>
     <string name="title_in_develop">Feature in develop</string>
+    <string name="title_are_you_sure">Do you really want to delete profile?</string>
 
     <string name="text_filed_icon_description">Trailing icon</string>
 
@@ -22,6 +23,7 @@
     <string name="button_title_reset">Reset Password</string>
     <string name="button_title_change">Change Password</string>
     <string name="button_title_delete">Delete profile</string>
+    <string name="button_title_confirm">Confirm</string>
 
     <string name="validation_email_empty">Email is required</string>
     <string name="validation_email_too_long">Email too long (max 18 chars)</string>
