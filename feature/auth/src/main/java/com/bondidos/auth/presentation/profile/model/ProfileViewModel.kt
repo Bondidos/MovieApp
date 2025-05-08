@@ -91,43 +91,7 @@ class ProfileViewModel @Inject constructor(
             ProfileIntent.DeleteProfileConfirm -> {
                 analytics.logButton(ButtonNames.DeleteProfileConfirm)
 
-                if (currentState.signInMethod == AuthUser.SignInMethod.Email) {
-                    viewModelScope.launch(Dispatchers.IO) {
-                        loginUseCase.invoke(currentState.email to currentState.oldPasswordValue)
-                            .onStart { reduce(ProfileEvent.Loading) }
-                            .collect { authUserUseCaseResult ->
-                                when (authUserUseCaseResult) {
-                                    is UseCaseResult.Error -> reduce(
-                                        if (authUserUseCaseResult.error.errorCode == UseCaseError.FIREBASE_AUTH_INVALID_CREDENTIALS)
-                                            ProfileEvent.InvalidPassword(
-                                                authUserUseCaseResult.error.message
-                                                    ?: "Unknown Error"
-                                            )
-                                        else ProfileEvent.Error(
-                                            authUserUseCaseResult.error.message ?: "Unknown Error"
-                                        )
-                                    )
-
-                                    is UseCaseResult.Success<*> -> deleteProfileUseCase.invoke()
-                                        .collect { profileDeleteResult ->
-                                            when (profileDeleteResult) {
-                                                is UseCaseResult.Error -> ProfileEvent.Error(
-                                                    profileDeleteResult.error.message
-                                                        ?: "Unknown Error"
-                                                )
-
-                                                is UseCaseResult.Success -> viewModelScope.launch(
-                                                    Dispatchers.Main
-                                                ) {
-                                                    appNavigator.popAllAndPush(AuthScreen)
-                                                }
-                                            }
-                                        }
-                                }
-                            }
-                        reduce(ProfileEvent.Loaded)
-                    }
-                }
+                handleDeleteProfileConfirmIntent()
             }
 
             ProfileIntent.ChangePassword -> {
@@ -158,6 +122,46 @@ class ProfileViewModel @Inject constructor(
                 analytics.logButton(ButtonNames.GoBack)
 
                 appNavigator.push(MoviesScreen)
+            }
+        }
+    }
+
+    private fun handleDeleteProfileConfirmIntent() {
+        if (currentState.signInMethod == AuthUser.SignInMethod.Email) {
+            viewModelScope.launch(Dispatchers.IO) {
+                loginUseCase.invoke(currentState.email to currentState.oldPasswordValue)
+                    .onStart { reduce(ProfileEvent.Loading) }
+                    .collect { authUserUseCaseResult ->
+                        when (authUserUseCaseResult) {
+                            is UseCaseResult.Error -> reduce(
+                                if (authUserUseCaseResult.error.errorCode == UseCaseError.FIREBASE_AUTH_INVALID_CREDENTIALS)
+                                    ProfileEvent.InvalidPassword(
+                                        authUserUseCaseResult.error.message
+                                            ?: "Unknown Error"
+                                    )
+                                else ProfileEvent.Error(
+                                    authUserUseCaseResult.error.message ?: "Unknown Error"
+                                )
+                            )
+
+                            is UseCaseResult.Success<*> -> deleteProfileUseCase.invoke()
+                                .collect { profileDeleteResult ->
+                                    when (profileDeleteResult) {
+                                        is UseCaseResult.Error -> ProfileEvent.Error(
+                                            profileDeleteResult.error.message
+                                                ?: "Unknown Error"
+                                        )
+
+                                        is UseCaseResult.Success -> viewModelScope.launch(
+                                            Dispatchers.Main
+                                        ) {
+                                            appNavigator.popAllAndPush(AuthScreen)
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                reduce(ProfileEvent.Loaded)
             }
         }
     }
