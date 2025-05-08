@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -32,12 +33,15 @@ fun ProfileDeleteBottomSheet(
     onDismiss: () -> Unit,
     validationError: Boolean,
     sheetState: SheetState,
-    isEmailAuth: Boolean
+    isEmailAuth: Boolean,
+    isLoading: Boolean
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState
     ) {
+        val keyboardController = LocalSoftwareKeyboardController.current
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -63,8 +67,11 @@ fun ProfileDeleteBottomSheet(
 
             Spacer(Modifier.height(20.dp))
             AppColoredButton(
-                onClick = onSubmit,
-                color = MaterialTheme.appColors.activeButtonColor,
+                onClick = {
+                    keyboardController?.hide()
+                    if (!isLoading) onSubmit()
+                },
+                color = if (isLoading) MaterialTheme.appColors.disabledText else MaterialTheme.appColors.activeButtonColor,
                 titleResId = R.string.button_title_confirm
             )
         }
