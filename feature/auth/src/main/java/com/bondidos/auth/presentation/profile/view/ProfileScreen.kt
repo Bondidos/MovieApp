@@ -40,6 +40,7 @@ import com.bondidos.ui.composables.AppBottomNavBar
 import com.bondidos.ui.composables.AppScreen
 import com.bondidos.ui.composables.MoviesAppbar
 import com.bondidos.ui.composables.bottom_sheet.PasswordResetResult
+import com.bondidos.ui.composables.bottom_sheet.ProfileChangePasswordBottomSheet
 import com.bondidos.ui.composables.bottom_sheet.ProfileDeleteBottomSheet
 import com.bondidos.ui.composables.clickable.AppColoredButton
 import com.bondidos.ui.theme.appColors
@@ -72,6 +73,16 @@ fun ProfileScreen(
 
                 ProfileEffect.ShowResetPasswordSuccess -> showBottomSheet =
                     BottomSheetType.ResetPasswordSuccess
+
+                ProfileEffect.ChangePassword -> showBottomSheet =
+                    BottomSheetType.ChangePaswword
+
+                ProfileEffect.PasswordChanged -> {
+                    showBottomSheet = BottomSheetType.None
+                    snackBarHostState.showSnackbar(
+                        "TEST"
+                    )
+                }
             }
         }
     }
@@ -123,6 +134,18 @@ fun ProfileScreen(
             onDismiss = { showBottomSheet = BottomSheetType.None },
             onSubmit = { showBottomSheet = BottomSheetType.None },
             isSuccess = true
+        )
+
+        BottomSheetType.ChangePaswword -> ProfileChangePasswordBottomSheet(
+            oldPasswordValue = state.value.oldPasswordValue,
+            newPasswordValue = state.value.newPasswordValue,
+            onOldValueChanged = { viewModel.emitIntent(ProfileIntent.OldPasswordChanged(it)) },
+            onNewValueChanged = { viewModel.emitIntent(ProfileIntent.NewPasswordChanged(it)) },
+            sheetState = sheetState,
+            validationError = state.value.isPasswordsNotSame,
+            isLoading = state.value.isLoading,
+            onSubmit = { viewModel.emitIntent(ProfileIntent.ChangePasswordConfirm) },
+            onDismiss = { showBottomSheet = BottomSheetType.None },
         )
 
         BottomSheetType.None -> Unit

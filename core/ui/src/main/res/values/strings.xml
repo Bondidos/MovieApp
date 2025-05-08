@@ -18,6 +18,7 @@
     <string name="title_are_you_sure">Do you really want to delete profile?</string>
     <string name="title_password_reset_success">Check your email and follow instructions.\nTo use new password need to do "sing out"</string>
     <string name="title_password_reset_failure">Something went wrong. Try again later</string>
+    <string name="title_password_change">Confirm new password.\nIf u forgot old password, please, use "Reset Password"</string>
 
     <string name="text_filed_icon_description">Trailing icon</string>
 

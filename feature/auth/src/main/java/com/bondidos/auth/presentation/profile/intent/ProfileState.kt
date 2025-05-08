@@ -31,4 +31,5 @@ enum class BottomSheetType {
     DeleteProfile,
     ResetPasswordFailure,
     ResetPasswordSuccess,
+    ChangePaswword
 }

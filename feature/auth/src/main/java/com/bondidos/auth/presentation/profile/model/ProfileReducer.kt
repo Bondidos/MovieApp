@@ -6,7 +6,7 @@ import com.bondidos.auth.presentation.profile.intent.ProfileState
 import com.bondidos.ui.base_mvi.Reducer
 import javax.inject.Inject
 
-class AuthReducer @Inject constructor() : Reducer<ProfileState, ProfileEvent, ProfileEffect> {
+class ProfileReducer @Inject constructor() : Reducer<ProfileState, ProfileEvent, ProfileEffect> {
     override fun reduce(
         previousState: ProfileState,
         event: ProfileEvent
@@ -41,6 +41,8 @@ class AuthReducer @Inject constructor() : Reducer<ProfileState, ProfileEvent, Pr
             ProfileEvent.ResetPasswordFailure -> previousState to ProfileEffect.ShowResetPasswordFailure
 
             ProfileEvent.ResetPasswordSuccess -> previousState to ProfileEffect.ShowResetPasswordSuccess
+            ProfileEvent.ShowChangePasswordConfirm -> previousState to ProfileEffect.ChangePassword
+            ProfileEvent.PasswordChangedSuccessfully -> previousState to ProfileEffect.PasswordChanged
         }
     }
 }

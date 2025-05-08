@@ -6,6 +6,7 @@ import com.bondidos.ui.base_mvi.Intention
 sealed class ProfileIntent : Intention {
     data object ResetPassword : ProfileIntent()
     data object ChangePassword : ProfileIntent()
+    data object ChangePasswordConfirm : ProfileIntent()
     data object DeleteProfile : ProfileIntent()
     data object DeleteEmailProfileConfirm : ProfileIntent()
     data class DeleteGoogleProfileConfirm(val credentials: GetCredentialResponse) : ProfileIntent()

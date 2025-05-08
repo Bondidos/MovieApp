@@ -3,8 +3,10 @@ package com.bondidos.auth.domain.usecase
 import com.bondidos.auth.domain.repository.AuthRepository
 import com.bondidos.auth.domain.usecase.model.ChangePasswordParams
 import com.bondidos.base.BaseUseCase
+import com.bondidos.base.UseCaseError
 import com.bondidos.base.UseCaseResult
 import com.bondidos.base.toUseCaseError
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -36,6 +38,17 @@ class ChangePasswordUseCase @Inject constructor(
                     }
                 }
             }
-            .catch { emit(UseCaseResult.Error(it.toUseCaseError())) }
+            .catch { exception ->
+                if (exception is FirebaseAuthInvalidCredentialsException)
+                    emit(
+                        UseCaseResult.Error(
+                            exception.toUseCaseError(
+                                UseCaseError.FIREBASE_AUTH_INVALID_CREDENTIALS
+                            )
+                        )
+                    )
+                else
+                    emit(UseCaseResult.Error(exception.toUseCaseError()))
+            }
     }
 }

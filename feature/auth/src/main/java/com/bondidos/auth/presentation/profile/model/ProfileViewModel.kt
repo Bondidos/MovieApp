@@ -26,6 +26,7 @@ import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ class ProfileViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val singUpWithCredentials: SingUpWithCredentials,
     private val singOutUseCase: SingOutUseCase,
-    reducer: AuthReducer,
+    reducer: ProfileReducer,
 ) : BaseViewModel<ProfileState, ProfileEvent, ProfileEffect>(
     ProfileState.init(),
     reducer
@@ -78,17 +79,7 @@ class ProfileViewModel @Inject constructor(
             ProfileIntent.ResetPassword -> {
                 analytics.logButton(ButtonNames.ResetPassword)
 
-                viewModelScope.launch(Dispatchers.IO) {
-                    resetPasswordUseCase()
-                        .onStart { reduce(ProfileEvent.Loading) }
-                        .collect { resetPasswordResult ->
-                            when (resetPasswordResult) {
-                                is UseCaseResult.Error -> reduce(ProfileEvent.ResetPasswordFailure)
-                                is UseCaseResult.Success<*> -> reduce(ProfileEvent.ResetPasswordSuccess)
-                            }
-                        }
-                    reduce(ProfileEvent.Loaded)
-                }
+                handleResetPassword()
             }
 
             ProfileIntent.DeleteProfile -> {
@@ -112,17 +103,13 @@ class ProfileViewModel @Inject constructor(
             ProfileIntent.ChangePassword -> {
                 analytics.logButton(ButtonNames.ChangePassword)
 
-                viewModelScope.launch(Dispatchers.IO) {
-                    changePasswordUseCase(
-                        ChangePasswordParams(
-                            currentState.oldPasswordValue,
-                            currentState.newPasswordValue,
-                        )
-                    )
-                        .onStart { reduce(ProfileEvent.Loading) }
-                        .collect { TODO() }
-                    reduce(ProfileEvent.Loaded)
-                }
+                reduce(ProfileEvent.ShowChangePasswordConfirm)
+            }
+
+            ProfileIntent.ChangePasswordConfirm -> {
+                analytics.logButton(ButtonNames.ChangePasswordConfirm)
+
+                handleChangePassword()
             }
 
             is ProfileIntent.OldPasswordChanged -> {
@@ -138,6 +125,66 @@ class ProfileViewModel @Inject constructor(
 
                 appNavigator.push(MoviesScreen)
             }
+        }
+    }
+
+    private fun handleChangePassword() {
+        viewModelScope.launch(Dispatchers.IO) {
+            changePasswordUseCase(
+                ChangePasswordParams(
+                    currentState.oldPasswordValue,
+                    currentState.newPasswordValue,
+                )
+            )
+                .onStart { reduce(ProfileEvent.Loading) }
+                .collect { changePasswordResult ->
+                    when (changePasswordResult) {
+                        is UseCaseResult.Error -> reduce(
+                            if (changePasswordResult.error.errorCode == UseCaseError.FIREBASE_AUTH_INVALID_CREDENTIALS)
+                                ProfileEvent.InvalidPassword(
+                                    changePasswordResult.error.message
+                                        ?: "Unknown Error"
+                                )
+                            else ProfileEvent.Error(
+                                changePasswordResult.error.message ?: "Unknown Error"
+                            )
+                        )
+
+                        is UseCaseResult.Success<*> -> {
+                            reduce(ProfileEvent.PasswordChangedSuccessfully)
+                            delay(2000)
+                            singOutUseCase().collect { result ->
+                                when (result) {
+                                    is UseCaseResult.Error -> reduce(
+                                        ProfileEvent.Error(
+                                            result.error.message ?: "Unknown Error"
+                                        )
+                                    )
+
+                                    is UseCaseResult.Success<*> ->
+                                        viewModelScope.launch(Dispatchers.Main) {
+                                            appNavigator.popAllAndPush(AuthScreen)
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+            reduce(ProfileEvent.Loaded)
+        }
+    }
+
+    private fun handleResetPassword() {
+        viewModelScope.launch(Dispatchers.IO) {
+            resetPasswordUseCase()
+                .onStart { reduce(ProfileEvent.Loading) }
+                .collect { resetPasswordResult ->
+                    when (resetPasswordResult) {
+                        is UseCaseResult.Error -> reduce(ProfileEvent.ResetPasswordFailure)
+                        is UseCaseResult.Success<*> -> reduce(ProfileEvent.ResetPasswordSuccess)
+                    }
+                }
+            reduce(ProfileEvent.Loaded)
         }
     }
 

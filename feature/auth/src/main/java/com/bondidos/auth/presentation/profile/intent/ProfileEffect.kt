@@ -9,4 +9,6 @@ sealed class ProfileEffect: Reducer.ViewEffect {
     data object ShowConfirmPassword: ProfileEffect()
     data object ShowResetPasswordSuccess: ProfileEffect()
     data object ShowResetPasswordFailure: ProfileEffect()
+    data object ChangePassword: ProfileEffect()
+    data object PasswordChanged: ProfileEffect()
 }
