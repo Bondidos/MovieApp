@@ -54,7 +54,7 @@ fun ProfileScreen(
     var showBottomSheet by remember { mutableStateOf(BottomSheetType.None) }
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel, snackBarHostState) {
+    LaunchedEffect(sheetState, snackBarHostState) {
         viewModel.effect.collect { action ->
             when (action) {
                 is ProfileEffect.HandleError -> snackBarHostState.showSnackbar(
@@ -97,7 +97,8 @@ fun ProfileScreen(
             onDismiss = { showBottomSheet = BottomSheetType.None },
             validationError = state.value.isPasswordsNotSame,
             sheetState = sheetState,
-            isEmailAuth = state.value.signInMethod == AuthUser.SignInMethod.Email
+            isEmailAuth = state.value.signInMethod == AuthUser.SignInMethod.Email,
+            isLoading = state.value.isLoading
         )
 
         BottomSheetType.None -> Unit

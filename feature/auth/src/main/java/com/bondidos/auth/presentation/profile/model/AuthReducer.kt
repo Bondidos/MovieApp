@@ -15,16 +15,27 @@ class AuthReducer @Inject constructor() : Reducer<ProfileState, ProfileEvent, Pr
             ProfileEvent.Loading -> previousState.copy(isLoading = true) to null
             is ProfileEvent.Error -> previousState to ProfileEffect.HandleError(event.message)
             ProfileEvent.Loaded -> previousState.copy(isLoading = false) to null
-            is ProfileEvent.UserData -> previousState.copy(email = event.email) to null
+            is ProfileEvent.UserData -> previousState.copy(
+                email = event.email,
+                signInMethod = event.singInMethod
+            ) to null
+
             is ProfileEvent.NewPasswordChanged -> previousState.copy(
-                newPasswordValue = event.value
+                newPasswordValue = event.value,
+                isPasswordsNotSame = false,
             ) to null
 
             is ProfileEvent.OldPasswordChanged -> previousState.copy(
-                oldPasswordValue = event.value
+                oldPasswordValue = event.value,
+                isPasswordsNotSame = false,
             ) to null
 
-            ProfileEvent.ShowConfirmPassword -> previousState to ProfileEffect.ShowConfirmPassword
+            ProfileEvent.ShowConfirmProfileDelete -> previousState to ProfileEffect.ShowConfirmPassword
+            is ProfileEvent.InvalidPassword -> previousState.copy(
+                isPasswordsNotSame = true
+            ) to ProfileEffect.HandleError(
+                event.message
+            )
         }
     }
 }
