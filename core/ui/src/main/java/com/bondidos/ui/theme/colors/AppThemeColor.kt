@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.bondidos.ui.theme.appColors
 
-// todo delete
 enum class AppThemeColor {
     APP_BACKGROUND,
     APP_SPLASH_LIGHT,

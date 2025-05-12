@@ -7,7 +7,7 @@ import com.bondidos.cache.entity.AnticipatedMoviesCacheEntity
 import com.bondidos.cache.entity.CrewAndCastEntity
 import com.bondidos.cache.entity.TrendingMoviesCacheEntity
 import com.bondidos.exceptions.CacheExceptions
-import com.bondidos.movies.data.extensions.MovieDtoConverter
+import com.bondidos.movies.data.converters.MovieDtoConverter
 import com.bondidos.movies.data.extensions.toCrewAndCastMemberList
 import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.domain.model.people.CrewAndCastMember

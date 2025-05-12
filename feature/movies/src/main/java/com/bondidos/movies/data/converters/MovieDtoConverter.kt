@@ -1,4 +1,4 @@
-package com.bondidos.movies.data.extensions
+package com.bondidos.movies.data.converters
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.text.capitalize
