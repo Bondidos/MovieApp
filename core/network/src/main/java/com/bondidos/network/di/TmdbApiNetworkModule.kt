@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +22,9 @@ object TmdbApiNetworkModule {
 
     @Provides
     @Singleton
-    fun provideTmdbApiInterceptor() = TmdbApiInterceptor()
+    fun provideTmdbApiInterceptor(
+        @Named("TMDB_API") tmdbApiKey: String
+    ) = TmdbApiInterceptor(tmdbApiKey)
 
     @TmdbApiRetrofit
     @Provides

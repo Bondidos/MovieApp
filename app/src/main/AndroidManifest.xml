@@ -28,6 +28,10 @@
             android:name="TRAKT_API"
             android:value="${TRAKT_API}"
             />
+        <meta-data
+            android:name="TMDB_API"
+            android:value="${TMDB_API}"
+            />
     </application>
 
 </manifest>

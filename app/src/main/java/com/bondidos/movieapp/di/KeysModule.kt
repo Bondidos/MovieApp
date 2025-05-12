@@ -13,4 +13,8 @@ object KeysModule {
     @Provides
     @Named("TRAKT_API")
     fun provideTraktApiKey() = BuildConfig.TRAKT_API
+
+    @Provides
+    @Named("TMDB_API")
+    fun provideTmdbApiKey() = BuildConfig.TMDB_API
 }
