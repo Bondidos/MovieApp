@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="TRAKT_API"
+            android:value="${TRAKT_API}"
+            />
     </application>
 
 </manifest>

@@ -68,7 +68,7 @@ class AppValidator {
 
     companion object {
         private const val EMAIL_MIN_LENGTH = 36
-        private const val PASSWORD_MIN_LENGTH = 36
-        private const val PASSWORD_MAX_LENGTH = 36
+        private const val PASSWORD_MIN_LENGTH = 8
+        private const val PASSWORD_MAX_LENGTH = 12
     }
 }
