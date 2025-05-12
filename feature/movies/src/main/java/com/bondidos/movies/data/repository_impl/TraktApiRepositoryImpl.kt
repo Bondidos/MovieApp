@@ -7,10 +7,8 @@ import com.bondidos.cache.entity.AnticipatedMoviesCacheEntity
 import com.bondidos.cache.entity.CrewAndCastEntity
 import com.bondidos.cache.entity.TrendingMoviesCacheEntity
 import com.bondidos.exceptions.CacheExceptions
-import com.bondidos.movies.data.extensions.toAnticipatedMovie
+import com.bondidos.movies.data.extensions.MovieDtoConverter
 import com.bondidos.movies.data.extensions.toCrewAndCastMemberList
-import com.bondidos.movies.data.extensions.toMovieDetails
-import com.bondidos.movies.data.extensions.toTrendingMovie
 import com.bondidos.movies.domain.model.movie.Movie
 import com.bondidos.movies.domain.model.people.CrewAndCastMember
 import com.bondidos.movies.domain.repository.TraktApiRepository
@@ -29,7 +27,8 @@ class TraktApiRepositoryImpl @Inject constructor(
     private val traktApiService: TraktApiService,
     private val trendingMovieDao: TrendingMoviesDao,
     private val anticipatedMoviesDao: AnticipatedMoviesDao,
-    private val crewAndCastDao: CrewAndCastDao
+    private val crewAndCastDao: CrewAndCastDao,
+    private val movieDtoConverter: MovieDtoConverter
 ) : TraktApiRepository {
     override fun getTrending(page: Int): Flow<List<Movie>> = flow {
 
@@ -40,7 +39,8 @@ class TraktApiRepositoryImpl @Inject constructor(
 
     override fun getTrendingFromCache(page: Int): Flow<List<Movie>> = flow {
         val cache = trendingMovieDao.get(page = page)
-        emit(cache?.movies?.toTrendingMovie() ?: throw CacheExceptions.TrendingMovieEmptyCache)
+        val data = cache?.movies ?: throw CacheExceptions.TrendingMovieEmptyCache
+        emit(movieDtoConverter.toTrendingMovie(data))
     }
 
     override fun getAnticipated(page: Int): Flow<List<Movie>> = flow {
@@ -52,21 +52,20 @@ class TraktApiRepositoryImpl @Inject constructor(
 
     override fun getAnticipatedFromCache(page: Int): Flow<List<Movie>> = flow {
         val cache = anticipatedMoviesDao.get(page = page)
-        emit(
-            cache?.movies?.toAnticipatedMovie() ?: throw CacheExceptions.AnticipatedMovieEmptyCache
-        )
+        val data = cache?.movies ?: throw CacheExceptions.AnticipatedMovieEmptyCache
+        emit(movieDtoConverter.toAnticipatedMovie(data))
     }
 
     override fun getTrendingMovieDetails(traktId: Int?, page: Int) = flow {
         val movieDto =
             trendingMovieDao.get(page)?.movies?.find { movie -> movie.movie.ids.trakt == traktId }
-        emit(movieDto?.toMovieDetails())
+        emit(movieDtoConverter.toMovieDetails(movieDto))
     }
 
     override fun getAnticipatedMovieDetails(traktId: Int?, page: Int) = flow {
         val movieDto =
             anticipatedMoviesDao.get(page)?.movies?.find { movie -> movie.movie.ids.trakt == traktId }
-        emit(movieDto?.toMovieDetails())
+        emit(movieDtoConverter.toMovieDetails(movieDto))
     }
 
     override fun getCastAndCrew(traktId: Int): Flow<List<CrewAndCastMember>> = flow {
@@ -94,8 +93,8 @@ class TraktApiRepositoryImpl @Inject constructor(
                 gap = CACHE_LIVE_TIME_HOURS
             )
         ) {
-            return cache?.movies?.toAnticipatedMovie()
-                ?: throw CacheExceptions.TrendingMovieEmptyCache
+            val data = cache?.movies ?: throw CacheExceptions.AnticipatedMovieEmptyCache
+            return movieDtoConverter.toAnticipatedMovie(data)
         }
         return emptyList()
     }
@@ -107,7 +106,8 @@ class TraktApiRepositoryImpl @Inject constructor(
                 gap = CACHE_LIVE_TIME_HOURS
             )
         ) {
-            return cache?.movies?.toTrendingMovie() ?: throw CacheExceptions.TrendingMovieEmptyCache
+            val data = cache?.movies ?: throw CacheExceptions.TrendingMovieEmptyCache
+            return movieDtoConverter.toTrendingMovie(data)
         }
         return emptyList()
     }
@@ -132,7 +132,7 @@ class TraktApiRepositoryImpl @Inject constructor(
                 page = page
             )
         )
-        return movies.toTrendingMovie()
+        return movieDtoConverter.toTrendingMovie(movies)
     }
 
     private suspend fun getAnticipatedFromRemoteAndCache(page: Int): List<Movie> {
@@ -143,6 +143,6 @@ class TraktApiRepositoryImpl @Inject constructor(
                 page = page
             )
         )
-        return movies.toAnticipatedMovie()
+        return movieDtoConverter.toAnticipatedMovie(movies)
     }
 }

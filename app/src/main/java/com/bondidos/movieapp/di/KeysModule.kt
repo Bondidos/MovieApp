@@ -17,4 +17,8 @@ object KeysModule {
     @Provides
     @Named("TMDB_API")
     fun provideTmdbApiKey() = BuildConfig.TMDB_API
+
+    @Provides
+    @Named("OMDB_API")
+    fun provideOmdbApiKey() = BuildConfig.OMDB_API
 }
