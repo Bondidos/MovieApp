@@ -33,4 +33,18 @@ class AuthRemoteDataSource @Inject constructor(
     }
 
     fun singOut() = firebaseAuth.signOut()
+
+    suspend fun resetPassword() {
+        val user = firebaseAuth.currentUser ?: throw IllegalStateException("No authenticated user")
+        val email = user.email ?: throw NullPointerException("User email is null")
+        firebaseAuth.sendPasswordResetEmail(email).await()
+    }
+
+    suspend fun updatePassword(value: String) {
+        firebaseAuth.currentUser?.updatePassword(value)?.await()
+    }
+
+    suspend fun deleteCurrentUser() {
+        firebaseAuth.currentUser?.delete()?.await()
+    }
 }

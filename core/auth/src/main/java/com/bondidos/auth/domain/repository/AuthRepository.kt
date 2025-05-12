@@ -10,4 +10,7 @@ interface AuthRepository {
     fun register(email: String, password: String): Flow<AuthUser?>
     fun getCurrentUser(): Flow<AuthUser?>
     fun registerWithCredentials(credentials: AuthCredential): Flow<AuthUser?>
+    suspend fun deleteCurrentUser()
+    suspend fun updatePassword(value: String)
+    suspend fun resetPassword()
 }

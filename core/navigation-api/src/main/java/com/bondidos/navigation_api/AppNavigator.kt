@@ -37,3 +37,6 @@ data class MovieDetailsScreen(
 data class CastAndCrewScreen(
     val movieId: Int
 ) : AppScreen
+
+@Serializable
+object ProfileScreen: AppScreen

@@ -24,4 +24,10 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun registerWithCredentials(credentials: AuthCredential): Flow<AuthUser?> =
         authRemoteDataSource.singInWithCredentials(credentials)
+
+    override suspend fun deleteCurrentUser() = authRemoteDataSource.deleteCurrentUser()
+
+    override suspend fun updatePassword(value: String) = authRemoteDataSource.updatePassword(value)
+
+    override suspend fun resetPassword() = authRemoteDataSource.resetPassword()
 }

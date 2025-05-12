@@ -16,6 +16,7 @@ import com.bondidos.movies.presentation.movies_screen.intent.MoviesState
 import com.bondidos.navigation_api.AppNavigator
 import com.bondidos.navigation_api.AuthScreen
 import com.bondidos.navigation_api.MovieDetailsScreen
+import com.bondidos.navigation_api.ProfileScreen
 import com.bondidos.ui.base_mvi.BaseViewModel
 import com.bondidos.ui.base_mvi.Intention
 import com.bondidos.ui.composables.MovieType
@@ -104,7 +105,9 @@ class MoviesScreenViewModel @Inject constructor(
             }
 
             MoviesIntent.NavigateToProfile -> {
-                TODO()
+                appAnalytics.logButton(ButtonNames.Profile)
+
+                appNavigator.popAndPush(ProfileScreen)
             }
         }
     }

@@ -29,7 +29,7 @@ fun SingWithGoogle(
     })
 }
 
-private suspend fun authWithGoogle(context: Context): GetCredentialResponse {
+suspend fun authWithGoogle(context: Context): GetCredentialResponse {
     val option = provideGetGoogleIdOption(context)
     val request = provideGetCredentialRequest(option)
     val credentialManager = provideCredentialManager(context)
