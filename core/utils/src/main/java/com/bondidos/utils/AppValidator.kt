@@ -24,7 +24,7 @@ class AppValidator {
     private fun validateEmail(email: String): ValidationResult.EmailValidationResult {
         return when {
             email.isBlank() -> ValidationResult.EmailValidationResult.EmailIsBlank
-            email.length > 18 -> ValidationResult.EmailValidationResult.EmailTooLong
+            email.length > EMAIL_MIN_LENGTH -> ValidationResult.EmailValidationResult.EmailTooLong
             !isValidEmailFormat(email) -> ValidationResult.EmailValidationResult.EmailWrongFormat
             !isValidEmailDomain(email) -> ValidationResult.EmailValidationResult.EmailWrongDomain
             else -> ValidationResult.EmailValidationResult.EmailOk
@@ -64,5 +64,9 @@ class AppValidator {
             "^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}\$"
         )
         return domainPattern.matcher(email).matches()
+    }
+
+    companion object {
+        private const val EMAIL_MIN_LENGTH = 36
     }
 }
