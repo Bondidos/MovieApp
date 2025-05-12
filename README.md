@@ -3,25 +3,49 @@ API requires VPN or location != BLR/RU
 Features:
 
 - MultiModule App
-  -
-      :app - main module. responsible for app initializing
-      :core-navigation-api - provides interfaces for navigation. 
-          Should be included to feature modules
-      :core-navigation-impl - implementation of navigation.
-      :core-ui - themes, colors, etc
-      :feature-auth - identification of the user, registration. In plans: google auth and firebase
-      :feature-movies - Now showing & coming soon movies. Details. IMDB/TRAKT Apis
-      // TODO add other modules to description
+  - 
+  :app - main module. responsible for app initializing
+  :core-ui - themes, colors, etc, UI components
+  :core:navigation-api - provides interfaces for navigation
+  :core:navigation-impl - implementation of navigation as injectable object
+  :core:network - network services, interceptors and serialisation
+  :core:utils - utils, base classes
+  :core:analytics - firebase analytics
+  :core:auth - firebase auth. Login with email and google
+  :core:cache - cache of the requests. Room database
+  :feature:auth - identification of the user, registration, password reset/change
+  :feature:movies - Now showing & coming soon movies. Details. IMDB/TRAKT Apis
+  :feature:splash - check existing user, set userId for firebase and redirect
 - Technologies/Frameworks:
   - 
       UI:
-        - Compose,
+        - Compose
+        - Material3
         - DarkMode
-        - MVI [WIP]
+        - MVI
+        - Coil
       DI: 
         - Hilt 
-- [WORK in Progress]
-- TODO move resources to :core-ui
-- TODO add SFProFont as in figma
-- TODO setUserId for firebase services (generate on splashScreen?)
-- TODO firebaseAuth to separate module
+        - Hilt navigation
+      Network:
+        - Retrofit
+        - Moshi
+      Storage:
+        - Room
+      Other:
+        - Firebase Auth, Crashlitycs, Analytics
+        - MultiModule 
+        - Clean Architecture
+        - Pagination
+- Run App
+  - 
+  Add to local.properties your api keys
+  TRAKT_API = "{your key https://trakt.tv/}"
+  TMDB_API = "Bearer {your key https://www.themoviedb.org/"
+  OMDB_API = "{your key http://www.omdbapi.com/}"
+- ScreenShots
+  - 
+  ![img_3.png](img_3.png)
+  ![img.png](img.png)
+  ![img_1.png](img_1.png)
+  ![img_2.png](img_2.png)
