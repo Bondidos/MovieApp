@@ -37,6 +37,7 @@ Features:
         - MultiModule 
         - Clean Architecture
         - Pagination
+        - Coroutines. Flow
 - Run App
   - 
   Add to local.properties your api keys
@@ -45,7 +46,7 @@ Features:
   OMDB_API = "{your key http://www.omdbapi.com/}"
 - ScreenShots
   - 
-  ![img_3.png](img_3.png)
   ![img.png](img.png)
+  ![img_3.png](img_3.png)
   ![img_1.png](img_1.png)
   ![img_2.png](img_2.png)
