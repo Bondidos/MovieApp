@@ -23,6 +23,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="TRAKT_API"
+            android:value="${TRAKT_API}"
+            />
+        <meta-data
+            android:name="TMDB_API"
+            android:value="${TMDB_API}"
+            />
+        <meta-data
+            android:name="OMDB_API"
+            android:value="${OMDB_API}"
+            />
     </application>
 
 </manifest>

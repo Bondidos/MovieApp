@@ -37,7 +37,7 @@ fun CrewAndCastDto.toCrewAndCastMemberList(): List<CrewAndCastMember> {
 }
 
 fun CastAndCrewImagesDto.toCastAndCrewImages() =
-    CastAndCrewImages(IMAGE_URL + profiles?.firstOrNull()?.filePath)
+    CastAndCrewImages(IMAGE_URL + profiles.firstOrNull()?.filePath)
 
 fun PersonDto.toPerson() = Person(name, ids?.toPeopleIds())
 
