@@ -1,0 +1,47 @@
+<resources>
+    <string name="title_profile">Profile</string>
+    <string name="title_sign_up">Sign Up</string>
+    <string name="title_sign_out">Sign Out</string>
+    <string name="title_password">PASSWORD</string>
+    <string name="title_email">Email</string>
+    <string name="title_retyped_password">RE-TYPED PASSWORD</string>
+    <string name="title_create_account">Create Account</string>
+    <string name="title_movies">Movies</string>
+    <string name="title_trending">Now Showing</string>
+    <string name="title_anticipated">Coming Soon</string>
+    <string name="title_show_time">Show Time</string>
+    <string name="title_detail">Detail</string>
+    <string name="title_reviews">Reviews</string>
+    <string name="title_cast_and_crew">Cast &amp; Crew</string>
+    <string name="title_view_all">View All</string>
+    <string name="title_in_develop">Feature in develop</string>
+    <string name="title_are_you_sure">Do you really want to delete profile?</string>
+    <string name="title_password_reset_success">Check your email and follow instructions.\nTo use new password need to do "sing out"</string>
+    <string name="title_password_reset_failure">Something went wrong. Try again later</string>
+    <string name="title_password_change">Confirm new password.\nIf u forgot old password, please, use "Reset Password"</string>
+
+    <string name="text_filed_icon_description">Trailing icon</string>
+
+    <string name="button_title_login">Login</string>
+    <string name="button_title_reset">Reset Password</string>
+    <string name="button_title_change">Change Password</string>
+    <string name="button_title_delete">Delete profile</string>
+    <string name="button_title_confirm">Confirm</string>
+
+    <string name="validation_email_empty">Email is required</string>
+    <string name="validation_email_too_long">Email too long (max 18 chars)</string>
+    <string name="validation_email_format">Invalid email format</string>
+    <string name="validation_email_domain">Invalid email domain</string>
+
+    <string name="validation_password_empty">Password cannot be empty</string>
+    <string name="validation_password_min">Minimum 8 characters required</string>
+    <string name="validation_password_max">Maximum 10 characters allowed</string>
+    <string name="validation_password_requirements">Requirements: max 10 chars, A..Z, a..z, 1 capital</string>
+    <string name="validation_password_is_not_identical">Passwords is not identical</string>
+
+    <string name="label_old_password">Old Password</string>
+    <string name="label_new_password">New Password</string>
+
+    # TO Secrets
+    <string name="auth_server_client_id">313151166516-njkm8epi9nhrbve5fihdmv5cmvtc3bvl.apps.googleusercontent.com</string>
+</resources>
